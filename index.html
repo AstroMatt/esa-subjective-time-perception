@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+        * { font-family: sans-serif; font-size: 0.95em; color: #333; }
+        html, body { height: 100%; width: 100%; background-color: white; padding: 1em; margin: 0; }
+        #instructions p { margin: 1em; }
+		#instructions ol { margin-top: 1em; }
+		#experiment canvas { height: 100%; width: 100%; display: none; }
+        #survey li { list-style: none; }
+	</style>
+
+	<script>
+        var experiment = {
+            colors: ["red", "blue", "white"],
+            interval: 3 * 1000,
+            loggingJournal: [],
+
+            shuffle: function(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex;
+
+                // While there remain elements to shuffle...
+                while (0 !== currentIndex) {
+
+                  // Pick a remaining element...
+                  randomIndex = Math.floor(Math.random() * currentIndex);
+                  currentIndex -= 1;
+
+                  // And swap it with the current element.
+                  temporaryValue = array[currentIndex];
+                  array[currentIndex] = array[randomIndex];
+                  array[randomIndex] = temporaryValue;
+                }
+                return array;
+            },
+
+            log: function(message) {
+                var entry = {
+                    "date": new Date().toJSON(),
+                    "message": message instanceof Event ? 'User clicked mouse' : message,
+                    "backgroundColor": document.body.style.backgroundColor
+                };
+                console.log(entry);
+                experiment.loggingJournal.push(entry);
+            },
+
+            changeColor: function(color) {
+                document.body.style.backgroundColor = color;
+                experiment.log('Color changed to: ' + color);
+            },
+
+            // iterateColors: function() {
+            //     var colors = experiment.shuffle(experiment.colors);
+            //     var interval = experiment.colorChangeInterval;
+            //
+            //     colors.forEach(function(color, index) {
+            //         (function(color, index) {
+            //             setTimeout(experiment.changeColor.bind(null, color), interval * index);
+            //         })(color, index);
+            //     });
+            // },
+
+            enterFullscreen: function() {
+    			var bg = document.getElementById('body');
+
+    			if (bg.webkitRequestFullScreen)
+    				bg.webkitRequestFullScreen();
+    			else
+    				bg.mozRequestFullScreen();
+    		},
+
+            writeLogs: function() {
+                var ul = document.getElementById('loggingJournal');
+
+                experiment.loggingJournal.forEach(function(element, index) {
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(element['date'] + ' - [background color: ' + element['backgroundColor'] + '] - ' + element['message']));
+                    ul.appendChild(li);
+                });
+            },
+
+            end: function() {
+                experiment.log('Experiment Stop');
+                document.body.removeEventListener('click', experiment.log);
+                experiment.changeColor("white");
+                experiment.writeLogs();
+            },
+
+            logForm: function(form) {
+                console.log(form.elements);
+                for (let element of form.elements) {
+                    if (element['type'] == 'radio' && !element['checked'] || element['type'] == 'submit')
+                        continue;
+                    else
+                        experiment.log(element['name'] + ': ' + element['value']);
+                }
+            },
+
+            run: function() {
+                var form = document.getElementById('form');
+                if (!form.checkValidity || form.checkValidity()) {
+                    document.getElementById('instructions').style.display = 'none';
+                    document.getElementById('survey').style.display = 'none';
+                    document.body.addEventListener('click', experiment.log);
+
+                    var colors = experiment.shuffle(experiment.colors);
+
+                    experiment.logForm(form);
+                    experiment.enterFullscreen();
+                    experiment.log('Experiment start');
+
+                    setTimeout(experiment.changeColor.bind(null, colors[0]), experiment.interval * 0);
+                    setTimeout(experiment.changeColor.bind(null, colors[1]), experiment.interval * 1);
+                    setTimeout(experiment.changeColor.bind(null, colors[2]), experiment.interval * 2);
+                    setTimeout(experiment.end, experiment.interval * 3);
+                }
+    		}
+        };
+
+        window.onload = function(){
+            document.getElementById('run').addEventListener('click', experiment.run);
+        }
+
+        </script>
+</head>
+
+<body id="body">
+    <section id="instructions">
+    	<h1>Subjective Time Perception Experiment</h1>
+
+    	<h2>Objective</h2>
+    	<p>The purpose of this experiment is to measure how different colors incluence on time perception</p>
+
+    	<h2>Length</h2>
+    	<p>The experiment takes around 5 minutes.</p>
+
+    	<h2>Instuctions</h2>
+    	<ol>
+            <li>First, you have to fill the short survey.</li>
+    		<li>To run this experiment simply click on '<strong>Start Experiemnt</strong>' button. The website will enter a full screen mode and the experiment is already running.</li>
+    		<li>During the experiment click on on the mouse button trying to achieve a tempo of <strong>one click per second</strong>.</li>
+    		<li>After exacly 60 seconds the color of the screen will change and your task is exacly the same.</li>
+    		<li>We will try three colors (red, blue, white) until the experiment is done.</li>
+    		<li>The colors order will be randomized on experiment start.</li>
+    		<li>If you want to exit experiment before time, simply click '<strong>ESC</strong>' key on your keyboard.</li>
+    	</ol>
+
+    	<h2>To Do</h2>
+    	<ul>
+    		<li>Make background color change every 60 seconds (currently for development the time is 3 seconds)</li>
+    		<li>Submit results to database over internet (fallback?)</li>
+    	</ul>
+    </section>
+
+
+    <section id="survey">
+
+        <form action="#" method="GET" id="form" onsubmit="return false;">
+            <h3>What is your age?</h3>
+            <input type="number" name="age" min="1" max="150" required="required" />
+
+            <h3>What is your gender?</h3>
+            <ul>
+                <li><input type="radio" name="gender" value="male" required="required" /> Male</li>
+                <li><input type="radio" name="gender" value="female" required="required" /> Female</li>
+                <li><input type="radio" name="gender" value="other" required="required" /> Other</li>
+            </ul>
+
+            <h3>How do you feel?</h3>
+            <ul>
+                <li><input type="radio" name="condition" value="well rested" required="required" /> Well rested</li>
+                <li><input type="radio" name="condition" value="normal" required="required" /> Normal</li>
+                <li><input type="radio" name="condition" value="tired" required="required" /> Tired</li>
+            </ul>
+
+            <h3>What is your sense of rhythm?</h3>
+            <ul>
+                <li><input type="radio" name="senseOfRythm" value="perfect" required="required" /> Perfect</li>
+                <li><input type="radio" name="senseOfRythm" value="above average" required="required" /> Above average</li>
+                <li><input type="radio" name="senseOfRythm" value="average" required="required" /> Average</li>
+                <li><input type="radio" name="senseOfRythm" value="below average" required="required" /> Below average</li>
+                <li><input type="radio" name="senseOfRythm" value="poor" required="required" /> Poor</li>
+            </ul>
+
+            <input id="run" type="submit" value="Start Experiment" />
+        </form>
+    </section>
+
+    <section id="experiment">
+	    <canvas id="canvas"></canvas>
+    </section>
+
+    <section id="log">
+        <ul id="loggingJournal"></ul>
+    </section>
+</body>
+</html>
