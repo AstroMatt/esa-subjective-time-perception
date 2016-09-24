@@ -17,20 +17,32 @@
         var colors = shuffle(["red", "white", "blue"]);
 
         var log = {
-            message: function(msg) {
-                if (msg instanceof Event)
-                    log.add({
-                        "date": new Date().toJSON(),
-                        "message": {
-                            'event': 'User clicked mouse',
-                            'backgroundColor': document.body.style.backgroundColor
-                        },
-                    });
-                else
-                    log.add({
-                        "date": new Date().toJSON(),
-                        "message": msg
-                    });
+            data: function(data) {
+                log.add({
+                    "datetime": new Date().toJSON(),
+                    "type": 'data',
+                    "values": data
+                });
+            },
+
+            text: function(message) {
+                log.add({
+                    "datetime": new Date().toJSON(),
+                    "type": 'text',
+                    "values": {"text": message}
+                });
+            },
+
+            event: function(msg) {
+                log.add({
+                    "datetime": new Date().toJSON(),
+                    "type": 'event',
+                    'values': {
+                        "event": 'User clicked mouse',
+                        'backgroundColor': document.body.style.backgroundColor
+                    },
+
+                });
             },
 
             add: function(entry) {
@@ -89,10 +101,10 @@
             element.style.backgroundColor = color;
             body.style.backgroundColor = color;
 
-            document.body.addEventListener('click', log.message);
+            document.body.addEventListener('click', log.event);
 
             sleep(arg.timeout).then(() => {
-                document.body.removeEventListener('click', log.message);
+                document.body.removeEventListener('click', log.event);
                 hide(arg.self);
                 show(arg.next);
             });
@@ -121,10 +133,10 @@
 
         function saveForm() {
             var form = document.getElementById('form').elements;
-            log.message({'age': form['age'].value});
-            log.message({'gender': form['gender'].value});
-            log.message({'condition': form['condition'].value});
-            log.message({'senseOfRhythm': form['senseOfRhythm'].value});
+            log.data({'age': form['age'].value});
+            log.data({'gender': form['gender'].value});
+            log.data({'condition': form['condition'].value});
+            log.data({'senseOfRhythm': form['senseOfRhythm'].value});
         }
     </script>
 </head>
@@ -156,7 +168,7 @@
             <li>Save results to local database (indexeddb or localstorage)</li>
     		<li>Sync local database wtih remote database server (mongo)</li>
     	</ul>
-        <button onclick="fullscreen(); hide('start'); show('survey');">Run the experiment</button>
+        <button onclick="fullscreen(); log.text('Experiment start'); hide('start'); show('survey');">Run the experiment</button>
     </section>
 
     <section id="survey">
@@ -210,7 +222,7 @@
 
     <section id="end">
         <h1>Thank you for participation in the research</h1>
-        <button onclick="log.show()">Show logs</button>
+        <button onclick="log.text('Experiment end'); log.show()">Show logs</button>
         <button onclick="log.save()">Save logs to database</button>
         <ol id="logs"></ol>
     </section>
