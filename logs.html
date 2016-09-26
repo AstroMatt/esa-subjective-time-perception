@@ -1,0 +1,9 @@
+<script>
+    var data = [];
+
+    Object.keys(localStorage).forEach(function(key){
+        data.push(localStorage.getItem(key));
+    });
+
+    document.write(data);
+</script>

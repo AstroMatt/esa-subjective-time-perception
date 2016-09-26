@@ -2,7 +2,8 @@
 <html>
 <head>
 	<style>
-        section { background: white; height: 100%; width: 100%; position: absolute; left: 0; top: 0; padding: 1em; font-size: 0.7em; }
+        section { background: white; height: 100%; width: 100%; position: absolute; left: 0; top: 0; padding: 1em; }
+
         #survey li { list-style: none; }
 
         #start        { z-index: 1; }
@@ -131,11 +132,13 @@
         }
 
         function saveForm() {
-            var form = document.getElementById('form').elements;
-            log.data({'age': form['age'].value});
-            log.data({'gender': form['gender'].value});
-            log.data({'condition': form['condition'].value});
-            log.data({'senseOfRhythm': form['senseOfRhythm'].value});
+            for (let field of document.getElementById('form').elements) {
+
+                if (field.type == 'radio' && !field.checked)
+                    continue;
+
+                log.data({key: field.name, value: field.value});
+            }
         }
     </script>
 </head>
@@ -172,11 +175,14 @@
 
     <section id="survey">
         <h1>User Survey</h1>
-        <p>First, you have to fill the short survey.</p>
 
-        <h2>What is your age?</h2>
         <form id="form" action="#" method="GET" onsubmit="saveForm(); hide('survey'); show('color0'); return false;">
-        <input type="number" name="age" min="1" max="150" required="required" />
+
+        <input type="text" name="first_name" placeholder="First Name" required="required" />
+        <input type="text" name="last_name" placeholder="Last Name" required="required" />
+
+
+        <input type="number" placeholder="Age" name="age" min="1" max="150" required="required" />
 
         <h2>What is your gender?</h2>
         <ul>
