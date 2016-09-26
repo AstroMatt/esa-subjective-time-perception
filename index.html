@@ -132,13 +132,21 @@
         }
 
         function saveForm() {
-            for (let field of document.getElementById('form').elements) {
+            var form = document.getElementById('form').elements;
+            log.data({'first_name': form['first_name'].value});
+            log.data({'last_name': form['last_name'].value});
+            log.data({'age': form['age'].value});
+            log.data({'gender': form['gender'].value});
+            log.data({'condition': form['condition'].value});
+            log.data({'senseOfRhythm': form['senseOfRhythm'].value});
+
+            /* for (let field of document.getElementById('form').elements) {
 
                 if (field.type == 'radio' && !field.checked)
                     continue;
 
                 log.data({key: field.name, value: field.value});
-            }
+            }*/
         }
     </script>
 </head>
