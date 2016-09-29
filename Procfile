@@ -1,1 +1,1 @@
-web: gunicorn orthopedie.wsgi
+web: gunicorn subjective_time_perception.wsgi

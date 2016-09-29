@@ -1,33 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<style>
-        #background, section { height: 100%; width: 100%; position: absolute; left: 0; top: 0; padding: 1em; color: #eee; }
-
-        #background { background: url('background.jpg') center center fixed; z-index: 0; background-size: cover; }
-        #survey li { list-style: none; }
-
-        #start        { z-index: 1; }
-        #survey       { z-index: -1; }
-        #test         { z-index: -1; }
-        #color0       { z-index: -1; }
-        #color1       { z-index: -1; }
-        #color2       { z-index: -1; }
-        #end          { z-index: -1; }
-	</style>
-
-    <script src="jquery-3.1.1.min.js"></script>
-	<script>
-        colors = shuffle(["red", "white", "blue"]);
-        experiment = {'click':[]};
+    <script>
         timeout = seconds(5);
+        server = "http://matt:8000/api/experiment/";
+        colors = shuffle(["red", "white", "blue"]);
 
-        function click() {
-            experiment['click'].push({
-                "datetime": new Date().toJSON(),
-                "background": document.body.style.backgroundColor
-            });
-        }
 
         // Knuth Random Shuffle Algorithm
         function shuffle(array) {
@@ -40,6 +18,15 @@
               array[randomIndex] = temporaryValue;
             }
             return array;
+        }
+
+        experiment = {'click':[]};
+
+        function click() {
+            experiment['click'].push({
+                "datetime": new Date().toJSON(),
+                "background": document.body.style.backgroundColor
+            });
         }
 
         function sleep(seconds) {
@@ -118,7 +105,7 @@
             Object.keys(localStorage).forEach(function(key) {
                 $.ajax({
                     type: "POST",
-                    url: "http://matt:8000/api/experiment/",
+                    url: server,
                     crossDomain: true,
                     data: localStorage.getItem(key),
 
@@ -133,6 +120,23 @@
             });
         }
     </script>
+
+    <script src="jquery-3.1.1.min.js"></script>
+
+	<style>
+        #background, section { height: 100%; width: 100%; position: absolute; left: 0; top: 0; padding: 1em; color: #fff; font-family: sans-serif; line-height: 1.5em; }
+
+        #background { background: url('background.jpg') center center fixed; z-index: 0; background-size: cover; }
+        #survey li { list-style: none; }
+
+        #start        { z-index: 1; }
+        #survey       { z-index: -1; }
+        #test         { z-index: -1; }
+        #color0       { z-index: -1; }
+        #color1       { z-index: -1; }
+        #color2       { z-index: -1; }
+        #end          { z-index: -1; }
+	</style>
 </head>
 
 <body id="body">
