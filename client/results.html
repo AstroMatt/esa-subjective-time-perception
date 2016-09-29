@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/mustache.min.js"></script>
+<meta charset="UTF-8">
+
+<script>
+    timeout = 5000;
+
+    function resultsTable(data) {
+        data['time'] = function(){return this.datetime.substr(11, 12)};
+        var template = $('#results-row').html();
+        var info = Mustache.render(template, data);
+        $('#results').append(info);
+    }
+
+    function getColorEvents(color, data) {
+        var events = [];
+        for (let click of data['click'])
+            if (click['background'] == color)
+                events.push(click['datetime']);
+        return events;
+    }
+
+
+    function howFast(average) {
+        if (average > 1.0)
+            return 'fast';
+        else if (average < 1.0)
+            return 'slow';
+        else
+            return 'perfect';
+    }
+
+    function getStats(color, data) {
+        var events = getColorEvents(color, data);
+        var start = new Date(events[0]);
+        var end = new Date(events[events.length-1]);
+        var average = (events.length / (timeout / 1000)).toFixed(3);
+
+        var values = {
+            count: events.length,
+            time: timeout / 1000,
+            average: average,
+            status: howFast(average)
+        };
+
+        $('#' + color + '-count').html(values.count);
+        $('#' + color + '-time').html(values.time);
+        $('#' + color + '-average').html(values.average);
+        $('#' + color + '-status').html(values.status).addClass(values.status);
+
+        return values;
+    }
+
+    function summaryTable(data) {
+        var red = getStats('red', data);
+        var blue = getStats('blue', data);
+        var white = getStats('white', data);
+
+        var total_count = red.count + blue.count + white.count;
+        var total_average = total_count / (timeout * 3 / 1000);
+
+        $('#total-count').html(total_count);
+        $('#total-average').html(total_average.toFixed(3));
+        $('#total-time').html(timeout * 3 / 1000);
+        $('#total-status').html(howFast(total_average)).addClass(howFast(total_average));
+    }
+</script>
+
+<script>
+$( document ).ready(function() {
+
+    var data = {"click":[{"datetime":"2016-09-29T19:40:08.865Z","background":"red"},{"datetime":"2016-09-29T19:40:09.263Z","background":"red"},{"datetime":"2016-09-29T19:40:09.420Z","background":"red"},{"datetime":"2016-09-29T19:40:09.555Z","background":"red"},{"datetime":"2016-09-29T19:40:09.707Z","background":"red"},{"datetime":"2016-09-29T19:40:09.851Z","background":"red"},{"datetime":"2016-09-29T19:40:10.420Z","background":"red"},{"datetime":"2016-09-29T19:40:10.964Z","background":"red"},{"datetime":"2016-09-29T19:40:11.603Z","background":"red"},{"datetime":"2016-09-29T19:40:12.283Z","background":"red"},{"datetime":"2016-09-29T19:40:13.070Z","background":"red"},{"datetime":"2016-09-29T19:40:14.644Z","background":"blue"},{"datetime":"2016-09-29T19:40:15.543Z","background":"blue"},{"datetime":"2016-09-29T19:40:16.435Z","background":"blue"},{"datetime":"2016-09-29T19:40:18.160Z","background":"blue"},{"datetime":"2016-09-29T19:40:19.003Z","background":"blue"},{"datetime":"2016-09-29T19:40:22.533Z","background":"white"},{"datetime":"2016-09-29T19:40:23.325Z","background":"white"},{"datetime":"2016-09-29T19:40:24.011Z","background":"white"},{"datetime":"2016-09-29T19:40:24.714Z","background":"white"}],"start_date":"2016-09-29T19:39:48.771Z","first_name":"Matt","last_name":"Harasymczuk","age":"28","gender":"male","condition":"well rested","rhythm":"average", "end_date": "2016-09-29T19:40:34.714Z"}
+
+    resultsTable(data);
+    summaryTable(data);
+});
+</script>
+
+<script id="results-row" type="text/template">
+    {{#click}}
+        <tr class="{{background}}">
+            <td>{{background}}</td>
+            <td><time datetime="{{datetime}}">{{time}}</time></td>
+        </tr>
+    {{/click}}
+</script>
+
+<style>
+    #results table { border-spacing: 0; border-collapse: separate;}
+    #results th, #results td { padding: 0.15em; }
+    #results .red { background-color: #fcc; }
+    #results .blue { background-color: #ccf; }
+    #results .white { background-color: white; }
+    #summary .perfect { color: green; }
+    #summary .slow { color: red; }
+    #summary .fast { color: blue; }
+</style>
+
+</head>
+<body>
+
+    <h2>Summary</h2>
+    <table id="summary">
+        <tr>
+            <th>Color</th>
+            <th>Clicks<br/>[count]</th>
+            <th>Time<br/>[s]</th>
+            <th>Average<br/>[click/s]</th>
+            <th>Status<br/>[fast/perfect/slow]</th>
+        </tr>
+        <tr>
+            <td>Blue</td>
+            <td id="blue-count"></td>
+            <td id="blue-time"></td>
+            <td id="blue-average"></td>
+            <td id="blue-status"></td>
+        </tr>
+        <tr>
+            <td>White</td>
+            <td id="white-count"></td>
+            <td id="white-time"></td>
+            <td id="white-average"></td>
+            <td id="white-status"></td>
+        </tr>
+        <tr>
+            <td>Red</td>
+            <td id="red-count"></td>
+            <td id="red-time"></td>
+            <td id="red-average"></td>
+            <td id="red-status"></td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td id="total-count"></td>
+            <td id="total-time"></td>
+            <td id="total-average"></td>
+            <td id="total-status"></td>
+        </tr>
+    </table>
+
+    <h2>Click events</h2>
+    <table id="results">
+        <tr>
+            <th>Color</th>
+            <th>Datetime</th>
+        </tr>
+    </table>
+
+</body>
+</html>

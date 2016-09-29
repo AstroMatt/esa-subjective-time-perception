@@ -1,3 +1,11 @@
+<!--
+
+TODO:
+- ekran z podsumowaniem wyników z testu
+- obrazek czy był szybszy czy wolniejszy
+-
+
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,12 +129,12 @@
         }
     </script>
 
-    <script src="jquery-3.1.1.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
 
 	<style>
         #background, section { height: 100%; width: 100%; position: absolute; left: 0; top: 0; padding: 1em; color: #fff; font-family: sans-serif; line-height: 1.5em; }
 
-        #background { background: url('background.jpg') center center fixed; z-index: 0; background-size: cover; }
+        #background { background: url('img/background.jpg') center center fixed; z-index: 0; background-size: cover; }
         #survey li { list-style: none; }
 
         #start        { z-index: 1; }
@@ -137,6 +145,7 @@
         #color2       { z-index: -1; }
         #end          { z-index: -1; }
 	</style>
+    <meta charset="UTF-8">
 </head>
 
 <body id="body">
@@ -152,6 +161,7 @@
 
         <h2>Instructions</h2>
         <ol>
+            <li>Sit 20cm in front of the screen.</li>
             <li>Click start and the experiment will enter fullscreen.</li>
             <li>Fill short survey.</li>
             <li>We will try three colors (red, blue, white) each for 30 seconds.</li>
@@ -202,24 +212,24 @@
     <section id="test">
         <h1>You may now proceed to test section</h1>
         <p>On the following screen click the left mouse button trying to achieve a regular tempo of <strong>one click per second</strong>.</p>
-        <button onclick="">Test!</button>
+        <button onclick="changeColor({self: 'test', next: 'color0'});">Test!</button>
     </section>
 
     <section id="color0">
         <h1>You will see the first color now</h1>
-        <p>Please try to click once per seconds.</p>
+        <p>Please try to click once per second.</p>
         <button onclick="changeColor({self: 'color0', next: 'color1'});">OK, go!</button>
     </section>
 
     <section id="color1">
         <h1>You will see the second color now</h1>
-        <p>Please try to click once per seconds.</p>
+        <p>Please try to click once per second.</p>
         <button onclick="changeColor({self: 'color1', next: 'color2'});">OK, go!</button>
     </section>
 
     <section id="color2">
         <h1>You will see the third color now</h1>
-        <p>Please try to click once per seconds.</p>
+        <p>Please try to click once per second.</p>
         <button onclick="changeColor({self: 'color2', next: 'end'});">OK, go!</button>
     </section>
 
