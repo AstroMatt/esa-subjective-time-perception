@@ -17,20 +17,21 @@ class Experiment(models.Model):
         ('well rested', _('Well rested')),
         ('normal', _('Normal')),
         ('tired', _('Tired'))]
+    created = models.DateTimeField(auto_now_add=True)
+    location = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     age = models.PositiveSmallIntegerField()
+    timeout = models.PositiveIntegerField()
     rhythm = models.CharField(max_length=50, choices=RHYTHMS)
     gender = models.CharField(max_length=50, choices=GENDERS)
     condition = models.CharField(max_length=50, choices=CONDITIONS)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
 
     def __str__(self):
-        return '[{start_date}] {last_name}, {first_name}'.format(**self.__dict__)
+        return '[{created}] {last_name}, {first_name}'.format(**self.__dict__)
 
     class Meta:
-        ordering = ["-start_date"]
+        ordering = ["-created"]
         verbose_name = _("Experiment")
         verbose_name_plural = _("Experiments")
 
@@ -51,3 +52,21 @@ class Click(models.Model):
         ordering = ["-datetime"]
         verbose_name = _("Click event")
         verbose_name_plural = _("Click events")
+
+
+class Event(models.Model):
+    ACTIONS = [
+        ('start', _('Start')),
+        ('end', _('End'))]
+    experiment = models.ForeignKey(to='experiment.Experiment')
+    datetime = models.DateTimeField()
+    action = models.CharField(max_length=15, choices=ACTIONS)
+    message = models.CharField(max_length=30)
+
+    def __str__(self):
+        return '{datetime} {action} {message}'.format(**self.__dict__)
+
+    class Meta:
+        ordering = ["-datetime"]
+        verbose_name = _("Event")
+        verbose_name_plural = _("Events")

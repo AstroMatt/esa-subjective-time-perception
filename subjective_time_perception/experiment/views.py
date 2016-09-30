@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 from subjective_time_perception.experiment.models import Experiment
 from subjective_time_perception.experiment.models import Click
+from subjective_time_perception.experiment.models import Event
 
 
 class ExperimentCreateView(View):
@@ -14,17 +15,25 @@ class ExperimentCreateView(View):
         data = json.loads(request.body.decode('utf-8'))
 
         experiment, status = Experiment.objects.get_or_create(
+            location=data.get('location'),
             first_name=data.get('first_name'),
+            timeout=data.get('timeout'),
             last_name=data.get('last_name'),
             age=data.get('age'),
             gender=data.get('gender'),
             rhythm=data.get('rhythm'),
             condition=data.get('condition'),
-            start_date=datetime.strptime(data.get('start_date'), '%Y-%m-%dT%H:%M:%S.%fZ'),
-            end_date=datetime.strptime(data.get('end_date'), '%Y-%m-%dT%H:%M:%S.%fZ'),
         )
 
-        for click in data.get('click'):
+        for event in data.get('events'):
+            Event.objects.get_or_create(
+                experiment=experiment,
+                datetime=datetime.strptime(event.get('datetime'), '%Y-%m-%dT%H:%M:%S.%fZ'),
+                action=event.get('action'),
+                message=event.get('message'),
+            )
+
+        for click in data.get('clicks'):
             Click.objects.get_or_create(
                 experiment=experiment,
                 datetime=datetime.strptime(click.get('datetime'), '%Y-%m-%dT%H:%M:%S.%fZ'),

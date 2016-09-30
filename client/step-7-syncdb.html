@@ -7,24 +7,24 @@
 
     <script src="js/jquery-3.1.1.min.js"></script>
     <script>
-        var journal = Journal.get();
-
-        Object.keys(localStorage).forEach(function(key) {
+        for (let entry of Journal.get()) {
             $.ajax({
                 type: "POST",
-                url: server,
                 crossDomain: true,
-                data: journal,
+                url: entry.server,
+                data: JSON.stringify(entry),
 
                 success: function(response) {
-                    console.log('Success' + journal);
+                    console.log('Success' + entry);
                 },
 
                 error: function(response) {
-                    console.log('Error' + journal);
+                    console.log('Error while saving: ');
+                    console.log(entry);
                 }
             });
-        });
+        }
+
     </script>
 </head>
 
