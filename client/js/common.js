@@ -70,6 +70,15 @@ function goto(next) {
     window.location.replace(next);
 }
 
+function fullscreen() {
+    var bg = document.querySelector('body');
+
+    if (bg.webkitRequestFullScreen)
+        bg.webkitRequestFullScreen();
+    else
+        bg.mozRequestFullScreen();
+}
+
 function click() {
     var data = Experiment.get();
 
