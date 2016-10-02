@@ -15,11 +15,12 @@
                 data: JSON.stringify(entry),
 
                 success: function(response) {
-                    console.log('Success' + entry);
+                    console.log('Success:' + entry);
                 },
 
                 error: function(response) {
-                    console.log('Error while saving: ');
+                    ///document.write('Error while saving: 'response);
+                    console.log('Error: ' + response);
                     console.log(entry);
                 }
             });
