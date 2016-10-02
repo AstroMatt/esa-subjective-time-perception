@@ -24,20 +24,20 @@
     <h1>User Survey</h1>
 
     <form id="form" action="#" method="GET" onsubmit="save(); goto('step-2-test'); return false">
-        <input type="text" name="first_name" placeholder="First Name" required="required" maxlength="50" pattern="[A-Za-z]{2,50}"  autocomplete="off" value="Matt">
-        <input type="text" name="last_name" placeholder="Last Name" required="required" maxlength="50" pattern="[A-Za-z]{2,50}" autocomplete="off" value="Harasymczuk">
-        <input type="number" placeholder="Age" name="age" min="1" max="150" required="required" autocomplete="off" value="28">
+        <input type="text" name="first_name" placeholder="First Name" required="required" maxlength="50" pattern="[A-Za-z]{2,50}"  autocomplete="off">
+        <input type="text" name="last_name" placeholder="Last Name" required="required" maxlength="50" pattern="[A-Za-z]{2,50}" autocomplete="off">
+        <input type="number" placeholder="Age" name="age" min="1" max="150" required="required" autocomplete="off">
 
         <h2>What is your gender?</h2>
         <ul>
-            <li><input type="radio" name="gender" value="male" required="required" checked> Male</li>
+            <li><input type="radio" name="gender" value="male" required="required"> Male</li>
             <li><input type="radio" name="gender" value="female" required="required"> Female</li>
             <li><input type="radio" name="gender" value="other" required="required"> Other</li>
         </ul>
 
         <h2>How do you feel?</h2>
         <ul>
-            <li><input type="radio" name="condition" value="well rested" required="required" checked> Well rested</li>
+            <li><input type="radio" name="condition" value="well rested" required="required"> Well rested</li>
             <li><input type="radio" name="condition" value="normal" required="required"> Normal</li>
             <li><input type="radio" name="condition" value="tired" required="required"> Tired</li>
         </ul>
@@ -46,7 +46,7 @@
         <ul>
             <li><input type="radio" name="rhythm" value="perfect" required="required"> Perfect</li>
             <li><input type="radio" name="rhythm" value="above average" required="required"> Above average</li>
-            <li><input type="radio" name="rhythm" value="average" required="required" checked> Average</li>
+            <li><input type="radio" name="rhythm" value="average" required="required"> Average</li>
             <li><input type="radio" name="rhythm" value="below average" required="required"> Below average</li>
             <li><input type="radio" name="rhythm" value="poor" required="required"> Poor</li>
         </ul>
