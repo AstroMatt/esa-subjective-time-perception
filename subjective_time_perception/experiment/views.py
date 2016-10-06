@@ -12,26 +12,25 @@ class ExperimentCreateView(View):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        data = json.loads(request.body.decode('utf-8'))
-
-        experiment, status = Experiment.objects.get_or_create(
-            location=data.get('location'),
-            first_name=data.get('first_name'),
-            timeout=data.get('timeout'),
-            last_name=data.get('last_name'),
-            age=data.get('age'),
-            gender=data.get('gender'),
-            rhythm=data.get('rhythm'),
-            condition=data.get('condition'),
-        )
-
-        for event in data.get('events'):
-            Event.objects.get_or_create(
-                experiment=experiment,
-                datetime=datetime.strptime(event.get('datetime'), '%Y-%m-%dT%H:%M:%S.%fZ'),
-                action=event.get('action'),
-                message=event.get('message'),
+        for record in json.loads(request.body.decode('utf-8')):
+            experiment, status = Experiment.objects.get_or_create(
+                location=data.get('location'),
+                first_name=data.get('first_name'),
+                timeout=data.get('timeout'),
+                last_name=data.get('last_name'),
+                age=data.get('age'),
+                gender=data.get('gender'),
+                rhythm=data.get('rhythm'),
+                condition=data.get('condition'),
             )
+
+            for event in data.get('events'):
+                Event.objects.get_or_create(
+                    experiment=experiment,
+                    datetime=datetime.strptime(event.get('datetime'), '%Y-%m-%dT%H:%M:%S.%fZ'),
+                    action=event.get('action'),
+                    message=event.get('message'),
+                )
 
         for click in data.get('clicks'):
             Click.objects.get_or_create(

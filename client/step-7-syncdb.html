@@ -11,16 +11,16 @@
             $.ajax({
                 type: "POST",
                 crossDomain: true,
-                url: entry.server,
+                url: "http://matt:8000/api/experiment/",
                 data: JSON.stringify(entry),
 
                 success: function(response) {
-                    console.log('Success:' + entry);
+                    console.log("Success:" + entry);
                 },
 
                 error: function(response) {
-                    ///document.write('Error while saving: 'response);
-                    console.log('Error: ' + response);
+                    ///document.write("Error while saving: " + response);
+                    console.log("Error: " + response);
                     console.log(entry);
                 }
             });
