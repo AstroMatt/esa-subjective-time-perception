@@ -1,53 +1,38 @@
-from datetime import datetime
 import json
-from django.http import JsonResponse
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.generic import View
 from subjective_time_perception.experiment.models import Experiment
-from subjective_time_perception.experiment.models import Click
-from subjective_time_perception.experiment.models import Event
+
 
 
 class ExperimentCreateView(View):
-    http_method_names = ['post']
+    http_method_names = ['post', 'put', 'update']
+
+    def clean_data(self, data):
+        return json.loads(data.replace('\n', ''))
+
+    def update(self, *args, **kwargs):
+        for experiment in Experiment.objects.all():
+            experiment.date = Event.objects.filter(experiment=experiment, action='start', message='experiment')[0].datetime
+            experiment.save()
+        return JsonResponse({})
+
+    def put(self, *args, **kwargs):
+        filename = '/developer/esa-act-subjective-time-perception/data/2016-10-02-esa.int-subjective-time-perception-data2.json'
+        experiments = []
+        with open(filename) as file:
+            for record in self.clean_data(file.read()):
+                e = Experiment.add(**record)
+                experiments.append(e)
+        return JsonResponse(experiments, safe=False)
 
     def post(self, request, *args, **kwargs):
-        for record in json.loads(request.body.decode('utf-8')):
-            experiment, status = Experiment.objects.get_or_create(
-                location=data.get('location'),
-                first_name=data.get('first_name'),
-                timeout=data.get('timeout'),
-                last_name=data.get('last_name'),
-                age=data.get('age'),
-                gender=data.get('gender'),
-                rhythm=data.get('rhythm'),
-                condition=data.get('condition'),
-            )
-
-            for event in data.get('events'):
-                Event.objects.get_or_create(
-                    experiment=experiment,
-                    datetime=datetime.strptime(event.get('datetime'), '%Y-%m-%dT%H:%M:%S.%fZ'),
-                    action=event.get('action'),
-                    message=event.get('message'),
-                )
-
-        for click in data.get('clicks'):
-            Click.objects.get_or_create(
-                experiment=experiment,
-                datetime=datetime.strptime(click.get('datetime'), '%Y-%m-%dT%H:%M:%S.%fZ'),
-                background=click.get('background'),
-            )
-
-        response = HttpResponse(data, content_type='application/json')
+        for record in self.clean_data(request.body.decode('utf-8')):
+            Experiment.add(**record)
+        response = JsonResponse({'status': 'ok', 'code': 200})
         response['Access-Control-Allow-Origin'] = '*'
         return response
-
-
-
-
-        #return JsonResponse(request.POST)
-        #return JsonResponse({'status':200, 'message': 'OK'})
 
         #response = HttpResponse(my_data, content_type='application/vnd.ms-excel')
         #response['Content-Disposition'] = 'attachment; filename="foo.xls"'
