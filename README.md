@@ -23,4 +23,9 @@ Download those three files:
 - https://raw.githubusercontent.com/AstroMatt/astromatt.github.io/master/client/jquery-3.1.1.min.js
 
 Place them in one directory.
-Run 
+Run
+
+## TODO
+- Connect results from each experiment by generating code, to use with next try
+- Translate instructions to several languages
+- 

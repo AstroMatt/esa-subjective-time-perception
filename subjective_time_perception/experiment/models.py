@@ -25,18 +25,31 @@ class Experiment(models.Model):
         ('vertical', _('Vertical')),
         ('cross', _('Cross')),
         ('mixed', _('Mixed'))]
-    created = models.DateTimeField(auto_now_add=True)
-    date = models.DateTimeField(auto_now_add=True)
+
     location = models.CharField(max_length=50)
+    experiment_start = models.DateTimeField(null=True)
+    experiment_end = models.DateTimeField(null=True)
     polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
     device = models.CharField(max_length=50)
+    order = models.CharField(max_length=70, null=True)
+    timeout = models.PositiveIntegerField(help_text=_('Microseconds'))
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     age = models.PositiveSmallIntegerField()
-    timeout = models.PositiveIntegerField()
     rhythm = models.CharField(max_length=50, choices=RHYTHMS)
     gender = models.CharField(max_length=50, choices=GENDERS)
     condition = models.CharField(max_length=50, choices=CONDITIONS)
+
+    white_start = models.DateTimeField(null=True)
+    white_end = models.DateTimeField(null=True)
+    blue_start = models.DateTimeField(null=True)
+    blue_end = models.DateTimeField(null=True)
+    red_start = models.DateTimeField(null=True)
+    red_end = models.DateTimeField(null=True)
+
+    @property
+    def where(self):
+        return self.location
 
     def add(**data):
         def make_datetime(string):
@@ -49,9 +62,9 @@ class Experiment(models.Model):
             location=data.get('location'),
             polarization=data.get('polarization'),
             device=data.get('device'),
-            first_name=data.get('first_name'),
+            first_name=data.get('first_name').title(),
+            last_name=data.get('last_name').title(),
             timeout=data.get('timeout'),
-            last_name=data.get('last_name'),
             age=data.get('age'),
             gender=data.get('gender'),
             rhythm=data.get('rhythm'),
@@ -73,10 +86,10 @@ class Experiment(models.Model):
 
 
     def __str__(self):
-        return '[{date}] {last_name}, {first_name}'.format(**self.__dict__)
+        return '[{experiment_start}] {last_name}, {first_name}'.format(**self.__dict__)
 
     class Meta:
-        ordering = ["-date"]
+        ordering = ["-experiment_start"]
         verbose_name = _("Experiment")
         verbose_name_plural = _("Experiments")
 

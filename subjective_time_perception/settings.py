@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
     'subjective_time_perception.experiment',
 ]
 
@@ -110,4 +111,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 from django.conf.locale.en import formats as en_formats
-en_formats.DATETIME_FORMAT = "Y-m-d H:i:s"
+en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
+DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']

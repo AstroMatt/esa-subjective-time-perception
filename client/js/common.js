@@ -42,6 +42,10 @@ Journal = {
     }
 }
 
+function now() {
+    return new Date().toJSON();
+}
+
 function seconds(number) {
     return number * 1000;
 }
