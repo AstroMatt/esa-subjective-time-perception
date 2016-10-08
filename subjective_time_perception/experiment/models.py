@@ -47,10 +47,6 @@ class Experiment(models.Model):
     red_start = models.DateTimeField(null=True)
     red_end = models.DateTimeField(null=True)
 
-    @property
-    def where(self):
-        return self.location
-
     def add(**data):
         def make_datetime(string):
             return datetime.strptime(string, '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=timezone.utc)
