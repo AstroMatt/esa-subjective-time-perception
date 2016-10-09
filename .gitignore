@@ -14,6 +14,7 @@ __pycache__
 *.db
 *.sqlite
 *.sqlite3
+*.sqlite3.*
 
 # Temporary or runtime files
 *.old

@@ -25,12 +25,15 @@ class Experiment(models.Model):
         ('vertical', _('Vertical')),
         ('cross', _('Cross')),
         ('mixed', _('Mixed'))]
+    DEVICES = [
+        ('computer-1', _('Computer 1')),
+        ('computer-2', _('Computer 2'))]
 
     location = models.CharField(max_length=50)
     experiment_start = models.DateTimeField(null=True)
     experiment_end = models.DateTimeField(null=True)
     polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
-    device = models.CharField(max_length=50)
+    device = models.CharField(max_length=50, choices=DEVICES)
     order = models.CharField(max_length=70, null=True)
     timeout = models.PositiveIntegerField(help_text=_('Microseconds'))
     first_name = models.CharField(max_length=50)
@@ -39,13 +42,13 @@ class Experiment(models.Model):
     rhythm = models.CharField(max_length=50, choices=RHYTHMS)
     gender = models.CharField(max_length=50, choices=GENDERS)
     condition = models.CharField(max_length=50, choices=CONDITIONS)
-
     white_start = models.DateTimeField(null=True)
     white_end = models.DateTimeField(null=True)
     blue_start = models.DateTimeField(null=True)
     blue_end = models.DateTimeField(null=True)
     red_start = models.DateTimeField(null=True)
     red_end = models.DateTimeField(null=True)
+    is_valid = models.NullBooleanField(null=True)
 
     def add(**data):
         def make_datetime(string):
@@ -80,14 +83,13 @@ class Experiment(models.Model):
                 background=click.get('background'))
         return experiment
 
-
     def __str__(self):
         return '[{experiment_start}] {last_name}, {first_name}'.format(**self.__dict__)
 
     class Meta:
-        ordering = ["-experiment_start"]
-        verbose_name = _("Experiment")
-        verbose_name_plural = _("Experiments")
+        ordering = ['last_name', 'first_name', 'age', '-experiment_start']
+        verbose_name = _('Experiment')
+        verbose_name_plural = _('Experiments')
 
 
 class Click(models.Model):
@@ -103,9 +105,9 @@ class Click(models.Model):
         return '[{datetime}] clicked background {background}'.format(**self.__dict__)
 
     class Meta:
-        ordering = ["datetime"]
-        verbose_name = _("Click event")
-        verbose_name_plural = _("Click events")
+        ordering = ['datetime']
+        verbose_name = _('Click event')
+        verbose_name_plural = _('Click events')
 
 
 class Event(models.Model):
@@ -121,6 +123,6 @@ class Event(models.Model):
         return '[{datetime}] - {message} - {action}'.format(**self.__dict__)
 
     class Meta:
-        ordering = ["datetime"]
-        verbose_name = _("Event")
-        verbose_name_plural = _("Events")
+        ordering = ['datetime']
+        verbose_name = _('Event')
+        verbose_name_plural = _('Events')

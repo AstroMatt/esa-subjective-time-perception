@@ -27,7 +27,6 @@ class EventAdmin(ImportExportModelAdmin):
         return self.readonly_fields
 
 
-
 class ClickInline(admin.TabularInline):
     model = Click
     readonly_fields = ['datetime', 'background']
@@ -48,12 +47,12 @@ class EventInline(admin.TabularInline):
 
 @admin.register(Experiment)
 class ExperimentAdmin(ImportExportModelAdmin):
-    list_display = ['when', 'last_name', 'first_name', 'age', 'condition', 'rhythm', 'device', 'order']
-    list_filter = ['location', 'device', 'polarization', 'timeout', 'order', 'condition', 'rhythm', 'age']
+    list_display = ['when', 'last_name', 'first_name', 'age', 'device', 'polarization', 'order', 'is_valid']
+    list_filter = ['is_valid', 'location', 'device', 'polarization', 'timeout', 'order', 'condition', 'rhythm', 'age']
     search_fields = ['^last_name']
     inlines = [ClickInline]
     fieldsets = [
-        ('Experiment', {'fields': ['location', 'device', 'polarization', 'order', 'timeout']}),
+        ('Experiment', {'fields': ['location', 'device', 'polarization', 'order', 'timeout', 'is_valid']}),
         ('Survey', {'fields': ['last_name', 'first_name', 'age', 'rhythm', 'condition']}),
         ('Dates', {'fields': ['experiment_start', 'experiment_end', 'white_start', 'white_end', 'blue_start', 'blue_end', 'red_start', 'red_end']}),
     ]
