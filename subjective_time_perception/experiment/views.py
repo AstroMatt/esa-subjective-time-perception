@@ -21,15 +21,15 @@ class ExperimentCreateView(View):
         return response
 
 
-class ExperimentResultCsvView(TemplateView):
+class ExperimentResultMixin:
+    def get_context_data(self, *args, **kwargs):
+        experiments = Experiment.objects.all()
+        return {'experiments': experiments}
+
+
+class ExperimentResultCsvView(ExperimentResultMixin, TemplateView):
     template_name = 'experiment/results.csv'
 
-    def get_context_data(self, *args, **kwargs):
-        return {'data': Experiment.objects.all()}
 
-
-class ExperimentResultHtmlView(TemplateView):
+class ExperimentResultHtmlView(ExperimentResultMixin, TemplateView):
     template_name = 'experiment/results.html'
-
-    def get_context_data(self, *args, **kwargs):
-        return {'data': None}
