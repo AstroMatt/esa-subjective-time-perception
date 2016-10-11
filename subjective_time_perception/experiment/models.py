@@ -21,21 +21,10 @@ class Experiment(models.Model):
         ('well-rested', _('Well rested')),
         ('normal', _('Normal')),
         ('tired', _('Tired'))]
-    POLARIZATIONS = [
-        ('horizontal', _('Horizontal')),
-        ('vertical', _('Vertical')),
-        ('cross', _('Cross')),
-        ('mixed', _('Mixed'))]
-    DEVICES = [
-        ('computer-1', _('Computer 1')),
-        ('computer-2', _('Computer 2'))]
 
     location = models.CharField(max_length=50)
     experiment_start = models.DateTimeField(null=True)
     experiment_end = models.DateTimeField(null=True)
-    polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
-    device = models.CharField(max_length=50, choices=DEVICES)
-    order = models.CharField(max_length=70, null=True)
     timeout = models.PositiveIntegerField(help_text=_('Microseconds'))
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -43,6 +32,20 @@ class Experiment(models.Model):
     rhythm = models.CharField(max_length=50, choices=RHYTHMS)
     gender = models.CharField(max_length=50, choices=GENDERS)
     condition = models.CharField(max_length=50, choices=CONDITIONS)
+    is_valid = models.NullBooleanField(null=True)
+
+    DEVICES = [
+        ('computer-1', _('Computer 1')),
+        ('computer-2', _('Computer 2'))]
+    POLARIZATIONS = [
+        ('horizontal', _('Horizontal')),
+        ('vertical', _('Vertical')),
+        ('cross', _('Cross')),
+        ('mixed', _('Mixed'))]
+    polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
+    device = models.CharField(max_length=50, choices=DEVICES)
+    order = models.CharField(max_length=70, null=True)
+
     white_start = models.DateTimeField(null=True)
     white_end = models.DateTimeField(null=True)
     blue_start = models.DateTimeField(null=True)
@@ -50,6 +53,10 @@ class Experiment(models.Model):
     red_start = models.DateTimeField(null=True)
     red_end = models.DateTimeField(null=True)
     is_valid = models.NullBooleanField(null=True)
+
+    @staticmethod
+    def get():
+        return Experiment.objects.filter(is_valid=True)
 
     def get_clicks_valid_for_experiment(self):
         clicks = Click.objects.filter(experiment=self).order_by('datetime')
@@ -131,7 +138,6 @@ class Experiment(models.Model):
             'red': mean(clicks['red']),
             'white': mean(clicks['white'])}
 
-
     def add(**data):
         def make_datetime(string):
             return datetime.strptime(string, '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=timezone.utc)
@@ -172,6 +178,43 @@ class Experiment(models.Model):
         ordering = ['last_name', 'first_name', 'age', '-experiment_start']
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
+
+
+class Trial(models.Model):
+    DEVICES = [
+        ('computer-1', _('Computer 1')),
+        ('computer-2', _('Computer 2'))]
+    POLARIZATIONS = [
+        ('horizontal', _('Horizontal')),
+        ('vertical', _('Vertical')),
+        ('cross', _('Cross')),
+        ('mixed', _('Mixed'))]
+
+    experiment = models.ForeignKey(to='experiment.Experiment')
+    polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
+    device = models.CharField(max_length=50, choices=DEVICES)
+    order = models.CharField(max_length=70, null=True)
+    start = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True)
+    white_start = models.DateTimeField(null=True)
+    white_end = models.DateTimeField(null=True)
+    blue_start = models.DateTimeField(null=True)
+    blue_end = models.DateTimeField(null=True)
+    red_start = models.DateTimeField(null=True)
+    red_end = models.DateTimeField(null=True)
+    is_valid = models.NullBooleanField(null=True)
+
+    @staticmethod
+    def get():
+        return Trial.objects.filter(is_valid=True)
+
+    def __str__(self):
+        return '[{start}]'.format(**self.__dict__)
+
+    class Meta:
+        ordering = ['-start']
+        verbose_name = _('Trial')
+        verbose_name_plural = _('Trials')
 
 
 class Click(models.Model):
