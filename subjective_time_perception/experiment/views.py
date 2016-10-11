@@ -21,9 +21,15 @@ class ExperimentCreateView(View):
         return response
 
 
-class CSVExportView(View):
-    http_method_names = ['get']
-    template_name = 'experiment/export-csv.html'
+class ExperimentResultCsvView(TemplateView):
+    template_name = 'experiment/results.csv'
 
     def get_context_data(self, *args, **kwargs):
-        return {'experiments': Experiment.objects.all()}
+        return {'data': Experiment.objects.all()}
+
+
+class ExperimentResultHtmlView(TemplateView):
+    template_name = 'experiment/results.html'
+
+    def get_context_data(self, *args, **kwargs):
+        return {'data': None}
