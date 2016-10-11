@@ -1,3 +1,4 @@
+import statistics
 from datetime import datetime
 from datetime import timezone
 from django.utils import timezone
@@ -50,6 +51,87 @@ class Experiment(models.Model):
     red_end = models.DateTimeField(null=True)
     is_valid = models.NullBooleanField(null=True)
 
+    def get_clicks_valid_for_experiment(self):
+        clicks = Click.objects.filter(experiment=self).order_by('datetime')
+        blue = list(clicks.filter(background='blue'))[5:-5]
+        red = list(clicks.filter(background='red'))[5:-5]
+        white = list(clicks.filter(background='white'))[5:-5]
+
+        return {
+            'all': blue + red + white,
+            'blue': blue,
+            'red': red,
+            'white': white}
+
+    def count_clicks(self):
+        clicks = Click.objects.filter(experiment=self)
+
+        return {
+            'all': clicks.count(),
+            'blue': clicks.filter(background='blue').count(),
+            'red': clicks.filter(background='red').count(),
+            'white': clicks.filter(background='white').count()}
+
+    def regularity_coefficient_percent(self):
+        clicks = Click.objects.filter(experiment=self)
+
+        return {
+            'all': clicks.count() / 90 * 100,
+            'blue': clicks.filter(background='blue').count() / 30 * 100,
+            'red': clicks.filter(background='red').count() / 30 * 100,
+            'white': clicks.filter(background='white').count() / 30 * 100}
+
+    def regularity_coefficient_time(self):
+        clicks = self.get_clicks_valid_for_experiment()
+
+        def get_time_deltas(series):
+
+            for i in range(1, len(series)):
+                d1 = series[i-1].datetime
+                d2 = series[i].datetime
+                yield (d2 - d1).total_seconds()
+
+        blue = list(get_time_deltas(clicks['blue']))
+        red = list(get_time_deltas(clicks['red']))
+        white = list(get_time_deltas(clicks['white']))
+
+        return {
+            'all': blue + red + white,
+            'blue': blue,
+            'red': red,
+            'white': white}
+
+    def stdev(self):
+        clicks = self.regularity_coefficient_time()
+
+        def stdev(series):
+            try:
+                return statistics.stdev(series)
+            except statistics.StatisticsError:
+                return None
+
+        return {
+            'all': stdev(clicks['all']),
+            'blue': stdev(clicks['blue']),
+            'red': stdev(clicks['red']),
+            'white': stdev(clicks['white'])}
+
+    def mean(self):
+        clicks = self.regularity_coefficient_time()
+
+        def mean(series):
+            try:
+                return statistics.mean(series)
+            except statistics.StatisticsError:
+                return None
+
+        return {
+            'all': mean(clicks['all']),
+            'blue': mean(clicks['blue']),
+            'red': mean(clicks['red']),
+            'white': mean(clicks['white'])}
+
+
     def add(**data):
         def make_datetime(string):
             return datetime.strptime(string, '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=timezone.utc)
@@ -93,6 +175,7 @@ class Experiment(models.Model):
 
 
 class Click(models.Model):
+    EXPECTED_COUNT = 90
     BACKGROUNDS = [
         ('white', _('White')),
         ('blue', _('Blue')),
