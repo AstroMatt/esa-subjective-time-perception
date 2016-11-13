@@ -28,4 +28,4 @@ Run
 ## TODO
 - Connect results from each experiment by generating code, to use with next try
 - Translate instructions to several languages
-- 
+
