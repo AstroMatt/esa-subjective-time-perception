@@ -1,1 +1,1 @@
-web: gunicorn subjective_time_perception.wsgi
+web: gunicorn backend.wsgi

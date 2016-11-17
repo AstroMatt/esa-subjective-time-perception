@@ -1,0 +1,24 @@
+html, body {
+    width: 90%;
+    height: 90%;
+}
+
+body {
+    padding: 1em;
+    color: #fff;
+    font-family: sans-serif;
+    line-height: 1.5em;
+    background-image: url('_background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+h2 {
+    margin-top: 2em;
+}
+
+strong {
+    text-decoration: underline;
+}

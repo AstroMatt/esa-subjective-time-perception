@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="_common.css" rel="stylesheet" type="text/css" />
+    <script src="_common.js"></script>
+
+    <script>
+        function run() {
+            var color = 'black';
+            var timeout = seconds(1);
+
+            document.body.innerHTML = '<h1>Click now!</h1><h2>Please try to click <strong>once every five seconds</strong>.</h2>';
+            document.body.style.background = color;
+            document.body.addEventListener('click', click);
+            //fullscreen();
+            logEvent('start', color);
+
+            sleep(timeout).then(() => {
+                document.body.removeEventListener('click', click);
+                logEvent('end', color);
+                goto('step-3-color-one');
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>You may now proceed to test section</h1>
+    <p>On the following screen click the left mouse button trying to achieve a regular tempo of <strong>one click every five seconds</strong>.</p>
+    <button onclick="run()">Run the test!</button>
+</body>
+</html>

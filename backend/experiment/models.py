@@ -220,6 +220,7 @@ class Trial(models.Model):
 class Click(models.Model):
     EXPECTED_COUNT = 90
     BACKGROUNDS = [
+        ('black', _('Black')),
         ('white', _('White')),
         ('blue', _('Blue')),
         ('red', _('Red'))]

@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link href="css/common.css" rel="stylesheet" type="text/css" />
-    <script src="js/common.js"></script>
+    <link href="_common.css" rel="stylesheet" type="text/css" />
+    <script src="_common.js"></script>
 
     <style>
         li { list-style: none; }
@@ -11,11 +11,14 @@
 
     <script>
         function save() {
-            for (let field of document.getElementById('form').elements)
-                if (field.type == 'radio' && !field.checked || field.type == 'submit')
-                    continue;
-                else
+            logEvent('start', 'experiment');
+
+            var form = document.getElementById('form');
+
+            Array.from(form).forEach( field => {
+                if (field.type != 'submit' && (field.type != 'radio' || (field.type == 'radio' && field.checked)))
                     Experiment.update(field.name, field.value);
+            });
         }
     </script>
 </head>
@@ -24,10 +27,10 @@
     <h1>User Survey</h1>
 
     <form id="form" action="#" method="GET" onsubmit="save(); goto('step-2-test'); return false">
-        <input type="text" name="first_name" placeholder="First Name" required="required" maxlength="50" pattern="[A-Za-z]{2,50}"  autocomplete="off">
-        <input type="text" name="last_name" placeholder="Last Name" required="required" maxlength="50" pattern="[A-Za-z]{2,50}" autocomplete="off">
-        <input type="email" name="email" placeholder="Email (if you want results)" maxlength="100" autocomplete="off">
-        <input type="number" placeholder="Age" name="age" min="1" max="150" required="required" autocomplete="off">
+        <ul>
+            <li>Email:<input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required="required"></li>
+            <li>Age: <input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required="required"></li>
+        </ul>
 
         <h2>What is your gender?</h2>
         <ul>
@@ -51,7 +54,7 @@
             <li><input type="radio" name="rhythm" value="below average" required="required"> Below average</li>
             <li><input type="radio" name="rhythm" value="poor" required="required"> Poor</li>
         </ul>
-        <input type="submit" value="Start Test" /></button>
+        <input type="submit" value="Proceed to the test" /></button>
     </form>
 </body>
 </html>

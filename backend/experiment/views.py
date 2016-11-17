@@ -5,10 +5,11 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import View
 from django.views.generic import TemplateView
-from subjective_time_perception.experiment.models import Experiment
-from subjective_time_perception.experiment.models import Trial
+from backend.experiment.models import Experiment
+from backend.experiment.models import Trial
 
-log = logging.getLogger('subjective_time_perception')
+log = logging.getLogger('backend')
+
 
 
 class ExperimentCreateView(View):
@@ -18,17 +19,28 @@ class ExperimentCreateView(View):
         return json.loads(data.replace('\n', ''))
 
     def get(self, *args, **kwargs):
-
-
-
         return HttpResponse()
 
     def post(self, request, *args, **kwargs):
-        for record in self.clean_data(request.body.decode('utf-8')):
-            Experiment.add(**record)
-        response = JsonResponse({'status': 'ok', 'code': 200})
+        experiment = self.clean_data(request.body.decode('utf-8'))
+
+        from pprint import pprint
+        pprint(experiment)
+
+        if experiment:
+            #Experiment.add(**record)
+            response = JsonResponse({'message': 'Experiment added to the database.'}, status=201)
+        else:
+            response = JsonResponse({'message': 'Cannot create experiment'}, status=400)
+
         response['Access-Control-Allow-Origin'] = '*'
         return response
+
+
+
+
+
+
 
 
 class ExperimentResultCsvView(TemplateView):

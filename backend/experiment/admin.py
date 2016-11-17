@@ -1,9 +1,9 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from subjective_time_perception.experiment.models import Experiment
-from subjective_time_perception.experiment.models import Trial
-from subjective_time_perception.experiment.models import Click
-from subjective_time_perception.experiment.models import Event
+from backend.experiment.models import Experiment
+from backend.experiment.models import Trial
+from backend.experiment.models import Click
+from backend.experiment.models import Event
 
 
 class ReadOnlyMixin:

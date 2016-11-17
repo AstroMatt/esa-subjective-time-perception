@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="_common.css" rel="stylesheet" type="text/css" />
+    <script src="_common.js"></script>
+    <script src="_jquery-3.1.1.min.js"></script>
+
+    <script>
+        tryUploadResultsToDatabase();
+
+        Experiment.set({
+            timeout: seconds(1),
+            colors: shuffle(["red", "white", "blue"]),
+            location: 'Experiment over the internet',
+            device: 'computer 1',
+            polarization: 'horizontal',
+            date: now(),
+        });
+
+        logEvent('start', 'experiment');
+    </script>
+</head>
+
+<body>
+    <h1>Subjective Time Perception Experiment</h1>
+
+    <h2>Objective</h2>
+    <p>The purpose of this experiment is to measure how different colors incluence on time perception</p>
+
+    <h2>Length</h2>
+    <p>The experiment takes around 10 minutes.</p>
+
+    <h2>Which experiment trial is it?</h2>
+    <button onclick="fullscreen(); goto('trial-1-instructions')">I am taking this experiment for the first time</button>
+    <button onclick="fullscreen(); goto('trial-2-instructions')">This is my second trial</button>
+
+</body>
+
+</html>

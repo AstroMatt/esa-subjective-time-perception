@@ -33,6 +33,14 @@ Journal = {
         return this.set(data);
     },
 
+    remove: function(experiment) {
+        var oldJournal = this.get();
+        var newJournal = oldJournal.filter(item => {
+            return item.date != experiment.date;
+        });
+        this.set(newJournal);
+    },
+
     set: function(data) {
         return localStorage.setItem("journal", JSON.stringify(data));
     },
@@ -109,3 +117,22 @@ function logEvent(action, message) {
     });
     return Experiment.set(data);
 }
+
+function tryUploadResultsToDatabase() {
+    for (let experiment of Journal.get()) {
+        $.ajax({
+            type: "POST",
+            crossDomain: true,
+            url: "http://matt:8000/api/v1/experiment/",
+            data: JSON.stringify(experiment),
+
+            success: function(response) {
+                Journal.remove(experiment);
+            },
+
+            error: function(response) {
+                console.log("Cannot save experiment to the database. Will try later.");
+            }
+        });
+    }
+};

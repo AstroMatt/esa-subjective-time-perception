@@ -2,32 +2,33 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link href="css/common.css" rel="stylesheet" type="text/css" />
-    <script src="js/common.js"></script>
+    <link href="_common.css" rel="stylesheet" type="text/css" />
+    <script src="_common.js"></script>
 
     <script>
         function run() {
-            var color = Experiment.get().colors[2];
+            var color = Experiment.get().colors[0];
             var timeout = Experiment.get().timeout;
 
             document.body.innerHTML = '';
             document.body.style.background = color;
             document.body.addEventListener('click', click);
-            //fullscreen();
+            
             logEvent('start', color);
 
             sleep(timeout).then(() => {
                 document.body.removeEventListener('click', click);
                 logEvent('end', color);
-                goto('step-6-results');
+                goto('step-4-color-two');
             });
         }
     </script>
 </head>
 
 <body>
-    <h1>You will see the third color now</h1>
-    <p>Please try to click <strong>once per five seconds</strong>.</p>
+    <h1>You will see the first color now</h1>
+    <p>There won't be any text on the screen.</p>
+    <p>Please try to click <strong>once every five seconds</strong>.</p>
     <button onclick="run()">Ok, go!</button>
 </body>
 </html>
