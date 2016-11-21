@@ -6,7 +6,16 @@
     <script src="_common.js"></script>
 
     <script>
-        Experiment.update('trial', 1);
+        Experiment.update('start', now());
+        Experiment.update('trial', {
+            number:       1,
+            location:     'Experiment over the internet',
+            device:       'computer 1',
+            polarization: 'horizontal',
+            colors:       shuffle(["red", "white", "blue"])
+        });
+        
+        log('start', 'trial');
     </script>
 </head>
 

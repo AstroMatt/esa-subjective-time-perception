@@ -1,4 +1,10 @@
 Experiment = {
+    create: function(data) {
+        if (!data)
+            data = {}
+        this.set(data);
+    },
+
     get: function() {
         var data = localStorage.getItem("currentExperiment");
         return JSON.parse(data);
@@ -15,7 +21,7 @@ Experiment = {
     },
 
     clear: function() {
-        this.set(Array());
+        this.set({});
     }
 }
 
@@ -47,6 +53,25 @@ Journal = {
 
     clear: function() {
         this.set(Array());
+    },
+    
+    syncdb: function() {
+        for (let experiment of Journal.get()) {
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: "http://matt:8000/api/v1/experiment/",
+                data: JSON.stringify(experiment),
+    
+                success: function(response) {
+                    Journal.remove(experiment);
+                },
+    
+                error: function(response) {
+                    console.log("Cannot save experiment to the database. Will try later.");
+                }
+            });
+        }
     }
 }
 
@@ -91,48 +116,20 @@ function fullscreen() {
         bg.mozRequestFullScreen();
 }
 
-function click() {
-    var data = Experiment.get();
+function log(action, target) {
+    var experiment = Experiment.get();
 
-    if (!data.clicks)
-        data.clicks = Array();
+    if (!experiment.data)
+        experiment.data = Array();
 
-    data.clicks.push({
+    experiment.events.push({
         "datetime": new Date().toJSON(),
-        "background": document.body.style.backgroundColor
-    });
-    return Experiment.set(data);
-}
-
-function logEvent(action, message) {
-    var data = Experiment.get();
-
-    if (!data.events)
-        data.events = Array();
-
-    data.events.push({
-        "datetime": new Date().toJSON(),
+        "target": target,
         "action": action,
-        "message": message
     });
-    return Experiment.set(data);
+    return Experiment.set(experiment);
 }
 
-function tryUploadResultsToDatabase() {
-    for (let experiment of Journal.get()) {
-        $.ajax({
-            type: "POST",
-            crossDomain: true,
-            url: "http://matt:8000/api/v1/experiment/",
-            data: JSON.stringify(experiment),
-
-            success: function(response) {
-                Journal.remove(experiment);
-            },
-
-            error: function(response) {
-                console.log("Cannot save experiment to the database. Will try later.");
-            }
-        });
-    }
-};
+function click() {
+    log("click", document.body.style.backgroundColor);
+}

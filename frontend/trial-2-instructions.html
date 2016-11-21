@@ -6,13 +6,22 @@
     <script src="_common.js"></script>
 
     <script>
-        Experiment.update('trial', 2);
+        Experiment.update('start', now());
+        Experiment.update('trial', {
+            number:       2,
+            location:     'Experiment over the internet',
+            device:       'computer 1',
+            polarization: 'horizontal',
+            colors:       shuffle(["red", "white", "blue"])
+        });
+        
+        log('start', 'trial');
     </script>
 </head>
 
 <body>
     <h1>Instructions</h1>
-    <p>Exacly the same experiment, but with different polarization.</p>
+    <p>Exactly the same experiment, but with different polarization.</p>
 
     <button onclick="goto('step-1-survey')">Proceed to the survey</button>
 </body>

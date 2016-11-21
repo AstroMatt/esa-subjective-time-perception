@@ -7,18 +7,12 @@
     <script src="_jquery-3.1.1.min.js"></script>
 
     <script>
-        tryUploadResultsToDatabase();
-
-        Experiment.set({
-            timeout: seconds(1),
-            colors: shuffle(["red", "white", "blue"]),
-            location: 'Experiment over the internet',
-            device: 'computer 1',
-            polarization: 'horizontal',
-            date: now(),
+        Journal.syncdb();
+        
+        Experiment.create({
+            'start': now(),
+            'end': null
         });
-
-        logEvent('start', 'experiment');
     </script>
 </head>
 

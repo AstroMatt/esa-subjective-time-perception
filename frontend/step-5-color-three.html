@@ -7,18 +7,18 @@
 
     <script>
         function run() {
-            var color = Experiment.get().colors[2];
-            var timeout = Experiment.get().timeout;
+            var color = Experiment.get()['trial'].colors[2];
+            var timeout = seconds(1);
 
             document.body.innerHTML = '';
             document.body.style.background = color;
             document.body.addEventListener('click', click);
             
-            logEvent('start', color);
+            log('start', color);
 
-            sleep(timeout).then(() => {
+            sleep(timeout).then( () => {
                 document.body.removeEventListener('click', click);
-                logEvent('end', color);
+                log('end', color);
                 goto('step-6-results');
             });
         }

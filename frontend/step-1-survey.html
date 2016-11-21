@@ -10,14 +10,16 @@
     </style>
 
     <script>
+        log('start', 'survey');
+        
         function save() {
-            logEvent('start', 'experiment');
-
-            var form = document.getElementById('form');
-
-            Array.from(form).forEach( field => {
-                if (field.type != 'submit' && (field.type != 'radio' || (field.type == 'radio' && field.checked)))
-                    Experiment.update(field.name, field.value);
+            log('end', 'survey');
+            Experiment.update('survey', {
+                email:     document.querySelector('input[name="email"]').value,
+                age:       document.querySelector('input[name="age"]').value,
+                gender:    document.querySelector('input[name="gender"]:checked').value,
+                condition: document.querySelector('input[name="condition"]:checked').value,
+                rhythm:    document.querySelector('input[name="rhythm"]:checked').value,
             });
         }
     </script>
@@ -54,7 +56,7 @@
             <li><input type="radio" name="rhythm" value="below average" required="required"> Below average</li>
             <li><input type="radio" name="rhythm" value="poor" required="required"> Poor</li>
         </ul>
-        <input type="submit" value="Proceed to the test" /></button>
+        <input type="submit" value="Proceed to the test" />
     </form>
 </body>
 </html>

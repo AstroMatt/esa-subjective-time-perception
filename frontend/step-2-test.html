@@ -13,12 +13,12 @@
             document.body.innerHTML = '<h1>Click now!</h1><h2>Please try to click <strong>once every five seconds</strong>.</h2>';
             document.body.style.background = color;
             document.body.addEventListener('click', click);
-            //fullscreen();
-            logEvent('start', color);
+            
+            log('start', color);
 
             sleep(timeout).then(() => {
                 document.body.removeEventListener('click', click);
-                logEvent('end', color);
+                log('end', color);
                 goto('step-3-color-one');
             });
         }
