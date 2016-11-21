@@ -122,7 +122,7 @@ function log(action, target) {
     if (!experiment.data)
         experiment.data = Array();
 
-    experiment.events.push({
+    experiment.data.push({
         "datetime": new Date().toJSON(),
         "target": target,
         "action": action,

@@ -17,7 +17,391 @@ class ExperimentView(View):
 
     def post(self, request, *args, **kwargs):
         """
-        [{"start":"2016-11-21T14:35:39.938Z","end":"2016-11-21T14:35:59.998Z","trial":{"number":1,"location":"Experiment over the internet","device":"computer 1","polarization":"horizontal","colors":["blue","red","white"]},"events":[{"datetime":"2016-11-21T14:35:39.939Z","target":"trial","action":"start"},{"datetime":"2016-11-21T14:35:42.830Z","target":"survey","action":"start"},{"datetime":"2016-11-21T14:35:51.959Z","target":"survey","action":"end"},{"datetime":"2016-11-21T14:35:53.048Z","target":"black","action":"start"},{"datetime":"2016-11-21T14:35:53.050Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:35:53.735Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:35:53.896Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:35:54.031Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:35:54.051Z","target":"black","action":"end"},{"datetime":"2016-11-21T14:35:55.072Z","target":"blue","action":"start"},{"datetime":"2016-11-21T14:35:55.072Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:35:55.383Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:35:55.551Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:35:55.688Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:35:55.831Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:35:55.975Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:35:56.074Z","target":"blue","action":"end"},{"datetime":"2016-11-21T14:35:56.929Z","target":"red","action":"start"},{"datetime":"2016-11-21T14:35:56.930Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:35:57.207Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:35:57.367Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:35:57.519Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:35:57.647Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:35:57.814Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:35:57.932Z","target":"red","action":"end"},{"datetime":"2016-11-21T14:35:58.801Z","target":"white","action":"start"},{"datetime":"2016-11-21T14:35:58.802Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:35:59.103Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:35:59.271Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:35:59.423Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:35:59.575Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:35:59.743Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:35:59.803Z","target":"white","action":"end"},{"datetime":"2016-11-21T14:35:59.999Z","target":"trial","action":"end"}],"survey":{"email":"a@a.pl","age":"23","gender":"male","condition":"normal","rhythm":"average"}},{"start":"2016-11-21T14:36:05.390Z","end":"2016-11-21T14:36:27.324Z","trial":{"number":2,"location":"Experiment over the internet","device":"computer 1","polarization":"horizontal","colors":["white","blue","red"]},"events":[{"datetime":"2016-11-21T14:36:05.391Z","target":"trial","action":"start"},{"datetime":"2016-11-21T14:36:06.454Z","target":"survey","action":"start"},{"datetime":"2016-11-21T14:36:18.709Z","target":"survey","action":"end"},{"datetime":"2016-11-21T14:36:20.431Z","target":"black","action":"start"},{"datetime":"2016-11-21T14:36:20.432Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:36:21.268Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:36:21.405Z","target":"black","action":"click"},{"datetime":"2016-11-21T14:36:21.432Z","target":"black","action":"end"},{"datetime":"2016-11-21T14:36:22.375Z","target":"white","action":"start"},{"datetime":"2016-11-21T14:36:22.375Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:36:22.684Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:36:22.836Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:36:22.988Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:36:23.116Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:36:23.261Z","target":"white","action":"click"},{"datetime":"2016-11-21T14:36:23.377Z","target":"white","action":"end"},{"datetime":"2016-11-21T14:36:24.287Z","target":"blue","action":"start"},{"datetime":"2016-11-21T14:36:24.288Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:36:24.580Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:36:24.740Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:36:24.892Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:36:25.039Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:36:25.180Z","target":"blue","action":"click"},{"datetime":"2016-11-21T14:36:25.289Z","target":"blue","action":"end"},{"datetime":"2016-11-21T14:36:26.142Z","target":"red","action":"start"},{"datetime":"2016-11-21T14:36:26.142Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:36:26.484Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:36:26.644Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:36:26.788Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:36:26.948Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:36:27.108Z","target":"red","action":"click"},{"datetime":"2016-11-21T14:36:27.144Z","target":"red","action":"end"},{"datetime":"2016-11-21T14:36:27.326Z","target":"trial","action":"end"}],"survey":{"email":"a@a.pl","age":"23","gender":"male","condition":"normal","rhythm":"average"}}]
+        [
+            {
+                "start": "2016-11-21T14:35:39.938Z",
+                "end": "2016-11-21T14:35:59.998Z",
+                "trial": {
+                    "number": 1,
+                    "location": "Experiment over the internet",
+                    "device": "computer 1",
+                    "polarization": "horizontal",
+                    "colors": [
+                        "blue",
+                        "red",
+                        "white"
+                    ]
+                },
+                "data": [
+                    {
+                        "datetime": "2016-11-21T14:35:39.939Z",
+                        "target": "trial",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:42.830Z",
+                        "target": "survey",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:51.959Z",
+                        "target": "survey",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:53.048Z",
+                        "target": "black",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:53.050Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:53.735Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:53.896Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:54.031Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:54.051Z",
+                        "target": "black",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.072Z",
+                        "target": "blue",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.072Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.383Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.551Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.688Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.831Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:55.975Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:56.074Z",
+                        "target": "blue",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:56.929Z",
+                        "target": "red",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:56.930Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:57.207Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:57.367Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:57.519Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:57.647Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:57.814Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:57.932Z",
+                        "target": "red",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:58.801Z",
+                        "target": "white",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:58.802Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.103Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.271Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.423Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.575Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.743Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.803Z",
+                        "target": "white",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:35:59.999Z",
+                        "target": "trial",
+                        "action": "end"
+                    }
+                ],
+                "survey": {
+                    "email": "a@a.pl",
+                    "age": "23",
+                    "gender": "male",
+                    "condition": "normal",
+                    "rhythm": "average"
+                }
+            },
+            {
+                "start": "2016-11-21T14:36:05.390Z",
+                "end": "2016-11-21T14:36:27.324Z",
+                "trial": {
+                    "number": 2,
+                    "location": "Experiment over the internet",
+                    "device": "computer 1",
+                    "polarization": "horizontal",
+                    "colors": [
+                        "white",
+                        "blue",
+                        "red"
+                    ]
+                },
+                "data": [
+                    {
+                        "datetime": "2016-11-21T14:36:05.391Z",
+                        "target": "trial",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:06.454Z",
+                        "target": "survey",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:18.709Z",
+                        "target": "survey",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:20.431Z",
+                        "target": "black",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:20.432Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:21.268Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:21.405Z",
+                        "target": "black",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:21.432Z",
+                        "target": "black",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:22.375Z",
+                        "target": "white",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:22.375Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:22.684Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:22.836Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:22.988Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:23.116Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:23.261Z",
+                        "target": "white",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:23.377Z",
+                        "target": "white",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:24.287Z",
+                        "target": "blue",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:24.288Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:24.580Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:24.740Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:24.892Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:25.039Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:25.180Z",
+                        "target": "blue",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:25.289Z",
+                        "target": "blue",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:26.142Z",
+                        "target": "red",
+                        "action": "start"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:26.142Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:26.484Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:26.644Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:26.788Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:26.948Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:27.108Z",
+                        "target": "red",
+                        "action": "click"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:27.144Z",
+                        "target": "red",
+                        "action": "end"
+                    },
+                    {
+                        "datetime": "2016-11-21T14:36:27.326Z",
+                        "target": "trial",
+                        "action": "end"
+                    }
+                ],
+                "survey": {
+                    "email": "a@a.pl",
+                    "age": "23",
+                    "gender": "male",
+                    "condition": "normal",
+                    "rhythm": "average"
+                }
+            }
+        ]
         """
     
     
