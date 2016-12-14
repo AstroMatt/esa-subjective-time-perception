@@ -2,18 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Subjective Time Perception Experiment</title>
     <link href="_common.css" rel="stylesheet" type="text/css" />
     <script src="_common.js"></script>
 
     <script>
         function run() {
             var color = Experiment.get()['trial'].colors[1];
-            var timeout = seconds(1);
+            var timeout = seconds(30);
 
             document.body.innerHTML = '';
             document.body.style.background = color;
             document.body.addEventListener('click', click);
-            
+
             log('start', color);
 
             sleep(timeout).then(() => {

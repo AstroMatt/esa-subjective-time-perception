@@ -119,10 +119,10 @@ function fullscreen() {
 function log(action, target) {
     var experiment = Experiment.get();
 
-    if (!experiment.data)
-        experiment.data = Array();
+    if (!experiment.events)
+        experiment.events = Array();
 
-    experiment.data.push({
+    experiment.events.push({
         "datetime": new Date().toJSON(),
         "target": target,
         "action": action,
