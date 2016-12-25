@@ -8,13 +8,13 @@
     <script src="_jquery-3.1.1.min.js"></script>
 
     <script>
-        Experiment.update('end', now());
+        Trial.update('end', new Date().toJSON());
         log('end', 'trial');
 
-        var experiment = Experiment.get();
-        Journal.add(experiment);
-        Journal.syncdb();
-        Experiment.clear();
+        var trial = Trial.get();
+        Database.insert(trial);
+        Database.syncdb();
+        Trial.clear();
     </script>
 </head>
 

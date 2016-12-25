@@ -7,15 +7,7 @@
     <script src="_common.js"></script>
 
     <script>
-        Experiment.update('start', now());
-        Experiment.update('trial', {
-            number:       2,
-            location:     '2016-12 Moon Village Workshop',
-            device:       'computer 1',
-            polarization: 'horizontal',
-            colors:       shuffle(["red", "white", "blue"])
-        });
-
+        Trial.create(2);
         log('start', 'trial');
     </script>
 </head>

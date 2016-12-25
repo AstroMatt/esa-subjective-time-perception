@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ApiV1Config(AppConfig):
-    name = 'api_v1'
+class RestConfig(AppConfig):
+    name = 'experiment'

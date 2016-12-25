@@ -8,8 +8,8 @@
 
     <script>
         function run() {
-            var color = Experiment.get()['trial'].colors[1];
-            var timeout = seconds(30);
+            var color = Trial.get().colors[1];
+            var seconds = Trial.get().seconds;
 
             document.body.innerHTML = '';
             document.body.style.background = color;
@@ -17,7 +17,7 @@
 
             log('start', color);
 
-            sleep(timeout).then(() => {
+            sleep(seconds).then(() => {
                 document.body.removeEventListener('click', click);
                 log('end', color);
                 goto('step-5-color-three');

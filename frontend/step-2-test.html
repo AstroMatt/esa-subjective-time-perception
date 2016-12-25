@@ -9,7 +9,7 @@
     <script>
         function run() {
             var color = 'black';
-            var timeout = seconds(15);
+            var seconds = Trial.get().seconds / 2;
 
             document.body.innerHTML = '<h1>Click now!</h1><h2>Please try to click <strong>once every five seconds</strong>.</h2>';
             document.body.style.background = color;
@@ -17,7 +17,7 @@
 
             log('start', color);
 
-            sleep(timeout).then(() => {
+            sleep(seconds).then(() => {
                 document.body.removeEventListener('click', click);
                 log('end', color);
                 goto('step-3-color-one');

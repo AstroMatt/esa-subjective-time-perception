@@ -1,17 +1,45 @@
-Experiment = {
-    create: function(data) {
-        if (!data)
-            data = {}
-        this.set(data);
+function RequestArgumentsFromURL() {
+    let url = window.location.href;
+
+    if (! url.includes('?'))
+        return Array();
+
+    let params = url.split("?").pop();
+    var arguments = {}
+
+    for (let param of params.split("&")) {
+        let arg = param.split("=");
+        let key = arg[0];
+        let value = arg[1].replace(/%20/g, " ").replace(/\+/g, " ")
+        arguments[key] = value;
+    }
+
+    return arguments;
+}
+
+Trial = {
+    create: function(trial) {
+        let get = RequestArgumentsFromURL();
+
+        this.set({
+            seconds: parseFloat(get['seconds']),
+            device: get['device'],
+            polarization: get['polarization'],
+            location: get['location'],
+            colors: shuffle(["red", "white", "blue"]),
+            trial: trial,
+            start: new Date().toJSON(),
+            end: null
+        });
     },
 
     get: function() {
-        var data = localStorage.getItem("currentExperiment");
+        let data = localStorage.getItem(".temp");
         return JSON.parse(data);
     },
 
     set: function(data) {
-        return localStorage.setItem("currentExperiment", JSON.stringify(data));
+        return localStorage.setItem(".temp", JSON.stringify(data));
     },
 
     update: function(key, value) {
@@ -25,62 +53,52 @@ Experiment = {
     }
 }
 
-Journal = {
+Database = {
     get: function() {
-        var data = localStorage.getItem("journal");
-        return JSON.parse(data);
+        database = Array();
+
+        for (let trial of Object.keys(localStorage)) {
+            if (trial != '.temp') {
+                let data = localStorage.getItem(trial);
+                database.push(JSON.parse(data));
+            }
+        }
+
+        return database;
     },
 
-    add: function(experiment) {
-        var data = this.get();
-        if (!data)
-            data = Array();
-        data.push(experiment)
-        return this.set(data);
+    insert: function(trial) {
+        localStorage.setItem(trial.start, JSON.stringify(trial));
     },
 
-    remove: function(experiment) {
-        var oldJournal = this.get();
-        var newJournal = oldJournal.filter(item => {
-            return item.date != experiment.date;
-        });
-        this.set(newJournal);
-    },
-
-    set: function(data) {
-        return localStorage.setItem("journal", JSON.stringify(data));
+    delete: function(trial) {
+        localStorage.removeItem(trial.start);
     },
 
     clear: function() {
-        this.set(Array());
+        localStorage.clear();
     },
-    
+
     syncdb: function() {
-        for (let experiment of Journal.get()) {
+        for (let trial of Database.get()) {
             $.ajax({
                 type: "POST",
                 crossDomain: true,
-                url: "http://matt:8000/api/v1/experiment/",
-                data: JSON.stringify(experiment),
-    
-                success: function(response) {
-                    Journal.remove(experiment);
+                url: "http://matt:8000/api/v1/trial/",
+                data: JSON.stringify(trial),
+
+                success: function() {
+                    let trial = JSON.parse(this.data);
+                    Database.delete(trial);
                 },
-    
-                error: function(response) {
-                    console.log("Cannot save experiment to the database. Will try later.");
+
+                error: function() {
+                    let trial = JSON.parse(this.data);
+                    console.log("Cannot save trial", trial.start, "to the database. Will try later.");
                 }
             });
         }
     }
-}
-
-function now() {
-    return new Date().toJSON();
-}
-
-function seconds(number) {
-    return number * 1000;
 }
 
 // Knuth Random Shuffle Algorithm
@@ -97,18 +115,19 @@ function shuffle(array) {
 }
 
 function sleep(seconds) {
-  return new Promise((resolve) => setTimeout(resolve, seconds));
+    let miliseconds = seconds * 1000;
+    return new Promise((resolve) => setTimeout(resolve, miliseconds));
 }
 
 function goto(next) {
-    var url = window.location.href;
-    var current = url.split("/").pop();
-    var next = url.replace(current, next+".html");
+    let url = window.location.href;
+    let current = url.split("/").pop();
+    let next = url.replace(current, next+".html");
     window.location.replace(next);
 }
 
 function fullscreen() {
-    var bg = document.querySelector('body');
+    let bg = document.querySelector('body');
 
     if (bg.webkitRequestFullScreen)
         bg.webkitRequestFullScreen();
@@ -117,17 +136,18 @@ function fullscreen() {
 }
 
 function log(action, target) {
-    var experiment = Experiment.get();
+    var trial = Trial.get();
 
-    if (!experiment.events)
-        experiment.events = Array();
+    if (!trial.events)
+        trial.events = Array();
 
-    experiment.events.push({
-        "datetime": new Date().toJSON(),
-        "target": target,
-        "action": action,
+    trial.events.push({
+        datetime: new Date().toJSON(),
+        target: target,
+        action: action,
     });
-    return Experiment.set(experiment);
+
+    return Trial.set(trial);
 }
 
 function click() {

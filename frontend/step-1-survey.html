@@ -6,16 +6,14 @@
     <link href="_common.css" rel="stylesheet" type="text/css" />
     <script src="_common.js"></script>
 
-    <style>
-        li { list-style: none; }
-    </style>
-
     <script>
+        Trial.create(1);
+        log('start', 'trial');
         log('start', 'survey');
 
         function save() {
             log('end', 'survey');
-            Experiment.update('survey', {
+            Trial.update('survey', {
                 email:     document.querySelector('input[name="email"]').value,
                 age:       document.querySelector('input[name="age"]').value,
                 gender:    document.querySelector('input[name="gender"]:checked').value,
@@ -30,34 +28,50 @@
     <h1>User Survey</h1>
 
     <form id="form" action="#" method="GET" onsubmit="save(); goto('step-2-test'); return false">
-        <ul>
-            <li>Email:<input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required="required"></li>
-            <li>Age: <input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required="required"></li>
-        </ul>
 
-        <h2>What is your gender?</h2>
-        <ul>
-            <li><input type="radio" name="gender" value="male" required="required"> Male</li>
-            <li><input type="radio" name="gender" value="female" required="required"> Female</li>
-            <li><input type="radio" name="gender" value="other" required="required"> Other</li>
-        </ul>
+        <table>
+            <tr>
+                <th>Email</th>
+                <td><input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required="required"></td>
+            </tr>
 
-        <h2>How do you feel?</h2>
-        <ul>
-            <li><input type="radio" name="condition" value="well rested" required="required"> Well rested</li>
-            <li><input type="radio" name="condition" value="normal" required="required"> Normal</li>
-            <li><input type="radio" name="condition" value="tired" required="required"> Tired</li>
-        </ul>
+            <tr>
+                <th>Age</th>
+                <td><input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required="required"></td>
+            </tr>
 
-        <h2>What is your sense of rhythm?</h2>
-        <ul>
-            <li><input type="radio" name="rhythm" value="perfect" required="required"> Perfect</li>
-            <li><input type="radio" name="rhythm" value="above average" required="required"> Above average</li>
-            <li><input type="radio" name="rhythm" value="average" required="required"> Average</li>
-            <li><input type="radio" name="rhythm" value="below average" required="required"> Below average</li>
-            <li><input type="radio" name="rhythm" value="poor" required="required"> Poor</li>
-        </ul>
-        <input type="submit" value="Proceed to the test" />
+            <tr>
+                <th>Gender</th>
+                <td><ul>
+                    <li><input type="radio" name="gender" value="male" required="required"> Male</li>
+                    <li><input type="radio" name="gender" value="female" required="required"> Female</li>
+                    <li><input type="radio" name="gender" value="other" required="required"> Other</li>
+                </ul></td>
+            </tr>
+
+            <tr>
+                <th>How do you feel?</th>
+                <td><ul>
+                    <li><input type="radio" name="condition" value="well rested" required="required"> Well rested</li>
+                    <li><input type="radio" name="condition" value="normal" required="required"> Normal</li>
+                    <li><input type="radio" name="condition" value="tired" required="required"> Tired</li>
+                </ul></td>
+            </tr>
+
+            <tr>
+                <th>Sense of rhythm</th>
+                <td><ul>
+                    <li><input type="radio" name="rhythm" value="perfect" required="required"> Perfect</li>
+                    <li><input type="radio" name="rhythm" value="above average" required="required"> Above average</li>
+                    <li><input type="radio" name="rhythm" value="average" required="required"> Average</li>
+                    <li><input type="radio" name="rhythm" value="below average" required="required"> Below average</li>
+                    <li><input type="radio" name="rhythm" value="poor" required="required"> Poor</li>
+                </ul></td>
+            </tr>
+
+            <tr><td><input type="submit" value="Proceed to the test" /></td><td></td></tr>
+        </table>
+
     </form>
 </body>
 </html>

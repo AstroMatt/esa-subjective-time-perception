@@ -7,14 +7,7 @@
     <script src="_common.js"></script>
 
     <script>
-        Experiment.update('start', now());
-        Experiment.update('trial', {
-            number:       1,
-            device:       'computer 1',
-            polarization: 'horizontal',
-            colors:       shuffle(["red", "white", "blue"])
-        });
-
+        Trial.create(1);
         log('start', 'trial');
     </script>
 </head>
@@ -25,7 +18,8 @@
         <li>Sit 20cm in front of the screen.</li>
         <li>Click start and the experiment will enter fullscreen.</li>
         <li>Fill short survey.</li>
-        <li>We will try three colors (red, blue, white) each for 60 seconds.</li>
+        <li>You will see black screen - this is test. Try to act like durung experiment.</li>
+        <li>We will try three colors (red, blue, white).</li>
         <li>You'll be warned each time color is about to change.</li>
         <li>During the experiment click the left mouse button trying to achieve a regular tempo of <strong>one click per five seconds</strong>.</li>
         <li>The colors order will be randomized on each experiment.</li>

@@ -12,22 +12,22 @@ log = logging.getLogger('backend')
 
 
 
-class ExperimentView(View):
+class TrialView(View):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
         data = request.body.decode('utf-8').replace('\n', '')
-        experiment = json.loads(data)
-        
+        trial = json.loads(data)
+
         try:
-            Experiment.add(**experiment)
-            response = JsonResponse({'message': 'Experiment added to the database.'}, status=201)
+            Trial.add(**trial)
+            response = JsonResponse({'message': 'Trial added to the database.'}, status=201)
         except Exception:
-            response = JsonResponse({'message': 'Cannot create experiment'}, status=400)
-            
+            response = JsonResponse({'message': 'Cannot create trial'}, status=400)
+
         response['Access-Control-Allow-Origin'] = '*'
         return response
-        
+
 
 
 
