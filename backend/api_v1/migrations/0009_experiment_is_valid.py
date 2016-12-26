@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiment', '0008_auto_20161008_2341'),
+        ('api_v1', '0008_auto_20161008_2341'),
     ]
 
     operations = [

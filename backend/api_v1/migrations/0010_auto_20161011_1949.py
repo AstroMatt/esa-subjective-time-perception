@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiment', '0009_experiment_is_valid'),
+        ('api_v1', '0009_experiment_is_valid'),
     ]
 
     operations = [

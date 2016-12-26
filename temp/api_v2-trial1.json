@@ -1,0 +1,218 @@
+{
+    "colors": [
+        "red",
+        "blue",
+        "white"
+    ],
+    "device": "laptop",
+    "end": "2016-12-26T01:53:47.588Z",
+    "events": [
+        {
+            "action": "start",
+            "datetime": "2016-12-26T01:53:20.163Z",
+            "target": "trial"
+        },
+        {
+            "action": "start",
+            "datetime": "2016-12-26T01:53:20.163Z",
+            "target": "survey"
+        },
+        {
+            "action": "end",
+            "datetime": "2016-12-26T01:53:36.768Z",
+            "target": "survey"
+        },
+        {
+            "action": "start",
+            "datetime": "2016-12-26T01:53:38.088Z",
+            "target": "black"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:38.089Z",
+            "target": "black"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:38.803Z",
+            "target": "black"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:38.964Z",
+            "target": "black"
+        },
+        {
+            "action": "end",
+            "datetime": "2016-12-26T01:53:39.091Z",
+            "target": "black"
+        },
+        {
+            "action": "start",
+            "datetime": "2016-12-26T01:53:39.943Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:39.943Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:40.299Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:40.451Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:40.763Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:40.940Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:41.171Z",
+            "target": "red"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:41.579Z",
+            "target": "red"
+        },
+        {
+            "action": "end",
+            "datetime": "2016-12-26T01:53:41.950Z",
+            "target": "red"
+        },
+        {
+            "action": "start",
+            "datetime": "2016-12-26T01:53:42.608Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:42.609Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:42.971Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:43.163Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:43.507Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:43.692Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:43.875Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:44.259Z",
+            "target": "blue"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:44.572Z",
+            "target": "blue"
+        },
+        {
+            "action": "end",
+            "datetime": "2016-12-26T01:53:44.613Z",
+            "target": "blue"
+        },
+        {
+            "action": "start",
+            "datetime": "2016-12-26T01:53:45.344Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:45.345Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:45.635Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:45.811Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:45.978Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:46.154Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:46.347Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:46.595Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:46.788Z",
+            "target": "white"
+        },
+        {
+            "action": "click",
+            "datetime": "2016-12-26T01:53:47.202Z",
+            "target": "white"
+        },
+        {
+            "action": "end",
+            "datetime": "2016-12-26T01:53:47.351Z",
+            "target": "white"
+        },
+        {
+            "action": "end",
+            "datetime": "2016-12-26T01:53:47.589Z",
+            "target": "trial"
+        }
+    ],
+    "location": "internet",
+    "polarization": "horizontal",
+    "seconds": 2,
+    "start": "2016-12-26T01:53:20.163Z",
+    "survey": {
+        "age": "21",
+        "condition": "normal",
+        "email": "a@a.pl",
+        "gender": "male",
+        "rhythm": "average"
+    },
+    "trial": 1
+}
