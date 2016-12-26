@@ -84,7 +84,7 @@ Database = {
             $.ajax({
                 type: "POST",
                 crossDomain: true,
-                url: "http://matt:8000/api/v1/trial/",
+                url: "http://localhost:8000/api/v2/trial/",
                 data: JSON.stringify(trial),
 
                 success: function() {

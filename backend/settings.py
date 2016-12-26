@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'import_export',
-    'backend.experiment',
+    'backend.api_v2',
 ]
 
 MIDDLEWARE = [

@@ -1,8 +1,8 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
-from backend.experiment.api_v1 import TrialView
-from backend.experiment.api_v1 import ExperimentResultCsvView
-from backend.experiment.api_v1 import ExperimentResultHtmlView
+from backend.api_v1.views import TrialView
+from backend.api_v1.views import ExperimentResultCsvView
+from backend.api_v1.views import ExperimentResultHtmlView
 
 
 urlpatterns = [

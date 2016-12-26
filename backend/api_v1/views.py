@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import View
 from django.views.generic import TemplateView
-from backend.experiment.models import Experiment
-from backend.experiment.models import Trial
+from backend.api_v1.models import Experiment
+from backend.api_v1.models import Trial
 
 log = logging.getLogger('backend')
 
@@ -34,7 +34,7 @@ class TrialView(View):
 
 
 class ExperimentResultCsvView(TemplateView):
-    template_name = 'experiment/results.csv'
+    template_name = 'api_v1/experiment-results.csv'
 
     def get_output_data(self, experiment):
         log.warning('Calculating results for: {}'.format(experiment))
@@ -105,4 +105,4 @@ class ExperimentResultCsvView(TemplateView):
 
 
 class ExperimentResultHtmlView(TemplateView):
-    template_name = 'experiment/results.html'
+    template_name = 'api_v1/experiment-results.html'

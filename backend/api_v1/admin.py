@@ -1,9 +1,9 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from backend.experiment.models import Experiment
-from backend.experiment.models import Trial
-from backend.experiment.models import Click
-from backend.experiment.models import Event
+from backend.api_v1.models import Experiment
+from backend.api_v1.models import Trial
+from backend.api_v1.models import Click
+from backend.api_v1.models import Event
 
 
 class ReadOnlyMixin:
