@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Subjective Time Perception Experiment</title>
+    <link href="_common.css" rel="stylesheet" type="text/css" />
+    <script src="_common.js"></script>
+
+    <script>
+        Trial.create(2);
+        log('start', 'trial');
+        log('start', 'survey');
+
+        function save() {
+            log('end', 'survey');
+
+            Trial.update('survey', {
+                email:     document.querySelector('input[name="email"]').value
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <form id="form" action="#" method="GET" onsubmit="save(); goto('step-2-test'); return false">
+
+        <table>
+            <tr>
+                <th>Email</th>
+                <td><input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required></td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><input type="submit" value="Proceed to the test"></td>
+            </tr>
+        </table>
+
+    </form>
+</body>
