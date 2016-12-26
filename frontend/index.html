@@ -14,40 +14,36 @@
 
 <body>
     <h1>Subjective Time Perception Experiment</h1>
+    <p>How different colors and light polarization influence on time perception?</p>
+    <p>Experiment takes around 10 minutes.</p>
 
-    <h2>Objective</h2>
-    <p>The purpose of this experiment is to measure how different colors influence on time perception</p>
-
-    <h2>Length</h2>
-    <p>The experiment takes around 10 minutes.</p>
-
-    <h1>Instructions</h1>
+    <h2>Instructions</h2>
     <ol>
-        <li>Sit 20cm in front of the screen.</li>
-        <li>Click start and the experiment will enter fullscreen.</li>
-        <li>Fill short survey.</li>
-        <li>You will see black screen - this is test. Try to act like durung experiment.</li>
-        <li>We will try three colors (red, blue, white).</li>
-        <li>You'll be warned each time color is about to change.</li>
-        <li>During the experiment click the left mouse button trying to achieve a regular tempo of <strong>one click per five seconds</strong>.</li>
-        <li>The colors order will be randomized on each experiment.</li>
+        <li>Sit 20 cm from the screen.</li>
+        <li>Click start and fill survey.</li>
+        <li>When you see black, red, blue or white screen <strong>click left mouse button once every five seconds</strong>.</li>
+        <li>Run this experimnet two times with different polarization.</li>
     </ol>
 
-    <h2>Which experiment trial is it?</h2>
-
-    <form method="get" action="#">
+    <h2>I am taking this experiment for the first time</h2>
+    <form method="get" action="step-1-survey-first.html">
         <input type="hidden" name="seconds" value="2">
-        <input type="hidden" name="device" value="Computer">
-        <input type="hidden" name="polarization" value="Horizontal">
-        <input type="hidden" name="location" value="Internet Experiment">
+        <input type="hidden" name="device" value="laptop">
+        <input type="hidden" name="location" value="internet">
+        <input type="hidden" name="polarization" value="horizontal">
 
-
-        <input type="submit" onclick="$('form').attr('action', 'step-1-survey.html'); fullscreen();" value="I am taking this experiment for the first time">
-
-        <input type="submit" onclick="$('form').attr('action', 'step-1-email.html'); fullscreen();" value="This is my second trial">
-
+        <input type="submit" value="Start First Trial">
     </form>
 
+    <h2>I've already done it once</h2>
+    <form method="get" action="step-1-survey-second.html" onsubmit="return confirm('Did you change polarization?')">
+        <input type="hidden" name="seconds" value="2">
+        <input type="hidden" name="device" value="laptop">
+        <input type="hidden" name="location" value="internet">
+        <input type="hidden" name="polarization" value="vertical">
+
+        <input type="submit" value="Start Second Trial">
+    </form>
 </body>
 
 </html>

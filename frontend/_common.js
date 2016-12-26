@@ -119,10 +119,10 @@ function sleep(seconds) {
     return new Promise((resolve) => setTimeout(resolve, miliseconds));
 }
 
-function goto(next) {
+function goto(filename) {
     let url = window.location.href;
     let current = url.split("/").pop();
-    let next = url.replace(current, next+".html");
+    let next = url.replace(current, filename+".html");
     window.location.replace(next);
 }
 

@@ -15,6 +15,10 @@
         Database.insert(trial);
         Database.syncdb();
         Trial.clear();
+
+        sleep(10).then(() => {
+            goto('index');
+        });
     </script>
 </head>
 
