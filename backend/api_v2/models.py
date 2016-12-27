@@ -6,6 +6,7 @@ class Experiment(models.Model):
     end = models.DateTimeField()
     trial1 = models.ForeignKey(to='api_v2.Trial', related_name='trial1')
     trial2 = models.ForeignKey(to='api_v2.Trial', related_name='trial2')
+    survey = models.ForeignKey(to='api_v2.Survey')
     is_valid = models.BooleanField()
 
 
@@ -17,24 +18,19 @@ class Trial(models.Model):
     colors = models.CharField(max_length=50, null=True, blank=True)
     seconds = models.PositiveSmallIntegerField()
     trial = models.PositiveSmallIntegerField(db_index=True)
-
-    participant_email = models.EmailField(db_index=True)
-    participant_age = models.PositiveSmallIntegerField(null=True, blank=True)
-    participant_condition = models.CharField(max_length=50, null=True, blank=True)
-    participant_gender = models.CharField(max_length=50, null=True, blank=True)
-    participant_rhythm = models.CharField(max_length=50, null=True, blank=True)
+    participant = models.EmailField(db_index=True)
 
     def add(*args, **kwargs):
         survey = kwargs.get('survey')
         events = kwargs.get('events')
         trial = kwargs.get('configuration')
 
-        with open('/developer/esa-act-subjective-time-perception/temp/api_v2-sample.json', 'w') as file:
-            import json
-            data = json.dumps(kwargs, sort_keys=True, indent=4)
-            file.write(data)
 
-        return trial
+class Survey(models.Model):
+    age = models.PositiveSmallIntegerField(null=True, blank=True)
+    condition = models.CharField(max_length=50, null=True, blank=True)
+    gender = models.CharField(max_length=50, null=True, blank=True)
+    rhythm = models.CharField(max_length=50, null=True, blank=True)
 
 
 class Event(models.Model):

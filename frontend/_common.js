@@ -3,11 +3,11 @@ Trial = {
         let get = RequestArgumentsFromURL();
 
         this.set({
-            'configuration': {
-                seconds: parseFloat(get['seconds']),
-                device: get['device'],
-                polarization: get['polarization'],
-                location: get['location'],
+            "configuration": {
+                seconds: parseFloat(get["seconds"]),
+                device: get["device"],
+                polarization: get["polarization"],
+                location: get["location"],
                 colors: shuffle(["red", "white", "blue"]),
                 trial: trial,
                 start: new Date().toJSON(),
@@ -15,7 +15,8 @@ Trial = {
             }
         });
 
-        return this;
+        console.debug("[SUCCESS] Trial created", Trial.get());
+        return Trial.get();
     },
 
     config: function(key, value) {
@@ -26,7 +27,7 @@ Trial = {
 
         if (value) {
             conf[key] = value;
-            this.update('configuration', conf);
+            this.update("configuration", conf);
         }
 
         return conf[key];
@@ -64,7 +65,7 @@ Database = {
         database = Array();
 
         for (let trial of Object.keys(localStorage)) {
-            if (trial != '.temp') {
+            if (trial != ".temp") {
                 let data = localStorage.getItem(trial);
                 database.push(JSON.parse(data));
             }
@@ -74,15 +75,17 @@ Database = {
     },
 
     insert: function(trial) {
-        console.log("[SUCCESS] Trial saved to localStorage Database:", trial);
+        console.debug("[SUCCESS] Trial saved to localStorage:", trial);
         return localStorage.setItem(trial.configuration.start, JSON.stringify(trial));
     },
 
     delete: function(trial) {
+        console.debug("[SUCCESS] Trial deleted from localStorage", trial);
         return localStorage.removeItem(trial.configuration.start);
     },
 
     clear: function() {
+        console.debug("[SUCCESS] Database in localStorage cleared");
         return localStorage.clear();
     },
 
@@ -96,13 +99,13 @@ Database = {
 
                 success: function() {
                     let trial = JSON.parse(this.data);
-                    console.log("[SUCCESS] Trial results uploaded to the remote database:", trial);
+                    console.debug("[SUCCESS] Trial results uploaded to the remote database:", trial);
                     //Database.delete(trial);
                 },
 
                 error: function() {
                     let trial = JSON.parse(this.data);
-                    console.log("[WARNING] Will try syncdb latter:", trial);
+                    console.debug("[WARNING] Will try syncdb latter:", trial);
                 }
             });
         }
@@ -115,12 +118,12 @@ Database = {
             url: this.database,
 
             success: function() {
-                console.log("[SUCCESS] Connection established to the remote database:", this.url);
+                console.debug("[SUCCESS] Connection established to the remote database:", this.url);
                 Database._uploadResults();
             },
 
             error: function() {
-                console.log("[WARNING] Will try syncdb latter. Unable connect to database:", this.url);
+                console.debug("[WARNING] Will try syncdb latter. Unable connect to database:", this.url);
             }
         });
     }
@@ -129,7 +132,7 @@ Database = {
 function RequestArgumentsFromURL() {
     let url = window.location.href;
 
-    if (! url.includes('?'))
+    if (! url.includes("?"))
         return Array();
 
     let params = url.split("?").pop();
@@ -171,7 +174,7 @@ function goto(filename) {
 }
 
 function fullscreen() {
-    let bg = document.querySelector('body');
+    let bg = document.querySelector("body");
 
     if (bg.webkitRequestFullScreen)
         bg.webkitRequestFullScreen();
