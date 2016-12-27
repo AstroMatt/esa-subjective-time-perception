@@ -8,7 +8,6 @@ from backend.api_v2.models import Trial
 log = logging.getLogger('backend')
 
 
-
 class TrialView(View):
     http_method_names = ['post', 'head']
 
@@ -18,47 +17,9 @@ class TrialView(View):
         return response
 
     def post(self, request, *args, **kwargs):
-        """API
-        Object survey is optional
-
-        {
-            "configuration": {
-                "participant": "a@a.pl",
-                "colors": ["red", "blue", "white"],
-                "device": "laptop",
-                "location": "internet",
-                "polarization": "horizontal",
-                "seconds": 2,
-                "trial": 1,
-                "start": "2016-12-26T01:53:20.163Z",
-                "end": "2016-12-26T01:53:47.588Z"
-            },
-
-            "events": [
-                {"datetime": "2016-12-26T01:53:20.163Z", "target": "trial", "action": "start" },
-                {"datetime": "2016-12-26T01:53:20.163Z", "target": "trial", "action": "end"},
-                {"datetime": "2016-12-26T01:53:20.163Z", "target": "survey", "action": "start"},
-                {"datetime": "2016-12-26T01:53:20.163Z", "target": "survey", "action": "end"}
-            ],
-
-            "survey": {
-                "age": "21",
-                "condition": "normal",
-                "gender": "male",
-                "rhythm": "average"
-            },
-        }
-        """
         data = request.body.decode('utf-8').replace('\n', '')
         trial = json.loads(data)
         Trial.add(**trial)
-
-
-        try:
-            Trial.add(**trial)
-            response = JsonResponse({'message': 'Trial added to the database.'}, status=201)
-        except Exception:
-            response = JsonResponse({'message': 'Cannot create trial'}, status=400)
-
+        response = JsonResponse({'message': 'Trial added to the database.'}, status=201)
         response['Access-Control-Allow-Origin'] = '*'
         return response
