@@ -8,8 +8,8 @@
 
     <script>
         function run() {
-            var color = Trial.get().colors[1];
-            var seconds = Trial.get().seconds;
+            let color = Trial.config('colors')[1];
+            let seconds = Trial.config('seconds');
 
             document.body.innerHTML = '';
             document.body.style.background = color;

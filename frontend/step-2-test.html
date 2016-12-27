@@ -8,8 +8,8 @@
 
     <script>
         function run() {
-            var color = 'black';
-            var seconds = Trial.get().seconds / 2;
+            let color = 'black';
+            let seconds = Trial.config('seconds') / 2;
 
             document.body.innerHTML = '<h1>Click now!</h1><h2>Please try to click <strong>once every five seconds</strong>.</h2>';
             document.body.style.background = color;

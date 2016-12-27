@@ -13,10 +13,7 @@
 
         function save() {
             log('end', 'survey');
-
-            Trial.update('survey', {
-                email:     document.querySelector('input[name="email"]').value
-            });
+            Trial.config('participant', document.querySelector('input[name="email"]').value);
         }
     </script>
 </head>

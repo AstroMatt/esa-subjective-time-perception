@@ -4,8 +4,8 @@ from django.db import models
 class Experiment(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
-    trial1 = models.ForeignKey(to='api_v2.Trial')
-    trial2 = models.ForeignKey(to='api_v2.Trial')
+    trial1 = models.ForeignKey(to='api_v2.Trial', related_name='trial1')
+    trial2 = models.ForeignKey(to='api_v2.Trial', related_name='trial2')
     is_valid = models.BooleanField()
 
 
@@ -25,11 +25,15 @@ class Trial(models.Model):
     participant_rhythm = models.CharField(max_length=50, null=True, blank=True)
 
     def add(*args, **kwargs):
-        survey = kwargs['survey']
-        events = kwargs['events']
-        del kwargs['survey']
-        del kwargs['events']
-        trial = kwargs
+        survey = kwargs.get('survey')
+        events = kwargs.get('events')
+        trial = kwargs.get('configuration')
+
+        with open('/developer/esa-act-subjective-time-perception/temp/api_v2-sample.json', 'w') as file:
+            import json
+            data = json.dumps(kwargs, sort_keys=True, indent=4)
+            file.write(data)
+
         return trial
 
 

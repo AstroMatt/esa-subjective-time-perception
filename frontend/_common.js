@@ -1,36 +1,35 @@
-function RequestArgumentsFromURL() {
-    let url = window.location.href;
-
-    if (! url.includes('?'))
-        return Array();
-
-    let params = url.split("?").pop();
-    var arguments = {}
-
-    for (let param of params.split("&")) {
-        let arg = param.split("=");
-        let key = arg[0];
-        let value = arg[1].replace(/%20/g, " ").replace(/\+/g, " ")
-        arguments[key] = value;
-    }
-
-    return arguments;
-}
-
 Trial = {
     create: function(trial) {
         let get = RequestArgumentsFromURL();
 
         this.set({
-            seconds: parseFloat(get['seconds']),
-            device: get['device'],
-            polarization: get['polarization'],
-            location: get['location'],
-            colors: shuffle(["red", "white", "blue"]),
-            trial: trial,
-            start: new Date().toJSON(),
-            end: null
+            'configuration': {
+                seconds: parseFloat(get['seconds']),
+                device: get['device'],
+                polarization: get['polarization'],
+                location: get['location'],
+                colors: shuffle(["red", "white", "blue"]),
+                trial: trial,
+                start: new Date().toJSON(),
+                end: null
+            }
         });
+
+        return this;
+    },
+
+    config: function(key, value) {
+        var conf = this.get().configuration;
+
+        if (!key)
+            return conf;
+
+        if (value) {
+            conf[key] = value;
+            this.update('configuration', conf);
+        }
+
+        return conf[key];
     },
 
     get: function() {
@@ -49,11 +48,18 @@ Trial = {
     },
 
     clear: function() {
-        this.set({});
+        return this.set({});
+    },
+
+    save: function() {
+        let trial = this.get();
+        return Database.insert(trial);
     }
 }
 
 Database = {
+    database: "http://localhost:8000/api/v2/trial/",
+
     get: function() {
         database = Array();
 
@@ -68,37 +74,75 @@ Database = {
     },
 
     insert: function(trial) {
-        localStorage.setItem(trial.start, JSON.stringify(trial));
+        console.log("[SUCCESS] Trial saved to localStorage Database:", trial);
+        return localStorage.setItem(trial.configuration.start, JSON.stringify(trial));
     },
 
     delete: function(trial) {
-        localStorage.removeItem(trial.start);
+        return localStorage.removeItem(trial.configuration.start);
     },
 
     clear: function() {
-        localStorage.clear();
+        return localStorage.clear();
     },
 
-    syncdb: function() {
+    _uploadResults: function() {
         for (let trial of Database.get()) {
             $.ajax({
                 type: "POST",
                 crossDomain: true,
-                url: "http://localhost:8000/api/v2/trial/",
+                url: this.database,
                 data: JSON.stringify(trial),
 
                 success: function() {
                     let trial = JSON.parse(this.data);
-                    Database.delete(trial);
+                    console.log("[SUCCESS] Trial results uploaded to the remote database:", trial);
+                    //Database.delete(trial);
                 },
 
                 error: function() {
                     let trial = JSON.parse(this.data);
-                    console.log("Cannot save trial", trial.start, "to the database. Will try later.");
+                    console.log("[WARNING] Will try syncdb latter:", trial);
                 }
             });
         }
+    },
+
+    syncdb: function() {
+        $.ajax({
+            type: "HEAD",
+            crossDomain: true,
+            url: this.database,
+
+            success: function() {
+                console.log("[SUCCESS] Connection established to the remote database:", this.url);
+                Database._uploadResults();
+            },
+
+            error: function() {
+                console.log("[WARNING] Will try syncdb latter. Unable connect to database:", this.url);
+            }
+        });
     }
+}
+
+function RequestArgumentsFromURL() {
+    let url = window.location.href;
+
+    if (! url.includes('?'))
+        return Array();
+
+    let params = url.split("?").pop();
+    var arguments = {}
+
+    for (let param of params.split("&")) {
+        let arg = param.split("=");
+        let key = arg[0];
+        let value = arg[1].replace(/%20/g, " ").replace(/\+/g, " ")
+        arguments[key] = value;
+    }
+
+    return arguments;
 }
 
 // Knuth Random Shuffle Algorithm
