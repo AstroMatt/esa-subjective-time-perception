@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Subjective Time Perception Experiment</title>
-    <link href="_common.css" rel="stylesheet" type="text/css" />
-    <script src="_common.js"></script>
-    <script src="_jquery-3.1.1.min.js"></script>
-</head>
-
-[<table id="results">
 <script>
-    for (let key of Object.keys(localStorage)) {
-        let value = localStorage.getItem(key);
-        $('#results').append('<tr><th>{"' + key + '":</th><td>' + value + '},</td></tr>');
-        $('#results').append('<tr><th colspan="2">&nbsp;</th></tr>');
+    var database = Array();
+
+    for (let trial of Object.keys(localStorage)) {
+        if (trial != ".temp") {
+            let data = localStorage.getItem(trial);
+            database.push(JSON.parse(data));
+        }
     }
 
-
-
-//    let data = JSON.stringify(Database.get());
-//    document.write(data);
+    let output = JSON.stringify(database);
+    document.write(output);
 </script>
-</table>]
