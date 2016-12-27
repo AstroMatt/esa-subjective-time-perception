@@ -1,3 +1,74 @@
+Database = {
+    url: "http://localhost:8000/api/v2/trial/",
+
+    get: function() {
+        database = Array();
+
+        for (let trial of Object.keys(localStorage)) {
+            if (trial != ".temp") {
+                let data = localStorage.getItem(trial);
+                database.push(JSON.parse(data));
+            }
+        }
+
+        return database;
+    },
+
+    insert: function(trial) {
+        console.debug("[SUCCESS] Trial saved to localStorage:", trial);
+        return localStorage.setItem(trial.configuration.start, JSON.stringify(trial));
+    },
+
+    delete: function(trial) {
+        console.debug("[SUCCESS] Trial deleted from localStorage", trial);
+        return localStorage.removeItem(trial.configuration.start);
+    },
+
+    clear: function() {
+        console.debug("[SUCCESS] Database in localStorage cleared");
+        return localStorage.clear();
+    },
+
+    _uploadResults: function() {
+        for (let trial of Database.get()) {
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: this.url,
+                data: JSON.stringify(trial),
+
+                success: function() {
+                    let trial = JSON.parse(this.data);
+                    console.debug("[SUCCESS] Trial results uploaded to the remote database:", trial);
+                    //Database.delete(trial);
+                },
+
+                error: function() {
+                    let trial = JSON.parse(this.data);
+                    console.debug("[WARNING] Will try syncdb latter:", trial);
+                }
+            });
+        }
+    },
+
+    syncdb: function() {
+        $.ajax({
+            type: "HEAD",
+            crossDomain: true,
+            url: this.url,
+
+            success: function() {
+                console.debug("[SUCCESS] Connection established to the remote database:", this.url);
+                Database._uploadResults();
+            },
+
+            error: function() {
+                console.debug("[WARNING] Will try syncdb latter. Unable connect to database:", this.url);
+            }
+        });
+    }
+}
+
 Trial = {
     create: function(trial) {
         let get = RequestArgumentsFromURL();
@@ -55,77 +126,6 @@ Trial = {
     save: function() {
         let trial = this.get();
         return Database.insert(trial);
-    }
-}
-
-Database = {
-    database: "http://localhost:8000/api/v2/trial/",
-
-    get: function() {
-        database = Array();
-
-        for (let trial of Object.keys(localStorage)) {
-            if (trial != ".temp") {
-                let data = localStorage.getItem(trial);
-                database.push(JSON.parse(data));
-            }
-        }
-
-        return database;
-    },
-
-    insert: function(trial) {
-        console.debug("[SUCCESS] Trial saved to localStorage:", trial);
-        return localStorage.setItem(trial.configuration.start, JSON.stringify(trial));
-    },
-
-    delete: function(trial) {
-        console.debug("[SUCCESS] Trial deleted from localStorage", trial);
-        return localStorage.removeItem(trial.configuration.start);
-    },
-
-    clear: function() {
-        console.debug("[SUCCESS] Database in localStorage cleared");
-        return localStorage.clear();
-    },
-
-    _uploadResults: function() {
-        for (let trial of Database.get()) {
-            $.ajax({
-                type: "POST",
-                crossDomain: true,
-                url: this.database,
-                data: JSON.stringify(trial),
-
-                success: function() {
-                    let trial = JSON.parse(this.data);
-                    console.debug("[SUCCESS] Trial results uploaded to the remote database:", trial);
-                    //Database.delete(trial);
-                },
-
-                error: function() {
-                    let trial = JSON.parse(this.data);
-                    console.debug("[WARNING] Will try syncdb latter:", trial);
-                }
-            });
-        }
-    },
-
-    syncdb: function() {
-        $.ajax({
-            type: "HEAD",
-            crossDomain: true,
-            url: this.database,
-
-            success: function() {
-                console.debug("[SUCCESS] Connection established to the remote database:", this.url);
-                Database._uploadResults();
-            },
-
-            error: function() {
-                console.debug("[WARNING] Will try syncdb latter. Unable connect to database:", this.url);
-            }
-        });
     }
 }
 
