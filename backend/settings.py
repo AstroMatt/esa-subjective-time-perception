@@ -15,7 +15,6 @@ SECRET_KEY = 'k$9cmyrlx#2)06(0pb^o&phvqpv^)06mc*9vb($wi3t+++6v=q'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'matt',
     'localhost',
 ]
 
@@ -29,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'import_export',
     #'backend.api_v1',
     'backend.api_v2',
 ]

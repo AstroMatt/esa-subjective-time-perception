@@ -18,8 +18,7 @@ class TrialView(View):
 
     def post(self, request, *args, **kwargs):
         try:
-            data = request.body.decode('utf-8').replace('\n', '')
-            trial = json.loads(data)
+            trial = json.loads(request.body)
             Trial.add(**trial)
             response = JsonResponse({'message': 'Trial added to the database.'}, status=201)
         except Exception:
