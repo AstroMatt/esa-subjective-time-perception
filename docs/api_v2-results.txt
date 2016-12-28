@@ -1,0 +1,32 @@
+- ID użytkownika
+- name
+- start_date
+- polarization
+
+- C1 - Ilość kliknięć wszystkich - podejście 1
+- CW1 - Ilość kliknięć białych - podejście 1
+- CR1 - Ilość kliknięć czerwonych - podejście 1
+- CB1 - Ilość kliknięć niebieskich - podejście 1
+
+- PC1 - Współczynnik procentowy wszystkich - podejście 1
+- PC2 - Współczynnik procentowy wszystkich - podejście 2
+- PCW1 - Współczynnik procentowy białego - podejście 1
+- PCW2 - Współczynnik procentowy białego - podejście 2
+- PCR1 - Współczynnik procentowy czerwonego - podejście 1
+- PCR2 - Współczynnik procentowy czerwonego - podejście 2
+- PCB1 - Współczynnik procentowy niebieskiego - podejście 1
+- PCB2 - Współczynnik procentowy niebieskiego - podejście 2
+
+- TCSD1 - Współczynnik czasowy wszystkich - podejście 1 (odchylenie standardowe 60 środkowych interwałów czasowych wszystkich)
+- TCSD2 - Współczynnik czasowy wszystkich - podejście 2 (odchylenie standardowe 60 środkowych interwałów czasowych wszystkich)
+- TCSDW1 - Współczynnik czasowy białego - podejście 1 (odchylenie standardowe 20 środkowych interwałów czasowych białego)
+- TCSDW2 - Współczynnik czasowy białego - podejście 2 (odchylenie standardowe 20 środkowych interwałów czasowych białego)
+- TCSDR1 - Współczynnik czasowy czerwonego - podejście 1 (odchylenie standardowe 20 środkowych interwałów czasowych czerwonego)
+- TCSDR2 - Współczynnik czasowy czerwonego- podejście 2 (odchylenie standardowe 20 środkowych interwałów czasowych czerwonego)
+- TCSDB1 - Współczynnik czasowy niebieskiego - podejście 1 (odchylenie standardowe 20 środkowych interwałów czasowych niebieskiego)
+- TCSDB2 - Współczynnik czasowy niebieskiego - podejście 2 (odchylenie standardowe 20 środkowych interwałów czasowych niebieskiego)
+
+- TCM1 - Średnia 60 środkowych interwałów czasowych wszystkich - podejście 1
+- TCMW1 - Średnia 60 środkowych interwałów czasowych białych - podejście 1
+- TCMR1 - Średnia 60 środkowych interwałów czasowych czerwonych - podejście 1
+- TCMB1 - Średnia 60 środkowych interwałów czasowych niebieskich - podejście 1
