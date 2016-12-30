@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '_data', 'db.sqlite3'),
     }
 }
 
@@ -109,11 +109,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend'),
 ]
+
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
+
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']

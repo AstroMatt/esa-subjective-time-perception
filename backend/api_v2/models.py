@@ -2,43 +2,11 @@ from django.db import models
 
 
 class Experiment(models.Model):
-    """
-    {
-        'ID': experiment.id,
-        'name': '{last_name} {first_name}'.format(**experiment.__dict__),
-        'polarization': experiment.polarization,
-        'start_date': experiment.experiment_start,
-
-        'C1': experiment.count_clicks()['all'],
-        'CW1': experiment.count_clicks()['white'],
-        'CR1': experiment.count_clicks()['red'],
-        'CB1': experiment.count_clicks()['blue'],
-
-        'PC1': experiment.regularity_coefficient_percent()['all'],
-        'PCW1': experiment.regularity_coefficient_percent()['white'],
-        'PCR1': experiment.regularity_coefficient_percent()['red'],
-        'PCB1': experiment.regularity_coefficient_percent()['blue'],
-
-        'TCSD1': experiment.stdev()['all'],
-        'TCSDW1': experiment.stdev()['white'],
-        'TCSDR1': experiment.stdev()['red'],
-        'TCSDB1': experiment.stdev()['blue'],
-
-        'TCM1': experiment.mean()['all'],
-        'TCMW1': experiment.mean()['white'],
-        'TCMR1': experiment.mean()['red'],
-        'TCMB1': experiment.mean()['blue'],
-    }
-    """
-
     #trial1 = models.OneToOneField(to='api_v2.Trial', related_name='trial1')
     #trial2 = models.OneToOneField(to='api_v2.Trial', related_name='trial2')
     #survey = models.OneToOneField(to='api_v2.Survey')
     is_valid = models.NullBooleanField()
-    tcmb1 = models.FloadField(
-        verbose_name=_(),
-        help=_(),
-    )
+
 
 
 class Trial(models.Model):
@@ -53,6 +21,30 @@ class Trial(models.Model):
     polarization = models.CharField(max_length=50)
     seconds = models.PositiveSmallIntegerField()
     trial = models.PositiveSmallIntegerField(db_index=True)
+
+    # Count click events
+    count_all = models.PositiveSmallIntegerField(verbose_nam=_('Count click events - all'))
+    count_white = models.PositiveSmallIntegerField(verbose_nam=_('Count click events - white'))
+    count_red = models.PositiveSmallIntegerField(verbose_nam=_('Count click events - red'))
+    count_blue = models.PositiveSmallIntegerField(verbose_nam=_('Count click events - blue'))
+
+    # Percentage cefficient for 80% of inner intervals
+    percentage_all = models.FloatField(verbose_name=_('Percentage coefficient - all'))
+    percentage_white = models.FloatField(verbose_name=_('Percentage coefficient - white'))
+    percentage_red = models.FloatField(verbose_name=_('Percentage coefficient - red'))
+    percentage_blue = models.FloatField(verbose_name=_('Percentage coefficient - blue'))
+
+    # Time coefficient standard deviation of 80% median intervals
+    time_stdev_all = models.FloatField(verbose_name=_('Time coefficient standard deviation - all'))
+    time_stdev_white = models.FloatField(verbose_name=_('Time coefficient standard deviation - white'))
+    time_stdev_red = models.FloatField(verbose_name=_('Time coefficient standard deviation - red'))
+    time_stdev_blue = models.FloatField(verbose_name=_('Time coefficient standard deviation - blue'))
+
+    # Time coefficient mean of 80% median intervals
+    time_mean_all = models.FloatField(verbose_name=_('Time coefficient mean - all'))
+    time_mean_white = models.FloatField(verbose_name=_('Time coefficient mean - white'))
+    time_mean_red = models.FloatField(verbose_name=_('Time coefficient mean - red'))
+    time_mean_blue = models.FloatField(verbose_name=_('Time coefficient mean - blue'))
 
     def add(*args, **kwargs):
         survey = kwargs.get('survey')
