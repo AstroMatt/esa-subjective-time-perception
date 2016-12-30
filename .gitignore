@@ -51,6 +51,7 @@ __pycache__
 .*
 
 # Project temporary directories
+_data/
 data/
 contrib/
 public/
