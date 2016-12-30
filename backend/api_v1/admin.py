@@ -1,5 +1,4 @@
 from django.contrib import admin
-from import_export.admin import ImportExportModelAdmin
 from backend.api_v1.models import Experiment
 from backend.api_v1.models import Trial
 from backend.api_v1.models import Click
@@ -14,19 +13,19 @@ class ReadOnlyMixin:
 
 
 @admin.register(Click)
-class ClickAdmin(ReadOnlyMixin, ImportExportModelAdmin):
+class ClickAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['experiment', 'datetime', 'background']
     list_filter = ['background']
 
 
 @admin.register(Trial)
-class TrialAdmin(ReadOnlyMixin, ImportExportModelAdmin):
+class TrialAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['experiment', 'start', 'end', 'is_valid']
     list_filter = ['is_valid', 'device', 'polarization', 'order']
 
 
 @admin.register(Event)
-class EventAdmin(ReadOnlyMixin, ImportExportModelAdmin):
+class EventAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['experiment', 'datetime', 'action', 'message']
     list_filter = ['action', 'message']
 
@@ -58,7 +57,7 @@ class EventInline(admin.TabularInline):
 
 
 @admin.register(Experiment)
-class ExperimentAdmin(ReadOnlyMixin, ImportExportModelAdmin):
+class ExperimentAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['when', 'last_name', 'first_name', 'age', 'device', 'polarization', 'order', 'is_valid']
     list_filter = ['is_valid', 'location', 'device', 'polarization', 'timeout', 'order', 'condition', 'rhythm', 'age']
     search_fields = ['^last_name']

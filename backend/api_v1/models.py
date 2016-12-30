@@ -177,12 +177,13 @@ class Experiment(models.Model):
         return experiment
 
     def __str__(self):
-        return '[{experiment_start}] {last_name}, {first_name}'.format(**self.__dict__)
+        return f'[{self.experiment_start:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}) {self.first_name} {self.last_name}'
 
     class Meta:
         ordering = ['last_name', 'first_name', 'age', '-experiment_start']
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
+        db_table = 'experiment_experiment'
 
 
 class Trial(models.Model):
@@ -220,6 +221,7 @@ class Trial(models.Model):
         ordering = ['-start']
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')
+        db_table = 'experiment_trial'
 
 
 class Click(models.Model):
@@ -234,12 +236,13 @@ class Click(models.Model):
     background = models.CharField(max_length=15, choices=BACKGROUNDS)
 
     def __str__(self):
-        return '[{datetime}] clicked background {background}'.format(**self.__dict__)
+        return f'[{self.datetime:%Y-%m-%d %H:%M}] clicked background {self.background}'
 
     class Meta:
         ordering = ['datetime']
         verbose_name = _('Click event')
         verbose_name_plural = _('Click events')
+        db_table = 'experiment_click'
 
 
 class Event(models.Model):
@@ -252,9 +255,10 @@ class Event(models.Model):
     message = models.CharField(max_length=30)
 
     def __str__(self):
-        return '[{datetime}] - {message} - {action}'.format(**self.__dict__)
+        return f'[{self.datetime:%Y-%m-%d %H:%M}] - {self.message} - {self.action}'
 
     class Meta:
         ordering = ['datetime']
         verbose_name = _('Event')
         verbose_name_plural = _('Events')
+        db_table = 'experiment_event'

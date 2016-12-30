@@ -16,6 +16,7 @@
             Trial.config('participant', document.querySelector('input[name="email"]').value);
 
             Trial.update('survey', {
+                datetime:  new Date().toJSON(),
                 age:       document.querySelector('input[name="age"]').value,
                 gender:    document.querySelector('input[name="gender"]:checked').value,
                 condition: document.querySelector('input[name="condition"]:checked').value,

@@ -16,13 +16,11 @@ class TrialView(View):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        data = request.body.decode('utf-8').replace('\n', '')
-        trial = json.loads(data)
-
         try:
+            trial = json.loads(request.body)
             Trial.add(**trial)
             response = JsonResponse({'message': 'Trial added to the database.'}, status=201)
-        except Exception:
+        except json.decoder.JSONDecodeError:
             response = JsonResponse({'message': 'Cannot create trial'}, status=400)
 
         response['Access-Control-Allow-Origin'] = '*'
