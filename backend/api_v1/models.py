@@ -180,7 +180,6 @@ class Experiment(models.Model):
         return f'[{self.experiment_start:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}) {self.first_name} {self.last_name}'
 
     class Meta:
-        ordering = ['last_name', 'first_name', 'age', '-experiment_start']
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
 
@@ -217,7 +216,6 @@ class Trial(models.Model):
         return '[{start}]'.format(**self.__dict__)
 
     class Meta:
-        ordering = ['-start']
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')
 
@@ -237,7 +235,6 @@ class Click(models.Model):
         return f'[{self.datetime:%Y-%m-%d %H:%M}] clicked background {self.background}'
 
     class Meta:
-        ordering = ['datetime']
         verbose_name = _('Click event')
         verbose_name_plural = _('Click events')
 
@@ -255,6 +252,5 @@ class Event(models.Model):
         return f'[{self.datetime:%Y-%m-%d %H:%M}] - {self.message} - {self.action}'
 
     class Meta:
-        ordering = ['datetime']
         verbose_name = _('Event')
         verbose_name_plural = _('Events')

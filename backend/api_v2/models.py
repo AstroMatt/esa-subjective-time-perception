@@ -18,7 +18,6 @@ class Event(models.Model):
         return f'[{self.datetime:%Y-%m-%d %H:%M}] {self.target}: {self.action}'
 
     class Meta:
-        ordering = ['-datetime']
         verbose_name = _('Event')
         verbose_name_plural = _('Events')
 
@@ -36,7 +35,6 @@ class Survey(models.Model):
         return f'{self.datetime}'
 
     class Meta:
-        ordering = ['-datetime']
         verbose_name = _('Survey')
         verbose_name_plural = _('Surveys')
 
@@ -57,6 +55,5 @@ class Trial(models.Model):
         return f'[{self.start_datetime:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}), {self.uid}, attempt: {self.attempt}'
 
     class Meta:
-        ordering = ['-start_datetime']
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')

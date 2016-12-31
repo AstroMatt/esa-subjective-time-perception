@@ -18,7 +18,7 @@ class TrialAdmin(admin.ModelAdmin):
     list_display = ['uid', 'attempt', 'location', 'device', 'colors', 'timeout',  'regularity', 'start_datetime', 'end_datetime']
     list_display_links = ['uid']
     list_filter = ['polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
-    ordering = ['uid', 'attempt']
+    ordering = ['-start_datetime']
     inlines = [SurveyInline, EventInline]
 
 
@@ -27,6 +27,7 @@ class SurveyAdmin(admin.ModelAdmin):
     list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
     list_display_links = ['datetime']
     list_filter = ['gender', 'condition', 'rhythm', 'age']
+    ordering = ['-datetime']
 
 
 @admin.register(Event)
@@ -34,3 +35,4 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ['datetime', 'target', 'action', 'trial']
     list_display_links = ['datetime']
     list_filter = ['target', 'action']
+    ordering = ['-datetime']

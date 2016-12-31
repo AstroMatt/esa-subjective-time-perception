@@ -7,3 +7,4 @@ class RequestLoggerAdmin(admin.ModelAdmin):
     list_display = ['datetime', 'ip', 'method', 'api_version']
     list_display_links = ['datetime']
     list_filter = ['method', 'api_version']
+    ordering = ['-datetime']

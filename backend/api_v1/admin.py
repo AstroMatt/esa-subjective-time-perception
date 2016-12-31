@@ -16,18 +16,21 @@ class ReadOnlyMixin:
 class ClickAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['experiment', 'datetime', 'background']
     list_filter = ['background']
+    ordering = ['-datetime']
 
 
 @admin.register(Trial)
 class TrialAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['experiment', 'start', 'end', 'is_valid']
     list_filter = ['is_valid', 'device', 'polarization', 'order']
+    ordering = ['-start']
 
 
 @admin.register(Event)
 class EventAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['experiment', 'datetime', 'action', 'message']
     list_filter = ['action', 'message']
+    ordering = ['-datetime']
 
 
 class TrialInline(admin.StackedInline):
@@ -60,6 +63,7 @@ class EventInline(admin.TabularInline):
 class ExperimentAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_display = ['when', 'last_name', 'first_name', 'age', 'device', 'polarization', 'order', 'is_valid']
     list_filter = ['is_valid', 'location', 'device', 'polarization', 'timeout', 'order', 'condition', 'rhythm', 'age']
+    ordering = ['-experiment_start']
     search_fields = ['^last_name']
     inlines = [TrialInline, ClickInline]
     fieldsets = [
