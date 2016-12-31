@@ -125,6 +125,6 @@ en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
 
 
-if os.environ['DATABASE_URL']:
+if os.environ.get('DATABASE_URL'):
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
