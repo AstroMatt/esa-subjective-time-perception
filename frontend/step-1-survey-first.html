@@ -13,10 +13,11 @@
 
         function save() {
             log('end', 'survey');
-            Trial.config('participant', document.querySelector('input[name="email"]').value);
+            Trial.config('uid', document.querySelector('input[name="email"]').value);
 
             Trial.update('survey', {
                 datetime:  new Date().toJSON(),
+                email:     document.querySelector('input[name="email"]').value,
                 age:       document.querySelector('input[name="age"]').value,
                 gender:    document.querySelector('input[name="gender"]:checked').value,
                 condition: document.querySelector('input[name="condition"]:checked').value,

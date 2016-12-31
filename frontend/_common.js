@@ -1,5 +1,5 @@
 Database = {
-    url: "http://localhost:8000/api/v2/trial/",
+    url: "http://localhost:8000/api/v2/",
 
     get: function() {
         database = Array();
@@ -29,7 +29,7 @@ Database = {
         return localStorage.clear();
     },
 
-    _uploadResults: function() {
+    uploadResults: function() {
         for (let trial of Database.get()) {
             $.ajax({
                 type: "POST",
@@ -40,7 +40,7 @@ Database = {
                 success: function() {
                     let trial = JSON.parse(this.data);
                     console.debug("[SUCCESS] Trial results uploaded to the remote database:", trial);
-                    //Database.delete(trial);
+                    Database.delete(trial);
                 },
 
                 error: function() {
@@ -59,7 +59,7 @@ Database = {
 
             success: function() {
                 console.debug("[SUCCESS] Connection established to the remote database:", this.url);
-                Database._uploadResults();
+                Database.uploadResults();
             },
 
             error: function() {

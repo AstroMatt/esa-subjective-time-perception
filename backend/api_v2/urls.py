@@ -1,8 +1,7 @@
 from django.conf.urls import url
-from django.views.generic import TemplateView
-from backend.api_v2.views import TrialView
+from backend.api_v2.views import APIv2View
 
 
 urlpatterns = [
-    url(r'trial/$', TrialView.as_view()),
+    url(r'$', APIv2View.as_view()),
 ]

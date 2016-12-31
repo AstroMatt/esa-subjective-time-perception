@@ -4,7 +4,7 @@
         "device": "laptop",
         "end": "2016-12-27T16:49:44.526Z",
         "location": "internet",
-        "participant": "c@c.pl",
+        "uid": "c@c.pl",
         "polarization": "vertical",
         "seconds": 2,
         "start": "2016-12-27T16:49:30.547Z",
@@ -12,6 +12,8 @@
     },
 
     "survey": {
+        "datetime": "2016-12-27T16:49:30.548Z",
+        "email": "c@c.pl",
         "age": "21",
         "condition": "normal",
         "gender": "male",

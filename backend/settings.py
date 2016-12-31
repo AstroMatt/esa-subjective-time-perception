@@ -18,7 +18,6 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -28,8 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend.api_v1',
+    #'backend.api_v1',
     'backend.api_v2',
+    'backend.experiment',
 ]
 
 MIDDLEWARE = [
