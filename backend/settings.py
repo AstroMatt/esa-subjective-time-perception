@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.logger',
-    #'backend.api_v1',
+    'backend.api_v1',
     'backend.api_v2',
     'backend.experiment',
 ]

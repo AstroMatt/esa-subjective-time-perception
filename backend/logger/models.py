@@ -34,3 +34,8 @@ class RequestLogger(models.Model):
 
     def __str__(self):
         return f'[{self.datetime}] {self.method} - {self.ip}'
+
+    class Meta:
+        ordering = ['-datetime']
+        verbose_name = _('Request')
+        verbose_name_plural = _('Requests')

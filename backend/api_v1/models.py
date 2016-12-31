@@ -183,7 +183,6 @@ class Experiment(models.Model):
         ordering = ['last_name', 'first_name', 'age', '-experiment_start']
         verbose_name = _('Experiment')
         verbose_name_plural = _('Experiments')
-        db_table = 'experiment_experiment'
 
 
 class Trial(models.Model):
@@ -221,7 +220,6 @@ class Trial(models.Model):
         ordering = ['-start']
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')
-        db_table = 'experiment_trial'
 
 
 class Click(models.Model):
@@ -242,7 +240,6 @@ class Click(models.Model):
         ordering = ['datetime']
         verbose_name = _('Click event')
         verbose_name_plural = _('Click events')
-        db_table = 'experiment_click'
 
 
 class Event(models.Model):
@@ -261,4 +258,3 @@ class Event(models.Model):
         ordering = ['datetime']
         verbose_name = _('Event')
         verbose_name_plural = _('Events')
-        db_table = 'experiment_event'
