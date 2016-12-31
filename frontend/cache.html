@@ -1,10 +1,10 @@
 <script>
     var database = Array();
 
-    for (let trial of Object.keys(localStorage)) {
-        if (trial != ".temp") {
-            let data = localStorage.getItem(trial);
-            database.push(JSON.parse(data));
+    for (let key of Object.keys(localStorage)) {
+        if (key != ".temp") {
+            let value = localStorage.getItem(key);
+            database.push(JSON.parse(value));
         }
     }
 

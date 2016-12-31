@@ -22,19 +22,19 @@ class Experiment(models.Model):
         ('normal', _('Normal')),
         ('tired', _('Tired'))]
 
-    location = models.CharField(max_length=50)
-    experiment_start = models.DateTimeField(null=True)
-    experiment_end = models.DateTimeField(null=True)
-    timeout = models.PositiveIntegerField(help_text=_('Microseconds'))
-    first_name = models.CharField(max_length=50, null=True)
-    last_name = models.CharField(max_length=50, null=True)
-    #email = models.EmailField(null=True, blank=True)
-    age = models.PositiveSmallIntegerField()
-    #attempt = models.PositiveSmallIntegerField()
-    rhythm = models.CharField(max_length=50, choices=RHYTHMS)
-    gender = models.CharField(max_length=50, choices=GENDERS)
-    condition = models.CharField(max_length=50, choices=CONDITIONS)
-    is_valid = models.NullBooleanField(null=True)
+    location = models.CharField(verbose_name=_('Location'), max_length=50)
+    experiment_start = models.DateTimeField(verbose_name=_('Start date'), null=True)
+    experiment_end = models.DateTimeField(verbose_name=_('End date'), null=True)
+    timeout = models.PositiveIntegerField(verbose_name=_('Timeout'), help_text=_('Microseconds'))
+    first_name = models.CharField(verbose_name=_('First name'), max_length=50, null=True)
+    last_name = models.CharField(verbose_name=_('Last name'), max_length=50, null=True)
+    #email = models.EmailField(verbose_name=_('Email'), null=True, blank=True)
+    age = models.PositiveSmallIntegerField(verbose_name=_('Age'), )
+    #attempt = models.PositiveSmallIntegerField(verbose_name=_('Attempt'))
+    rhythm = models.CharField(verbose_name=_('Rhythm'), max_length=50, choices=RHYTHMS)
+    gender = models.CharField(verbose_name=_('Gender'), max_length=50, choices=GENDERS)
+    condition = models.CharField(verbose_name=_('Condition'), max_length=50, choices=CONDITIONS)
+    is_valid = models.NullBooleanField(verbose_name=_('Is valid?'), null=True)
 
     DEVICES = [
         ('computer-1', _('Computer 1')),
@@ -44,17 +44,17 @@ class Experiment(models.Model):
         ('vertical', _('Vertical')),
         ('cross', _('Cross')),
         ('mixed', _('Mixed'))]
-    polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
-    device = models.CharField(max_length=50, choices=DEVICES)
-    order = models.CharField(max_length=70, null=True)
+    polarization = models.CharField(verbose_name=_('Polarization'), max_length=15, choices=POLARIZATIONS)
+    device = models.CharField(verbose_name=_('Device'), max_length=50, choices=DEVICES)
+    order = models.CharField(verbose_name=_('Order'), max_length=70, null=True)
 
-    white_start = models.DateTimeField(null=True)
-    white_end = models.DateTimeField(null=True)
-    blue_start = models.DateTimeField(null=True)
-    blue_end = models.DateTimeField(null=True)
-    red_start = models.DateTimeField(null=True)
-    red_end = models.DateTimeField(null=True)
-    is_valid = models.NullBooleanField(null=True)
+    white_start = models.DateTimeField(verbose_name=_('White color start'), null=True)
+    white_end = models.DateTimeField(verbose_name=_('White color end'), null=True)
+    blue_start = models.DateTimeField(verbose_name=_('Blue color start'), null=True)
+    blue_end = models.DateTimeField(verbose_name=_('Blue color end'), null=True)
+    red_start = models.DateTimeField(verbose_name=_('Red color start'), null=True)
+    red_end = models.DateTimeField(verbose_name=_('Red color end'), null=True)
+    is_valid = models.NullBooleanField(verbose_name=_('Is valid?'), null=True)
 
     @staticmethod
     def get():
@@ -196,19 +196,19 @@ class Trial(models.Model):
         ('cross', _('Cross')),
         ('mixed', _('Mixed'))]
 
-    experiment = models.ForeignKey(to='api_v1.Experiment')
-    polarization = models.CharField(max_length=15, choices=POLARIZATIONS)
-    device = models.CharField(max_length=50, choices=DEVICES)
-    order = models.CharField(max_length=70, null=True)
-    start = models.DateTimeField(null=True)
-    end = models.DateTimeField(null=True)
-    white_start = models.DateTimeField(null=True)
-    white_end = models.DateTimeField(null=True)
-    blue_start = models.DateTimeField(null=True)
-    blue_end = models.DateTimeField(null=True)
-    red_start = models.DateTimeField(null=True)
-    red_end = models.DateTimeField(null=True)
-    is_valid = models.NullBooleanField(null=True)
+    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment')
+    polarization = models.CharField(verbose_name=_('Polarization'), max_length=15, choices=POLARIZATIONS)
+    device = models.CharField(verbose_name=_('Device'), max_length=50, choices=DEVICES)
+    order = models.CharField(verbose_name=_('Order'), max_length=70, null=True)
+    start = models.DateTimeField(verbose_name=_('Start date'), null=True)
+    end = models.DateTimeField(verbose_name=_('End date'), null=True)
+    white_start = models.DateTimeField(verbose_name=_('White color start'), null=True)
+    white_end = models.DateTimeField(verbose_name=_('White color end'), null=True)
+    blue_start = models.DateTimeField(verbose_name=_('Blue color start'), null=True)
+    blue_end = models.DateTimeField(verbose_name=_('Blue color end'), null=True)
+    red_start = models.DateTimeField(verbose_name=_('Red color start'), null=True)
+    red_end = models.DateTimeField(verbose_name=_('Red color end'), null=True)
+    is_valid = models.NullBooleanField(verbose_name=_('Is valid?'), null=True)
 
     @staticmethod
     def get():
@@ -231,9 +231,9 @@ class Click(models.Model):
         ('white', _('White')),
         ('blue', _('Blue')),
         ('red', _('Red'))]
-    experiment = models.ForeignKey(to='api_v1.Experiment')
-    datetime = models.DateTimeField()
-    background = models.CharField(max_length=15, choices=BACKGROUNDS)
+    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment')
+    datetime = models.DateTimeField(verbose_name=_('Datetime'), )
+    background = models.CharField(verbose_name=_('Background'), max_length=15, choices=BACKGROUNDS)
 
     def __str__(self):
         return f'[{self.datetime:%Y-%m-%d %H:%M}] clicked background {self.background}'
@@ -249,10 +249,10 @@ class Event(models.Model):
     ACTIONS = [
         ('start', _('Start')),
         ('end', _('End'))]
-    experiment = models.ForeignKey(to='api_v1.Experiment')
-    datetime = models.DateTimeField()
-    action = models.CharField(max_length=15, choices=ACTIONS)
-    message = models.CharField(max_length=30)
+    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment')
+    datetime = models.DateTimeField(verbose_name=_('Datetime'))
+    action = models.CharField(verbose_name=_('Action'), max_length=15, choices=ACTIONS)
+    message = models.CharField(verbose_name=_('Message'), max_length=30)
 
     def __str__(self):
         return f'[{self.datetime:%Y-%m-%d %H:%M}] - {self.message} - {self.action}'

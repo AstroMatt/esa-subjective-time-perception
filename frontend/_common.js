@@ -4,10 +4,10 @@ Database = {
     get: function() {
         database = Array();
 
-        for (let trial of Object.keys(localStorage)) {
-            if (trial != ".temp") {
-                let data = localStorage.getItem(trial);
-                database.push(JSON.parse(data));
+        for (let key of Object.keys(localStorage)) {
+            if (key != ".temp") {
+                let value = localStorage.getItem(key);
+                database.push(JSON.parse(value));
             }
         }
 
@@ -16,12 +16,12 @@ Database = {
 
     insert: function(trial) {
         console.debug("[SUCCESS] Trial saved to localStorage:", trial);
-        return localStorage.setItem(trial.configuration.start, JSON.stringify(trial));
+        return localStorage.setItem(trial.trial.start_datetime, JSON.stringify(trial));
     },
 
     delete: function(trial) {
         console.debug("[SUCCESS] Trial deleted from localStorage", trial);
-        return localStorage.removeItem(trial.configuration.start);
+        return localStorage.removeItem(trial.trial.start_datetime);
     },
 
     clear: function() {
@@ -70,19 +70,20 @@ Database = {
 }
 
 Trial = {
-    create: function(trial) {
+    create: function() {
         let get = RequestArgumentsFromURL();
 
         this.set({
-            "configuration": {
-                seconds: parseFloat(get["seconds"]),
+            "trial": {
+                timeout: parseFloat(get["timeout"]),
                 device: get["device"],
                 polarization: get["polarization"],
                 location: get["location"],
+                regularity: get["regularity"],
                 colors: shuffle(["red", "white", "blue"]),
-                trial: trial,
-                start: new Date().toJSON(),
-                end: null
+                attempt: get["attempt"],
+                start_datetime: new Date().toJSON(),
+                end_datetime: null
             }
         });
 
@@ -91,14 +92,14 @@ Trial = {
     },
 
     config: function(key, value) {
-        var conf = this.get().configuration;
+        var conf = this.get().trial;
 
         if (!key)
             return conf;
 
         if (value) {
             conf[key] = value;
-            this.update("configuration", conf);
+            this.update("trial", conf);
         }
 
         return conf[key];

@@ -6,9 +6,10 @@
         "location": "internet",
         "uid": "c@c.pl",
         "polarization": "vertical",
-        "seconds": 2,
+        "timeout": 30.0,
+        "regularity": 5,
         "start": "2016-12-27T16:49:30.547Z",
-        "trial": 2
+        "attempt": 1
     },
 
     "survey": {

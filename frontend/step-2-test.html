@@ -9,7 +9,7 @@
     <script>
         function run() {
             let color = 'black';
-            let seconds = Trial.config('seconds') / 2;
+            let timeout = Trial.config('timeout') / 2;
 
             document.body.innerHTML = '<h1>Click now!</h1><h2>Please try to click <strong>once every five seconds</strong>.</h2>';
             document.body.style.background = color;
@@ -17,7 +17,7 @@
 
             log('start', color);
 
-            sleep(seconds).then(() => {
+            sleep(timeout).then(() => {
                 document.body.removeEventListener('click', click);
                 log('end', color);
                 goto('step-3-color-one');
@@ -28,7 +28,10 @@
 
 <body>
     <h1>You may now proceed to test section</h1>
-    <p>On the following screen click the left mouse button trying to achieve a regular tempo of <strong>one click every five seconds</strong>.</p>
+    <ol>
+        <li>When you see blank screen with color</li>
+        <li>Click as you were asked</li>
+    </ol>
     <button onclick="run()">Run the test!</button>
 </body>
 </html>

@@ -9,7 +9,7 @@
     <script>
         function run() {
             let color = Trial.config('colors')[1];
-            let seconds = Trial.config('seconds');
+            let timeout = Trial.config('timeout');
 
             document.body.innerHTML = '';
             document.body.style.background = color;
@@ -17,7 +17,7 @@
 
             log('start', color);
 
-            sleep(seconds).then(() => {
+            sleep(timeout).then(() => {
                 document.body.removeEventListener('click', click);
                 log('end', color);
                 goto('step-5-color-three');
@@ -28,8 +28,10 @@
 
 <body>
     <h1>You will see the second color now</h1>
-    <p>There won't be any text on the screen.</p>
-    <p>Please try to click <strong>once every five seconds</strong>.</p>
+    <ol>
+        <li>When you see blank screen with color</li>
+        <li>Click as you were asked</li>
+    </ol>
     <button onclick="run()">Ok, go!</button>
 </body>
 </html>

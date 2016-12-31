@@ -21,28 +21,34 @@
     <ol>
         <li>Sit 20 cm from the screen.</li>
         <li>Click start and fill survey.</li>
-        <li>When you see black, red, blue or white screen <strong>click left mouse button once every five seconds</strong>.</li>
+        <li>When you see black, red, blue or white screen <strong>click left mouse button once every 5 seconds</strong>.</li>
         <li>Run this experimnet two times with different polarization.</li>
     </ol>
 
     <h2>I am taking this experiment for the first time</h2>
     <form method="get" action="step-1-survey-first.html">
-        <input type="hidden" name="seconds" value="2">
+
+        <input type="hidden" name="timeout" value="30.0">
+        <input type="hidden" name="regularity" value="5">
         <input type="hidden" name="device" value="laptop">
         <input type="hidden" name="location" value="internet">
         <input type="hidden" name="polarization" value="horizontal">
 
-        <input type="submit" value="Start First Trial">
+        <input type="hidden" name="attempt" value="1">
+        <input type="submit" value="Start for the first time">
     </form>
 
     <h2>I've already done it once</h2>
     <form method="get" action="step-1-survey-second.html" onsubmit="return confirm('Did you change polarization?')">
-        <input type="hidden" name="seconds" value="2">
+
+        <input type="hidden" name="timeout" value="30.0">
+        <input type="hidden" name="regularity" value="5">
         <input type="hidden" name="device" value="laptop">
         <input type="hidden" name="location" value="internet">
         <input type="hidden" name="polarization" value="vertical">
 
-        <input type="submit" value="Start Second Trial">
+        <input type="hidden" name="attempt" value="2">
+        <input type="submit" value="Start for the second time">
     </form>
 </body>
 
