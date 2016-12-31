@@ -13,12 +13,10 @@
 
             document.body.innerHTML = '<h1>Click now!</h1>';
             document.body.style.background = color;
-            document.body.addEventListener('click', click);
 
             log('start', color);
 
             sleep(timeout).then(() => {
-                document.body.removeEventListener('click', click);
                 log('end', color);
                 goto('step-3-color-one');
             });

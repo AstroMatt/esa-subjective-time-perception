@@ -1,4 +1,5 @@
 from django.contrib import admin
+from backend.api_v2.models import Click
 from backend.api_v2.models import Event
 from backend.api_v2.models import Survey
 from backend.api_v2.models import Trial
@@ -7,6 +8,12 @@ from backend.api_v2.models import Trial
 class SurveyInline(admin.StackedInline):
     model = Survey
     extra = 0
+
+
+class ClickInline(admin.TabularInline):
+    model = Click
+    extra = 0
+
 
 class EventInline(admin.TabularInline):
     model = Event
@@ -19,7 +26,7 @@ class TrialAdmin(admin.ModelAdmin):
     list_display_links = ['uid']
     list_filter = ['polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
     ordering = ['-start_datetime']
-    inlines = [SurveyInline, EventInline]
+    inlines = [SurveyInline, EventInline, ClickInline]
 
 
 @admin.register(Survey)
@@ -35,4 +42,14 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ['datetime', 'target', 'action', 'trial']
     list_display_links = ['datetime']
     list_filter = ['target', 'action']
+    search_fields = ['=trial__id']
+    ordering = ['-datetime']
+
+
+@admin.register(Click)
+class ClickAdmin(admin.ModelAdmin):
+    list_display = ['datetime', 'is_valid', 'color']
+    list_display_links = ['datetime']
+    list_filter = ['is_valid', 'color']
+    search_fields = ['=trial__id']
     ordering = ['-datetime']

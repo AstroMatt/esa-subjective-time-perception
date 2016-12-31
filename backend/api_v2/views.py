@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import View
 
+from backend.api_v2.models import Click
 from backend.api_v2.models import Event
 from backend.api_v2.models import Trial
 from backend.api_v2.models import Survey
@@ -39,6 +40,9 @@ class APIv2View(View):
 
             if data.get('survey'):
                 Survey.objects.get_or_create(trial=trial, **data.get('survey'))
+
+            for click in data.get('clicks'):
+                Click.objects.get_or_create(trial=trial, **click)
 
             for event in data.get('events'):
                 Event.objects.get_or_create(trial=trial, **event)

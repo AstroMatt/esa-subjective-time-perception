@@ -199,5 +199,15 @@ function log(action, target) {
 }
 
 function click() {
-    log("click", document.body.style.backgroundColor);
+    var trial = Trial.get();
+
+    if (!trial.clicks)
+        trial.clicks = Array();
+
+    trial.clicks.push({
+        datetime: new Date().toJSON(),
+        color: document.body.style.backgroundColor
+    });
+
+    return Trial.set(trial);
 }
