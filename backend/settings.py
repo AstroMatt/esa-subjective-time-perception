@@ -16,6 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
+    'time-perception.herokuapp.com',
 ]
 
 # Application definition
@@ -67,12 +68,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '_data', 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, '_data', 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.psycopg2',
+            'NAME': 'd7bhetd6n4h9ch',
+            'USER': 'vmrzhewjiyzdul',
+            'PASS': 'abd093105b30f17007388f1b57fd42e966673e7cd05c465586f38f9e997df906',
+            'HOST': 'ec2-54-247-119-245.eu-west-1.compute.amazonaws.com',
+            'PORT': 5432,
+        }
+    }
 
 
 # Password validation
