@@ -21,7 +21,7 @@ class Trial(models.Model):
     uid = EmailField(verbose_name=_('User ID'), db_index=True)
     polarization = CharField(verbose_name=_('Polarization'), max_length=50)
     timeout = FloatField(verbose_name=_('Timeout'), help_text=_('Seconds per color'))
-    regularity = PositiveSmallIntegerField(verbose_name=_('Reqularity'), help_text=_('Click every X seconds'))
+    regularity = PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     attempt = PositiveSmallIntegerField(verbose_name=_('Attempt'), db_index=True)
 
     # Count click events
