@@ -7,6 +7,7 @@ from django.db.models import EmailField
 from django.db.models import PositiveSmallIntegerField
 from django.utils.translation import ugettext_lazy as _
 
+from backend.api_v2.models import Click
 from backend.api_v2.models import Event
 from backend.api_v2.models import Survey
 
