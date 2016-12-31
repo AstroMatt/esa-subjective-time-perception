@@ -1,5 +1,5 @@
 Database = {
-    url: "http://localhost:8000/api/v2/",
+    url: "http://time-perception.herokuapp.com/api/v2/",
 
     get: function() {
         database = Array();

@@ -68,24 +68,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, '_data', 'db.sqlite3'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.psycopg2',
-            'NAME': 'd7bhetd6n4h9ch',
-            'USER': 'vmrzhewjiyzdul',
-            'PASS': 'abd093105b30f17007388f1b57fd42e966673e7cd05c465586f38f9e997df906',
-            'HOST': 'ec2-54-247-119-245.eu-west-1.compute.amazonaws.com',
-            'PORT': 5432,
-        }
-    }
+}
 
 
 # Password validation
@@ -135,3 +123,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
 
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
+
+
+if os.environ['DATABASE_URL']:
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()

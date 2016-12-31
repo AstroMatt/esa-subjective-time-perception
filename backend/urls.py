@@ -14,4 +14,7 @@ urlpatterns = [
     url(r'^api/v2/', include('backend.api_v2.urls')),
 
     url(r'^$', RedirectView.as_view(url='/index.html', permanent=False)),
-] + static(r'/', document_root=os.path.join(settings.BASE_DIR, 'frontend'))
+]
+
+urlpatterns += static(r'/static/', document_root=os.path.join(settings.BASE_DIR, 'static'))
+urlpatterns += static(r'/', document_root=os.path.join(settings.BASE_DIR, 'frontend'))
