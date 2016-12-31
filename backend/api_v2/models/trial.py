@@ -55,8 +55,11 @@ class Trial(models.Model):
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')
 
+    def get_coefficient(self):
+        return round(self.timeout / self.regularity)
+
     def validate_clicks(self, color, margin=0.2):
-        margin = round(self.timeout / self.regularity * margin)
+        margin = self.get_coefficient() * margin
 
         clicks = Click.objects.filter(trial=self).order_by('datetime')
         valid = list(clicks.filter(color=color))[margin:-margin]
@@ -71,8 +74,7 @@ class Trial(models.Model):
             event.is_valid = False
             event.save()
 
-
-    def count_clicks(self):
+    def calculate_counts(self):
         clicks = Click.objects.filter(trial=self, is_valid=True)
         self.count_all = clicks.all().count()
         self.count_blue = clicks.filter(color='blue').count()
@@ -80,33 +82,17 @@ class Trial(models.Model):
         self.count_white = clicks.filter(color='white').count()
         self.save()
 
+    def calculate_percentage(self):
+        percent_coefficient = self.get_coefficient()
+        self.percentage_all = self.count_all / (percent_coefficient * 3) * 100
+        self.percentage_blue = self.count_blue / percent_coefficient * 100
+        self.percentage_red = self.count_red / percent_coefficient * 100
+        self.percentage_white = self.count_white / percent_coefficient * 100
+        self.save()
 
     def calculate(self):
-        self.validate_clicks('blue')
-        self.validate_clicks('red')
-        self.validate_clicks('white')
-        self.count_clicks()
-
-
-
-
-        print('percentage_all', self.percentage_all)
-        print('percentage_blue', self.percentage_blue)
-        print('percentage_red', self.percentage_red)
-        print('percentage_white', self.percentage_white)
-
-
-
-
-
-
-
-
-    def regularity_coefficient_percent(self):
-        clicks = Click.objects.filter(experiment=self)
-
-        return {
-            'all': clicks.count() / 90 * 100,
-            'blue': clicks.filter(background='blue').count() / 30 * 100,
-            'red': clicks.filter(background='red').count() / 30 * 100,
-            'white': clicks.filter(background='white').count() / 30 * 100}
+        #self.validate_clicks('blue')
+        #self.validate_clicks('red')
+        #self.validate_clicks('white')
+        #self.calculate_counts()
+        self.calculate_percentage()
