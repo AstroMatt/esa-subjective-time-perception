@@ -59,9 +59,9 @@ class Trial(models.Model):
         margin = round(self.timeout / self.regularity * margin)
 
         clicks = Click.objects.filter(trial=self).order_by('datetime')
-        valid = list(clicks.filter(target=color))[margin:-margin]
-        invalid_left = list(clicks.filter(target=color))[:margin]
-        invalid_right = list(clicks.filter(target=color))[-margin:]
+        valid = list(clicks.filter(color=color))[margin:-margin]
+        invalid_left = list(clicks.filter(color=color))[:margin]
+        invalid_right = list(clicks.filter(color=color))[-margin:]
 
         for event in valid:
             event.is_valid = True
