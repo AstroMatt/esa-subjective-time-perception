@@ -66,23 +66,23 @@ class Trial(models.Model):
         self.calculate_stdev()
         self.calculate_mean()
 
-    def validate_clicks(self, color, margin=0.2):
+    def validate_clicks(self, color, drop_percent=0.0):
         """
-        Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20% i ostatnie 20% kliknięć
+        Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 10% i ostatnie 10% kliknięć (razem 20%)
         """
-        margin = int(round(self.timeout / self.regularity) * margin)
+        drop_count = int(self.timeout / self.regularity * drop_percent)
+        clicks = list(Click.objects.filter(trial=self, color=color).order_by('datetime'))
 
-        clicks = Click.objects.filter(trial=self).order_by('datetime')
-        valid = list(clicks.filter(color=color))[margin:-margin]
-        invalid_left = list(clicks.filter(color=color))[:margin]
-        invalid_right = list(clicks.filter(color=color))[-margin:]
+        if drop_count:
+            valid = clicks[drop_count:-drop_count]
+        else:
+            valid = clicks
 
-        for event in valid:
-            event.is_valid = True
-            event.save()
-
-        for event in invalid_left + invalid_right:
-            event.is_valid = False
+        for event in clicks:
+            if event in valid:
+                event.is_valid = True
+            else:
+                event.is_valid = False
             event.save()
 
     def calculate_counts(self):
@@ -93,18 +93,18 @@ class Trial(models.Model):
         self.count_white = clicks.filter(color='white').count()
         self.save()
 
-    def calculate_percentage(self):
+    def calculate_percentage(self, precision=2):
         """
         Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
         1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
         2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
         3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
         """
-        percent_coefficient = round(self.timeout / self.regularity)
-        self.percentage_all = self.count_all / (percent_coefficient * 3) * 100
-        self.percentage_blue = self.count_blue / percent_coefficient * 100
-        self.percentage_red = self.count_red / percent_coefficient * 100
-        self.percentage_white = self.count_white / percent_coefficient * 100
+        percent_coefficient = self.timeout / self.regularity
+        self.percentage_all = round(self.count_all / (percent_coefficient * 3) * 100, precision)
+        self.percentage_blue = round(self.count_blue / percent_coefficient * 100, precision)
+        self.percentage_red = round(self.count_red / percent_coefficient * 100, precision)
+        self.percentage_white = round(self.count_white / percent_coefficient * 100, precision)
         self.save()
 
     def get_time_regularity_series(self):
@@ -131,7 +131,7 @@ class Trial(models.Model):
             'red': red,
             'white': white}
 
-    def calculate_stdev(self):
+    def calculate_stdev(self, precision=2):
         """
         Wyliczamy odchylenie standardowe dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów)
         1. podnosimy każdy element listy do kwadratu
@@ -143,7 +143,7 @@ class Trial(models.Model):
 
         def stdev(series):
             try:
-                return statistics.stdev(series)
+                return round(statistics.stdev(series), precision)
             except statistics.StatisticsError:
                 return None
 
@@ -153,7 +153,7 @@ class Trial(models.Model):
         self.time_stdev_white = stdev(clicks['white'])
         self.save()
 
-    def calculate_mean(self):
+    def calculate_mean(self, precision=2):
         """
         Obliczamy średnią czasu dla wszystkich oraz dla każdego z kolorów osobno
         """
@@ -161,7 +161,7 @@ class Trial(models.Model):
 
         def mean(series):
             try:
-                return statistics.mean(series)
+                return round(statistics.mean(series), precision)
             except statistics.StatisticsError:
                 return None
 

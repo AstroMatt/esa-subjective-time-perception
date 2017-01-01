@@ -24,7 +24,18 @@ def decode_json(obj):
 
 
 class APIv2View(View):
-    http_method_names = ['post', 'head']
+    http_method_names = ['post', 'head', 'update']
+
+    def update(self, request, *args, **kwargs):
+        RequestLogger.add(request, api_version=2)
+
+        for t in Trial.objects.all():
+            t.calculate()
+
+        response = HttpResponse(status=200)
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+
 
     def head(self, request, *args, **kwargs):
         RequestLogger.add(request, api_version=2)
@@ -33,8 +44,9 @@ class APIv2View(View):
         return response
 
     def post(self, request, *args, **kwargs):
+        RequestLogger.add(request, api_version=2)
+
         try:
-            RequestLogger.add(request, api_version=2)
             data = json.loads(request.body, object_hook=decode_json)
             trial, _ = Trial.objects.get_or_create(**data.get('trial'))
 

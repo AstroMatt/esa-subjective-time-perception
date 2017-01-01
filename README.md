@@ -29,7 +29,7 @@ Experiment takes around 10 minutes.
     1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
     2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
     3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
-2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20% i ostatnie 20% kliknięć
+2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 10% i ostatnie 10% kliknięć (razem 20%)
 3. Obliczamy czasowy współczynnik regularności dla koloru
     1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
     2. >>> {"czerwony": [1.025, 0.987, 1.000, 1.01...], "biały": [1.025, 0.987, 1.000, 1.01...], "niebieski": [1.025, 0.987, 1.000, 1.01...], "wszystkie": [1.025, 0.987, 1.000, 1.01...]}
