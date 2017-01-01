@@ -25,12 +25,11 @@ Experiment takes around 10 minutes.
 - Poor 0% - 19%
 
 ### Pierwsze podejście osoby
-1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je (powinno być 90 kliknięć)
-    1. Określam procentowy współczynnik regularności: 90 kliknięć - 100%; n kliknięć - x%
-    2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno (powinno być 30 kliknięć per kolor)
+1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
+    1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
+    2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
     3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
-    4. Czy kolor monitora ma wpływ na zmianę współczynnika regularności?
-2. Odrzucamy pierwsze 5 i ostatnie 5 kliknięć
+2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20% i ostatnie 20% kliknięć
 3. Obliczamy czasowy współczynnik regularności dla koloru
     1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
     2. >>> {"czerwony": [1.025, 0.987, 1.000, 1.01...], "biały": [1.025, 0.987, 1.000, 1.01...], "niebieski": [1.025, 0.987, 1.000, 1.01...], "wszystkie": [1.025, 0.987, 1.000, 1.01...]}

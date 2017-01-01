@@ -47,6 +47,7 @@ class APIv2View(View):
             for event in data.get('events'):
                 Event.objects.get_or_create(trial=trial, **event)
 
+            trial.calculate()
             response = JsonResponse({'code':201, 'status':'OK', 'message': 'Trial added to the database.'}, status=201)
         except JSONDecodeError:
             response = JsonResponse({'code':400, 'status':'Bad Request', 'message': 'JSON decode error'}, status=400)
