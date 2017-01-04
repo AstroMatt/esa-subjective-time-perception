@@ -13,7 +13,9 @@ Results will be uploaded after each experiment.
 ### When experiment need to work offline (on computer without internet connection)
 1. Download [https://github.com/AstroMatt/esa-subjective-time-perception/archive/master.zip](https://github.com/AstroMatt/esa-subjective-time-perception/archive/master.zip)
 2. Extract zip archive
-3. Open with your browser `frontend/index.html`
+3. Save on USB stick directory `frontend/` (to do the experiment, you'll need only this one)
+4. On the other computer copy the directory, or run from usb stick
+5. To run, open with your browser `frontend/index.html` (double click on this file should be enough).
 
 ## How to upload resulsts?
 
