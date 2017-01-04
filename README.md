@@ -1,9 +1,6 @@
 # Subjective Time Perception Experiment
 How different colors and light polarization influence on time perception?
 
-## Lenght
-Experiment takes around 10 minutes.
-
 ## How to run the experiment?
 
 ### When computer has internet connection
