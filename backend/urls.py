@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^api/v2/', include('backend.api_v2.urls')),
 
     url(r'^$', RedirectView.as_view(url='/index.html', permanent=False)),
+    url(r'^help/', RedirectView.as_view(url='https://astromatt.github.io/esa-subjective-time-perception/', permanent=False)),
 ]
 
 urlpatterns += static(r'/static/', document_root=os.path.join(settings.BASE_DIR, 'static'))
