@@ -1,4 +1,7 @@
 from django.contrib import admin
+
+from import_export.admin import ImportExportModelAdmin
+
 from backend.api_v2.models import Click
 from backend.api_v2.models import Event
 from backend.api_v2.models import Survey
@@ -21,7 +24,7 @@ class EventInline(admin.TabularInline):
 
 
 @admin.register(Trial)
-class TrialAdmin(admin.ModelAdmin):
+class TrialAdmin(ImportExportModelAdmin):
     list_display = ['uid', 'attempt', 'location', 'device', 'colors', 'timeout',  'regularity', 'start_datetime', 'end_datetime']
     list_display_links = ['uid']
     list_filter = ['polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
@@ -31,7 +34,7 @@ class TrialAdmin(admin.ModelAdmin):
 
 
 @admin.register(Survey)
-class SurveyAdmin(admin.ModelAdmin):
+class SurveyAdmin(ImportExportModelAdmin):
     list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
     list_display_links = ['datetime']
     list_filter = ['gender', 'condition', 'rhythm', 'age']
@@ -40,7 +43,7 @@ class SurveyAdmin(admin.ModelAdmin):
 
 
 @admin.register(Event)
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(ImportExportModelAdmin):
     list_display = ['datetime', 'target', 'action', 'trial']
     list_display_links = ['datetime']
     list_filter = ['target', 'action']
@@ -49,7 +52,7 @@ class EventAdmin(admin.ModelAdmin):
 
 
 @admin.register(Click)
-class ClickAdmin(admin.ModelAdmin):
+class ClickAdmin(ImportExportModelAdmin):
     list_display = ['datetime', 'is_valid', 'color']
     list_display_links = ['datetime']
     list_filter = ['is_valid', 'color']
