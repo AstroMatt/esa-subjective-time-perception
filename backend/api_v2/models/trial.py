@@ -61,6 +61,8 @@ class Trial(models.Model):
 
     def save(self, *args, **kwargs):
         self.uid = self.uid.lower()
+        if self.percentage_all:
+            self.check_if_valid()
         return super().save(*args, **kwargs)
 
     def validate(self):

@@ -80,7 +80,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
     search_fields = ['=id', '^uid']
     ordering = ['-start_datetime']
     actions = ['make_invalid', 'make_valid', 'recalculate']
-    #inlines = [SurveyInline, EventInline, ClickInline]
+    inlines = [SurveyInline, EventInline, ClickInline]
 
 
 @admin.register(Survey)
