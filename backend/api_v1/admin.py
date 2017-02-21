@@ -1,4 +1,5 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from backend.api_v1.models import Experiment
 from backend.api_v1.models import Trial
 from backend.api_v1.models import Click
