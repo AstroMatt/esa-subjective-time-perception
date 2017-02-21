@@ -67,6 +67,7 @@ class Trial(models.Model):
         self.invalidate_clicks('blue')
         self.invalidate_clicks('red')
         self.invalidate_clicks('white')
+        self.check_if_valid()
         self.calculate_counts()
         self.calculate_percentage()
         self.calculate_stdev()
@@ -101,6 +102,13 @@ class Trial(models.Model):
         self.percentage_blue = round(self.count_blue / percent_coefficient * 100, precision)
         self.percentage_red = round(self.count_red / percent_coefficient * 100, precision)
         self.percentage_white = round(self.count_white / percent_coefficient * 100, precision)
+        self.save()
+
+    def check_if_valid(self, min=25, max=200):
+        if min <= self.percent_coefficient <= max:
+            self.is_valid = True
+        else:
+            self.is_valid = False
         self.save()
 
     def get_time_regularity_series(self):

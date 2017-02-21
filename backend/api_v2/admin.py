@@ -1,9 +1,44 @@
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
 from backend.api_v2.models import Click
 from backend.api_v2.models import Event
 from backend.api_v2.models import Survey
 from backend.api_v2.models import Trial
+
+
+class PercentageListFilter(admin.SimpleListFilter):
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = _('Percentage all')
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'percentage_all'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('too-many', _('Invalid: more than 201%')),
+            ('fast', _('Fast: 126% - 200%')),
+            ('normal', _('Normal: 75% - 125%')),
+            ('slow', _('Slow: 25% - 74%')),
+            ('too-few', _('Invalid: less than 25%')),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'too-many':
+            return queryset.filter(percentage_all__gt=200)
+
+        if self.value() == 'fast':
+            return queryset.filter(percentage_all__gt=125, percentage_all__lte=200)
+
+        if self.value() == 'normal':
+            return queryset.filter(percentage_all__gte=75, percentage_all__lte=125)
+
+        if self.value() == 'slow':
+            return queryset.filter(percentage_all__gte=25, percentage_all__lt=75)
+
+        if self.value() == 'too-few':
+            return queryset.filter(percentage_all__lt=25)
 
 
 class SurveyInline(admin.StackedInline):
@@ -23,12 +58,21 @@ class EventInline(admin.TabularInline):
 
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin):
-    list_display = ['uid', 'attempt', 'location', 'device', 'colors', 'timeout',  'regularity', 'start_datetime', 'end_datetime']
+    list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'percentage_all', 'time_stdev_all']
     list_display_links = ['uid']
-    list_filter = ['is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
+    list_filter = [PercentageListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['^uid']
     ordering = ['-start_datetime']
     #inlines = [SurveyInline, EventInline, ClickInline]
+    actions = ['make_invalid', 'make_valid']
+
+    def make_invalid(modeladmin, request, queryset):
+        queryset.update(is_valid=False)
+    make_invalid.short_description = _('Mark as invalid')
+
+    def make_valid(modeladmin, request, queryset):
+        queryset.update(is_valid=True)
+    make_valid.short_description = _('Mark as valid')
 
 
 @admin.register(Survey)
