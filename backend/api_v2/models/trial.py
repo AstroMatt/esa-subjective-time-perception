@@ -57,6 +57,10 @@ class Trial(models.Model):
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')
 
+    def save(self, *args, **kwargs):
+        self.uid = self.uid.lower()
+        return super().save(*args, **kwargs)
+
     def calculate(self):
         self.validate_clicks('blue')
         self.validate_clicks('red')

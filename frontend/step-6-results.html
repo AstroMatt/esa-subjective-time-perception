@@ -11,13 +11,17 @@
         Trial.config('end_datetime', new Date().toJSON());
         log('end', 'trial');
 
-        Trial.save();
-        Trial.clear();
-        Database.syncdb();
-
-        sleep(10).then(() => {
-           goto('index');
-        });
+        if (Trial.get().clicks.length <= 15) {
+            alert('Not enough clicks, for the experiment to be valid.');
+       } else {
+            Trial.save();
+            Trial.clear();
+            Database.syncdb();
+            
+            sleep(10).then(() => {
+               goto('index');
+            });
+        }
     </script>
 </head>
 
