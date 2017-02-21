@@ -6,6 +6,7 @@ from django.db.models import CharField
 from django.db.models import FloatField
 from django.db.models import ForeignKey
 from django.db.models import EmailField
+from django.db.models import NullBooleanField
 from django.db.models import PositiveSmallIntegerField
 from django.utils.translation import ugettext_lazy as _
 
@@ -25,6 +26,7 @@ class Trial(models.Model):
     timeout = FloatField(verbose_name=_('Timeout'), help_text=_('Seconds per color'))
     regularity = PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     attempt = PositiveSmallIntegerField(verbose_name=_('Attempt'), db_index=True)
+    is_valid = NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
 
     # Count click events
     count_all = PositiveSmallIntegerField(verbose_name=('C'), help_text=_('Count click events - all'), null=True, blank=True)
@@ -155,7 +157,8 @@ class Trial(models.Model):
 
         def mean(series):
             try:
-                return round(statistics.mean(series), precision)
+                mean = round(statistics.mean(series), precision)
+                return abs(mean)
             except statistics.StatisticsError:
                 return None
 
