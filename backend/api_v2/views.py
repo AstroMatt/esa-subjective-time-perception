@@ -24,12 +24,21 @@ def decode_json(obj):
 
 
 class APIv2View(View):
-    http_method_names = ['post', 'head', 'update']
+    http_method_names = ['post', 'head', 'update', 'patch']
+
+    def patch(self, request, *args, **kwargs):
+        RequestLogger.add(request, api_version=2)
+        id = request.GET.get('id')
+        Trial.objects.get(id=id).calculate()
+        response = HttpResponse(status=200)
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
 
     def update(self, request, *args, **kwargs):
         RequestLogger.add(request, api_version=2)
 
         for t in Trial.objects.all():
+            t.validate()
             t.calculate()
 
         response = HttpResponse(status=200)

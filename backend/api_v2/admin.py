@@ -40,6 +40,22 @@ class PercentageListFilter(admin.SimpleListFilter):
         if self.value() == 'too-few':
             return queryset.filter(percentage_all__lt=25)
 
+class ValidateAction:
+    def make_invalid(modeladmin, request, queryset):
+        queryset.update(is_valid=False)
+    make_invalid.short_description = _('Mark as invalid')
+
+    def make_valid(modeladmin, request, queryset):
+        queryset.update(is_valid=True)
+    make_valid.short_description = _('Mark as valid')
+
+
+class RecalculateAction:
+    def recalculate(modeladmin, request, queryset):
+        for trial in queryset:
+            trial.calculate()
+    recalculate.short_description = _('Recalculate')
+
 
 class SurveyInline(admin.StackedInline):
     model = Survey
@@ -57,22 +73,14 @@ class EventInline(admin.TabularInline):
 
 
 @admin.register(Trial)
-class TrialAdmin(ImportExportModelAdmin):
+class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
     list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'percentage_all', 'time_stdev_all']
     list_display_links = ['uid']
     list_filter = [PercentageListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
-    search_fields = ['^uid']
+    search_fields = ['=id', '^uid']
     ordering = ['-start_datetime']
+    actions = ['make_invalid', 'make_valid', 'recalculate']
     #inlines = [SurveyInline, EventInline, ClickInline]
-    actions = ['make_invalid', 'make_valid']
-
-    def make_invalid(modeladmin, request, queryset):
-        queryset.update(is_valid=False)
-    make_invalid.short_description = _('Mark as invalid')
-
-    def make_valid(modeladmin, request, queryset):
-        queryset.update(is_valid=True)
-    make_valid.short_description = _('Mark as valid')
 
 
 @admin.register(Survey)
@@ -94,9 +102,10 @@ class EventAdmin(ImportExportModelAdmin):
 
 
 @admin.register(Click)
-class ClickAdmin(ImportExportModelAdmin):
+class ClickAdmin(ImportExportModelAdmin, ValidateAction):
     list_display = ['datetime', 'is_valid', 'color']
     list_display_links = ['datetime']
     list_filter = ['is_valid', 'color']
     search_fields = ['=trial__id']
     ordering = ['-datetime']
+    actions = ['make_invalid', 'make_valid']

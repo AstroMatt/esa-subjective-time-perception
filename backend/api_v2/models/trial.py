@@ -63,11 +63,13 @@ class Trial(models.Model):
         self.uid = self.uid.lower()
         return super().save(*args, **kwargs)
 
-    def calculate(self):
+    def validate(self):
         self.invalidate_clicks('blue')
         self.invalidate_clicks('red')
         self.invalidate_clicks('white')
         self.check_if_valid()
+
+    def calculate(self):
         self.calculate_counts()
         self.calculate_percentage()
         self.calculate_stdev()
