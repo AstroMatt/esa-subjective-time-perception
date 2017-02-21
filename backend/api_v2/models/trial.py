@@ -62,32 +62,22 @@ class Trial(models.Model):
         return super().save(*args, **kwargs)
 
     def calculate(self):
-        self.validate_clicks('blue')
-        self.validate_clicks('red')
-        self.validate_clicks('white')
+        self.invalidate_clicks('blue')
+        self.invalidate_clicks('red')
+        self.invalidate_clicks('white')
         self.calculate_counts()
         self.calculate_percentage()
         self.calculate_stdev()
         self.calculate_mean()
 
-    def validate_clicks(self, color, drop_percent=0.0):
+    def invalidate_clicks(self, color, drop_percent=0.20):
         """
-        Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 10% i ostatnie 10% kliknięć (razem 20%)
+        Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
         """
         drop_count = int(self.timeout / self.regularity * drop_percent)
-        clicks = list(Click.objects.filter(trial=self, color=color).order_by('datetime'))
-
-        if drop_count:
-            valid = clicks[drop_count:-drop_count]
-        else:
-            valid = clicks
-
-        for event in clicks:
-            if event in valid:
-                event.is_valid = True
-            else:
-                event.is_valid = False
-            event.save()
+        for click in Click.objects.filter(trial=self, color=color).order_by('datetime')[:drop_count]:
+            click.is_valid = False
+            click.save()
 
     def calculate_counts(self):
         clicks = Click.objects.filter(trial=self, is_valid=True)
