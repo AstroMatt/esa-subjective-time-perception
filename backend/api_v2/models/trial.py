@@ -109,7 +109,7 @@ class Trial(models.Model):
         self.save()
 
     def check_if_valid(self, min=25, max=200):
-        if min <= self.percent_coefficient <= max:
+        if min <= self.percentage_all <= max:
             self.is_valid = True
         else:
             self.is_valid = False
