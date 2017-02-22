@@ -1,3 +1,5 @@
+DEBUG = false
+
 Database = {
     url: "http://time-perception.herokuapp.com/api/v2/",
 
@@ -52,6 +54,11 @@ Database = {
     },
 
     syncdb: function() {
+        if (DEBUG) {
+            alert("You're in DEBUG mode! Will not `Database.syncdb()`");
+            return;
+        }
+
         $.ajax({
             type: "HEAD",
             crossDomain: true,
@@ -125,6 +132,10 @@ Trial = {
     },
 
     save: function() {
+        if (DEBUG) {
+            alert("You're in DEBUG mode! Will not `Trial.save()`");
+            return;
+        }
         let trial = this.get();
         return Database.insert(trial);
     }

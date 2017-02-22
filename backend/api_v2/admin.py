@@ -74,7 +74,7 @@ class EventInline(admin.TabularInline):
 
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
-    list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'percentage_all', 'time_stdev_all']
+    list_display = ['is_valid', 'uid', 'end_datetime', 'timeout',  'regularity', 'count_all', 'percentage_all', 'time_stdev_all']
     list_display_links = ['uid']
     list_filter = [PercentageListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid']
