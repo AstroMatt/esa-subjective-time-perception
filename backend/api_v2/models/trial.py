@@ -75,18 +75,14 @@ class Trial(models.Model):
         self.calculate_stdev()
         self.calculate_mean()
 
-    def invalidate_clicks(self, color, drop_elements=):
-        """
-        Discard two first clicks
-        """
-        drop_count = int(self.timeout / self.regularity * drop_percent)
+    def invalidate_clicks(self, color, elements_to_drop=2):
         clicks = Click.objects.filter(trial=self, color=color).order_by('datetime')
 
-        for invalid in clicks[:drop_elements]:
+        for invalid in clicks[:elements_to_drop]:
             invalid.is_valid = False
             invalid.save()
 
-        for valid in clicks[drop_elements:]:
+        for valid in clicks[elements_to_drop:]:
             valid.is_valid = True
             valid.save()
 
