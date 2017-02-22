@@ -10,17 +10,22 @@
     <script>
         Trial.config('end_datetime', new Date().toJSON());
         log('end', 'trial');
-        Trial.save();
 
-        if (Trial.get().clicks.length <= 15) {
-            alert('Not enough clicks, for the experiment to be valid.');
+        var clicks = Trial.get().clicks;
+        var blue = clicks.filter(click => click.color=='blue').length
+        var red = clicks.filter(click => click.color=='red').length
+        var white = clicks.filter(click => click.color=='white').length
+
+        if ([blue, red, white].every(count => count > 5)) {
+            //Trial.save();
+            //Trial.clear();
+            //Database.syncdb();
+            //sleep(10).then(() => {
+            //   goto('index');
+            //});
        } else {
-            Trial.clear();
-            Database.syncdb();
-
-            sleep(10).then(() => {
-               goto('index');
-            });
+           alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
+           goto('index');
         }
     </script>
 </head>
