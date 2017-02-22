@@ -29,6 +29,7 @@ class APIv2View(View):
     def patch(self, request, *args, **kwargs):
         RequestLogger.add(request, api_version=2)
         id = request.GET.get('id')
+        Trial.objects.get(id=id).validate()
         Trial.objects.get(id=id).calculate()
         response = HttpResponse(status=200)
         response['Access-Control-Allow-Origin'] = '*'

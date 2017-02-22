@@ -75,18 +75,18 @@ class Trial(models.Model):
         self.calculate_stdev()
         self.calculate_mean()
 
-    def invalidate_clicks(self, color, drop_percent=0.20):
+    def invalidate_clicks(self, color, drop_elements=):
         """
-        Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
+        Discard two first clicks
         """
         drop_count = int(self.timeout / self.regularity * drop_percent)
         clicks = Click.objects.filter(trial=self, color=color).order_by('datetime')
 
-        for invalid in clicks[:drop_count]:
+        for invalid in clicks[:drop_elements]:
             invalid.is_valid = False
             invalid.save()
 
-        for valid in clicks[drop_count:]:
+        for valid in clicks[drop_elements:]:
             valid.is_valid = True
             valid.save()
 
