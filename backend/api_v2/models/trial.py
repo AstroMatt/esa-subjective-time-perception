@@ -87,7 +87,7 @@ class Trial(models.Model):
             invalid.save()
 
         for valid in clicks[drop_count:]:
-            valid.is_valid = False
+            valid.is_valid = True
             valid.save()
 
     def calculate_counts(self):
