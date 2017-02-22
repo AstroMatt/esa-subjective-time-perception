@@ -80,9 +80,15 @@ class Trial(models.Model):
         Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
         """
         drop_count = int(self.timeout / self.regularity * drop_percent)
-        for click in Click.objects.filter(trial=self, color=color).order_by('datetime')[:drop_count]:
-            click.is_valid = False
-            click.save()
+        clicks = Click.objects.filter(trial=self, color=color).order_by('datetime')
+
+        for invalid in clicks[:drop_count]:
+            invalid.is_valid = False
+            invalid.save()
+
+        for valid in clicks[drop_count:]:
+            valid.is_valid = False
+            valid.save()
 
     def calculate_counts(self):
         clicks = Click.objects.filter(trial=self, is_valid=True)
