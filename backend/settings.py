@@ -1,5 +1,7 @@
 import os
 from django.conf.locale.en import formats as en_formats
+from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -129,3 +131,9 @@ DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
 if os.environ.get('DATABASE_URL'):
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
+
+
+
+admin.site.site_header = _('Subjective Time Perception')
+admin.site.index_title = _('Control Panel')
+admin.site.site_title = _('Subjective Time Perception Control Panel')
