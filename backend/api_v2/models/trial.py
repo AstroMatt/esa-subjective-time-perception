@@ -126,7 +126,7 @@ class Trial(models.Model):
         1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
         2. >>> {"czerwony": [1.025, 0.987, 1.000, 1.01...], "biały": [1.025, 0.987, 1.000, 1.01...], "niebieski": [1.025, 0.987, 1.000, 1.01...], "wszystkie": [1.025, 0.987, 1.000, 1.01...]}
         """
-        clicks = Click.objects.filter(trial=self, is_valid=True)
+        clicks = Click.objects.filter(trial=self, is_valid=True).order_by('datetime')
 
         def get_time_deltas(series):
             for i in range(1, len(series)):
@@ -149,7 +149,7 @@ class Trial(models.Model):
 
         return time_regularity_series
 
-    def calculate_stdev(self, precision=2):
+    def calculate_stdev(self, precision=4):
         """
         Wyliczamy odchylenie standardowe dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów)
         1. podnosimy każdy element listy do kwadratu
@@ -171,7 +171,7 @@ class Trial(models.Model):
         self.time_stdev_white = stdev(clicks['white'])
         self.save()
 
-    def calculate_mean(self, precision=2):
+    def calculate_mean(self, precision=4):
         """
         Obliczamy średnią czasu dla wszystkich oraz dla każdego z kolorów osobno
         """

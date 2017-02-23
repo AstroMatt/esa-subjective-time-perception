@@ -15,6 +15,7 @@ class Click(models.Model):
     class Meta:
         verbose_name = _('Click')
         verbose_name_plural = _('Click')
+        ordering = ['datetime']
 
     def __str__(self):
         return f'[{self.datetime:%Y-%m-%d %H:%M.%f}] {self.color}'
