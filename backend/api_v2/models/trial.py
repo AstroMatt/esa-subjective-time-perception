@@ -1,3 +1,4 @@
+import json
 import statistics
 
 from django.db import models
@@ -8,11 +9,10 @@ from django.db.models import ForeignKey
 from django.db.models import EmailField
 from django.db.models import NullBooleanField
 from django.db.models import PositiveSmallIntegerField
+from django.db.models import TextField
 from django.utils.translation import ugettext_lazy as _
 
 from backend.api_v2.models import Click
-from backend.api_v2.models import Event
-from backend.api_v2.models import Survey
 
 
 class Trial(models.Model):
@@ -27,30 +27,35 @@ class Trial(models.Model):
     regularity = PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     attempt = PositiveSmallIntegerField(verbose_name=_('Attempt'), db_index=True)
     is_valid = NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
+    time_regularity_series = TextField(verbose_name=_('Time Regularity Series'), blank=True, null=True, default=None)
 
     # Count click events
-    count_all = PositiveSmallIntegerField(verbose_name=('C'), help_text=_('Count click events - all'), null=True, blank=True)
-    count_blue = PositiveSmallIntegerField(verbose_name=('CB'), help_text=_('Count click events - blue'), null=True, blank=True)
-    count_red = PositiveSmallIntegerField(verbose_name=('CR'), help_text=_('Count click events - red'), null=True, blank=True)
-    count_white = PositiveSmallIntegerField(verbose_name=('CW'), help_text=_('Count click events - white'), null=True, blank=True)
+    count_all = PositiveSmallIntegerField(verbose_name=_('C'), help_text=_('Count click events - all'), null=True,
+                                          blank=True)
+    count_blue = PositiveSmallIntegerField(verbose_name=_('CB'), help_text=_('Count click events - blue'), null=True,
+                                           blank=True)
+    count_red = PositiveSmallIntegerField(verbose_name=_('CR'), help_text=_('Count click events - red'), null=True,
+                                          blank=True)
+    count_white = PositiveSmallIntegerField(verbose_name=_('CW'), help_text=_('Count click events - white'), \
+                                                                            null=True, blank=True)
 
     # Percentage cefficient for 80% of median intervals
-    percentage_all = FloatField(verbose_name=('P'), help_text=_('Percentage Coefficient - all'), null=True, blank=True)
-    percentage_blue = FloatField(verbose_name=('PB'), help_text=_('Percentage Coefficient - blue'), null=True, blank=True)
-    percentage_red = FloatField(verbose_name=('PR'), help_text=_('Percentage Coefficient - red'), null=True, blank=True)
-    percentage_white = FloatField(verbose_name=('PW'), help_text=_('Percentage Coefficient - white'), null=True, blank=True)
+    percentage_all = FloatField(verbose_name=_('P'), help_text=_('Percentage Coefficient - all'), null=True, blank=True)
+    percentage_blue = FloatField(verbose_name=_('PB'), help_text=_('Percentage Coefficient - blue'), null=True, blank=True)
+    percentage_red = FloatField(verbose_name=_('PR'), help_text=_('Percentage Coefficient - red'), null=True, blank=True)
+    percentage_white = FloatField(verbose_name=_('PW'), help_text=_('Percentage Coefficient - white'), null=True, blank=True)
 
     # Time Coefficient Standard Deviation of 80% median intervals
-    time_stdev_all = FloatField(verbose_name=('TSD'), help_text=_('Time Coefficient Standard Deviation - all'), null=True, blank=True)
-    time_stdev_blue = FloatField(verbose_name=('TSDB'), help_text=_('Time Coefficient Standard Deviation - blue'), null=True, blank=True)
-    time_stdev_red = FloatField(verbose_name=('TSDR'), help_text=_('Time Coefficient Standard Deviation - red'), null=True, blank=True)
-    time_stdev_white = FloatField(verbose_name=('TSDW'), help_text=_('Time Coefficient Standard Deviation - white'), null=True, blank=True)
+    time_stdev_all = FloatField(verbose_name=_('TSD'), help_text=_('Time Coefficient Standard Deviation - all'), null=True, blank=True)
+    time_stdev_blue = FloatField(verbose_name=_('TSDB'), help_text=_('Time Coefficient Standard Deviation - blue'), null=True, blank=True)
+    time_stdev_red = FloatField(verbose_name=_('TSDR'), help_text=_('Time Coefficient Standard Deviation - red'), null=True, blank=True)
+    time_stdev_white = FloatField(verbose_name=_('TSDW'), help_text=_('Time Coefficient Standard Deviation - white'), null=True, blank=True)
 
     # Time Coefficient Mean of 80% median intervals
-    time_mean_all = FloatField(verbose_name=('TM'), help_text=_('Time Coefficient Mean - all'), null=True, blank=True)
-    time_mean_blue = FloatField(verbose_name=('TMB'), help_text=_('Time Coefficient Mean - blue'), null=True, blank=True)
-    time_mean_red = FloatField(verbose_name=('TMR'), help_text=_('Time Coefficient Mean - red'), null=True, blank=True)
-    time_mean_white = FloatField(verbose_name=('TMW'), help_text=_('Time Coefficient Mean - white'), null=True, blank=True)
+    time_mean_all = FloatField(verbose_name=_('TM'), help_text=_('Time Coefficient Mean - all'), null=True, blank=True)
+    time_mean_blue = FloatField(verbose_name=_('TMB'), help_text=_('Time Coefficient Mean - blue'), null=True, blank=True)
+    time_mean_red = FloatField(verbose_name=_('TMR'), help_text=_('Time Coefficient Mean - red'), null=True, blank=True)
+    time_mean_white = FloatField(verbose_name=_('TMW'), help_text=_('Time Coefficient Mean - white'), null=True, blank=True)
 
     def __str__(self):
         return f'[{self.start_datetime:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}), {self.uid}, attempt: {self.attempt}'
@@ -133,11 +138,16 @@ class Trial(models.Model):
         red = list(get_time_deltas(clicks.filter(color='red')))
         white = list(get_time_deltas(clicks.filter(color='white')))
 
-        return {
+        time_regularity_series = {
             'all': blue + red + white,
             'blue': blue,
             'red': red,
             'white': white}
+
+        self.time_regularity_series = json.dumps(time_regularity_series)
+        self.save()
+
+        return time_regularity_series
 
     def calculate_stdev(self, precision=2):
         """
