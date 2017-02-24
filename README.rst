@@ -21,12 +21,12 @@ How to run the experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 When computer has internet connection:
 
-1. Run experiment on http://time-perception.herokuapp.com
+1. Run experiment on `time-perception.herokuapp.com <http://time-perception.herokuapp.com>`_
 2. Results will be uploaded after each experiment.
 
 When experiment need to work offline (on computer without internet connection):
 
-1. Download https://github.com/AstroMatt/esa-subjective-time-perception/archive/master.zip
+1. Download https://github.com/AstroMatt/esa-time-perception/archive/master.zip
 2. Extract zip archive.
 3. Copy directory ``frontend/`` (you'll need only this one) to USB disk.
 4. On the other computer copy the directory or run directly from USB disk.
@@ -50,13 +50,13 @@ Computer can not be connected to the internet:
 
 How to see results?
 ^^^^^^^^^^^^^^^^^^^
-1. Go to [http://time-perception.herokuapp.com/admin/api_v2/trial/](http://time-perception.herokuapp.com/admin/api_v2/trial/)
+1. Go to `Trial Administrator Panel <http://time-perception.herokuapp.com/admin/api_v2/trial/>`_
 2. You should know login and password :)
 
 
 Technology and Architecture
 ---------------------------
-*Subjective Time Perception Analizer* (STPA) is written as a web application platform. It uses frontend/backend model. Frontend is written in JavaScript with *jQuery* library to handle AJAX requests. Backend is written in *Python* using *Django* framework.
+`Subjective Time Perception Analizer` (STPA) is written as a web application platform. It uses frontend/backend model. Frontend is written in JavaScript with `jQuery` library to handle AJAX requests. Backend is written in `Python` using `Django` framework.
 
 
 Alghorithm
