@@ -1,13 +1,17 @@
 # Subjective Time Perception Experiment
 
-## How it works
+## How does it work?
 
 ### Skala procentowego i ilościowego poczucia czasu
-- Perfect 80% - 100%
-- Above Average 60% - 79%
-- Average 40% - 59%
-- Below Average 20% - 39%
-- Poor 0% - 19%
+
+Valid:
+- Fast 126% - 200%
+- Normal 75% - 125%
+- Slow 25% - 74%
+
+Invalid:
+- Too fast 201% - ...
+- Too slow 0% - 24%
 
 ### Pierwsze podejście osoby
 1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je

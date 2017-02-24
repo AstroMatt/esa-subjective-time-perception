@@ -46,7 +46,6 @@ class APIv2View(View):
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
-
     def head(self, request, *args, **kwargs):
         RequestLogger.add(request, api_version=2)
         response = HttpResponse(status=200)

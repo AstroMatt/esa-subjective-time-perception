@@ -29,33 +29,25 @@ class Trial(models.Model):
     is_valid = NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
     time_regularity_series = TextField(verbose_name=_('Time Regularity Series'), blank=True, null=True, default=None)
 
-    # Count click events
-    count_all = PositiveSmallIntegerField(verbose_name=_('C'), help_text=_('Count click events - all'), null=True,
-                                          blank=True)
-    count_blue = PositiveSmallIntegerField(verbose_name=_('CB'), help_text=_('Count click events - blue'), null=True,
-                                           blank=True)
-    count_red = PositiveSmallIntegerField(verbose_name=_('CR'), help_text=_('Count click events - red'), null=True,
-                                          blank=True)
-    count_white = PositiveSmallIntegerField(verbose_name=_('CW'), help_text=_('Count click events - white'), \
-                                                                            null=True, blank=True)
+    count_all = PositiveSmallIntegerField(verbose_name=_('Count - all'), null=True, blank=True)
+    count_blue = PositiveSmallIntegerField(verbose_name=_('Count - blue'), null=True, blank=True)
+    count_red = PositiveSmallIntegerField(verbose_name=_('Count - red'), null=True, blank=True)
+    count_white = PositiveSmallIntegerField(verbose_name=_('Count - white'), null=True, blank=True)
 
-    # Percentage cefficient for 80% of median intervals
-    percentage_all = FloatField(verbose_name=_('P'), help_text=_('Percentage Coefficient - all'), null=True, blank=True)
-    percentage_blue = FloatField(verbose_name=_('PB'), help_text=_('Percentage Coefficient - blue'), null=True, blank=True)
-    percentage_red = FloatField(verbose_name=_('PR'), help_text=_('Percentage Coefficient - red'), null=True, blank=True)
-    percentage_white = FloatField(verbose_name=_('PW'), help_text=_('Percentage Coefficient - white'), null=True, blank=True)
+    percentage_all = FloatField(verbose_name=_('Tempo - all'), null=True, blank=True)
+    percentage_blue = FloatField(verbose_name=_('Tempo - blue'), null=True, blank=True)
+    percentage_red = FloatField(verbose_name=_('Tempo - red'), null=True, blank=True)
+    percentage_white = FloatField(verbose_name=_('Tempo - white'), null=True, blank=True)
 
-    # Time Coefficient Standard Deviation of 80% median intervals
-    time_stdev_all = FloatField(verbose_name=_('TSD'), help_text=_('Time Coefficient Standard Deviation - all'), null=True, blank=True)
-    time_stdev_blue = FloatField(verbose_name=_('TSDB'), help_text=_('Time Coefficient Standard Deviation - blue'), null=True, blank=True)
-    time_stdev_red = FloatField(verbose_name=_('TSDR'), help_text=_('Time Coefficient Standard Deviation - red'), null=True, blank=True)
-    time_stdev_white = FloatField(verbose_name=_('TSDW'), help_text=_('Time Coefficient Standard Deviation - white'), null=True, blank=True)
+    time_stdev_all = FloatField(verbose_name=_('Regularity - all'), null=True, blank=True)
+    time_stdev_blue = FloatField(verbose_name=_('Regularity - blue'), null=True, blank=True)
+    time_stdev_red = FloatField(verbose_name=_('Regularity - red'), null=True, blank=True)
+    time_stdev_white = FloatField(verbose_name=_('Regularity - white'), null=True, blank=True)
 
-    # Time Coefficient Mean of 80% median intervals
-    time_mean_all = FloatField(verbose_name=_('TM'), help_text=_('Time Coefficient Mean - all'), null=True, blank=True)
-    time_mean_blue = FloatField(verbose_name=_('TMB'), help_text=_('Time Coefficient Mean - blue'), null=True, blank=True)
-    time_mean_red = FloatField(verbose_name=_('TMR'), help_text=_('Time Coefficient Mean - red'), null=True, blank=True)
-    time_mean_white = FloatField(verbose_name=_('TMW'), help_text=_('Time Coefficient Mean - white'), null=True, blank=True)
+    time_mean_all = FloatField(verbose_name=_('Interval - all'), null=True, blank=True)
+    time_mean_blue = FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
+    time_mean_red = FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
+    time_mean_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
 
     def __str__(self):
         return f'[{self.start_datetime:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}), {self.uid}, attempt: {self.attempt}'
