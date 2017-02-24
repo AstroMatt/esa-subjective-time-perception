@@ -4,6 +4,10 @@ How different colors and light polarization influence on time perception?
 The software was written for the *European Space Agency* *Advanced Concepts Team* experiment on subjective time perception.
 It is open source (released under MIT license) and you can use it for your experiments.
 
+.. contents::
+
+.. section-numbering::
+
 How to use this software?
 -------------------------
 
@@ -55,55 +59,55 @@ Alghorithm
 
 First user attempt
 ^^^^^^^^^^^^^^^^^^
-1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
-    1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
-    2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
-    3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
-2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
-3. Obliczamy czasowy współczynnik regularności dla koloru
-    1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
+    1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
+        1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
+        2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
+        3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
+    2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
+    3. Obliczamy czasowy współczynnik regularności dla koloru
+        1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
 
-        ```json
-        {
-            "all": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124, 5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271, 5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409],
-            "blue": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124],
-            "red": [5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271],
-            "white": [5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409]
-        }
-        ```
+            ```json
+            {
+                "all": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124, 5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271, 5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409],
+                "blue": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124],
+                "red": [5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271],
+                "white": [5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409]
+            }
+            ```
 
-4. Wyliczamy odchylenie standardowe (Regularity Coefficient) dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów)
-    1. podnosimy każdy element listy do kwadratu
-    2. sumujemy kwadraty
-    3. pierwiastkujemy sumę
-    4. dzielimy pierwiastek przez ilość elementów
-5. Obliczamy średnią czasu (Temporal Coefficient) dla wszystkich oraz dla każdego z kolorów osobno
+    4. Wyliczamy odchylenie standardowe (Regularity Coefficient) dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów)
+        1. podnosimy każdy element listy do kwadratu
+        2. sumujemy kwadraty
+        3. pierwiastkujemy sumę
+        4. dzielimy pierwiastek przez ilość elementów
+    5. Obliczamy średnią czasu (Temporal Coefficient) dla wszystkich oraz dla każdego z kolorów osobno
 
 Second user attempt
 ^^^^^^^^^^^^^^^^^^^
 1. Wyliczamy to samo co dla pierwszego podejścia
 
-### Porównujemy współczynniki regularności x1 i x2
-1. Określenie wyniku w drugim podejściu - czy osoba się: poprawiła, miała taki sam wynik czy gorszy
-2. Odpowiadamy: Jak szybko nasz mózg uczy się regularności
+2. Porównujemy współczynniki regularności x1 i x2:
+
+    1. Określenie wyniku w drugim podejściu - czy osoba się: poprawiła, miała taki sam wynik czy gorszy
+    2. Odpowiadamy: Jak szybko nasz mózg uczy się regularności
 
 
-## Data description
+Data description
+----------------
 
-
-### Standard Deviation (Regularity Coefficient)
-
+Standard Deviation (Regularity Coefficient)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Rozpoznajemy czy ktoś klikał regularnie, czy kliknął wielokrotnie a później przerwał.
 Im współczynnik bliższy zero, tym lepsza regularność klikania.
 
-### Time Mean Coefficient (Temporal Coefficient)
+Time Mean Coefficient (Temporal Coefficient)
 
 Co ile sekund (średnio) ktoś klikał.
 
 
-
-
-### Tempo scale for subjective time perception
+Tempo scale for subjective time perception
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Collected data are calculated and divied into following categories based on ``tempo`` coefficient for all colors.
 
 Valid for use in experiment:
@@ -119,7 +123,7 @@ Invalid results are marked as ``is_valid = False`` in the database and they are 
 
 The application would calculate 100% ``tempo`` (called a `Normal`) if subject is clicking in regular manner for period of time for color examination. If user generates more inputs than expected, for example clicking more quickly, the parameter will increase and accordingly decrease for lower tempo.
 
-Example:
+:Example:
 
     ``timeout = 60`` seconds for each color to be shown to user and for data to be collected
     ``regularity = 5`` - user is expected to click every 5 seconds
@@ -128,19 +132,17 @@ Example:
     Then we discard (mark as ``is_valid = False``) first two clicks and hence we expect **10 clicks**.
 
 
-Latter we will introduce ``expected_clicks`` parameter to make the calculations easier.
-
-
-
 Jeżeli user kliknął 15 razy, to jego Percentage będzie 150% normy.
 
 
-## Plans for further development
+Plans for further development
+-----------------------------
 * Implement frontend in AngularJS 2.0
 * Implement Django REST framework
-* Create Experiment creation wizzard
+* Refactor to use ``expected_clicks`` parameter to make the calculations simpler
+* Create Experiment creation wizard
 * Create reports page with graphical data analysis
-* Create module `excercise.threadmill` to store and analyze data from TomTom Runner Cardio devices (downloaded from TomTom mysports as CSV files)
+* Create module ``excercise.threadmill`` to store and analyze data from `TomTom Runner Cardio` devices (downloaded from `mysports.tomtom.com <http://mysports.tomtom.com>`_ as `CSV` files)
 * Write time guessing mini-game
 
 
