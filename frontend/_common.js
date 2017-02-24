@@ -1,7 +1,7 @@
 DEBUG = false
 
 Database = {
-    url: "http://time-perception.herokuapp.com/api/v2/",
+    url: "http://stpa.astrotech.io/api/v2/",
 
     get: function() {
         database = Array();
