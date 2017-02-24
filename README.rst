@@ -52,8 +52,6 @@ How to see results?
     :caption: Table of Contents
     :glob:
 
-    docs/about.rst
-    docs/usage.rst
     docs/architecture.rst
     docs/algorithm.rst
     docs/data.rst
