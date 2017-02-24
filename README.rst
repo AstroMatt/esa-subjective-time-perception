@@ -10,6 +10,9 @@ It is open source (released under MIT license) and you can use it for your exper
 How to use this software?
 -------------------------
 
+.. contents::
+    :local:
+
 How to run the experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 When computer has internet connection:
@@ -46,10 +49,11 @@ How to see results?
 1. Go to `Trial Administrator Panel <http://stpa.astrotech.io/admin/api_v2/trial/>`_
 2. You should know login and password :)
 
+
 .. toctree::
     :maxdepth: 2
     :numbered:
-    :caption: Table of Contents
+    :caption: Technical Documentation
     :glob:
 
     docs/architecture.rst
