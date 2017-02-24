@@ -9,7 +9,7 @@ The software was written for the `Advanced Concepts Team` (`European Space Agenc
 
 It is open source (released under MIT license) and you can use it for your experiments!
 
-.. contents:: Table of Contents
+.. contents:: **Table of Contents**
     :depth: 2
     :local:
 
