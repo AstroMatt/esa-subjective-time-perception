@@ -21,7 +21,7 @@ How to run the experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 When computer has internet connection:
 
-1. Run experiment on `time-perception.herokuapp.com <http://time-perception.herokuapp.com>`_
+1. Run experiment on `stpa.astrotech.io <http://stpa.astrotech.io>`_
 2. Results will be uploaded after each experiment.
 
 When experiment need to work offline (on computer without internet connection):
