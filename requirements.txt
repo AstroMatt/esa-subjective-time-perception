@@ -3,3 +3,5 @@ gunicorn
 psycopg2
 dj-database-url
 django-import-export
+sphinx
+sphinx_rtd_theme

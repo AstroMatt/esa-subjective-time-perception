@@ -1,12 +1,18 @@
 Subjective Time Perception Analyzer
 ===================================
+
+.. title:: Subjective Time Perception Analyzer
+
 How different colors and light polarization influence on time perception?
-The software was written for the *European Space Agency* *Advanced Concepts Team* experiment on subjective time perception.
-It is open source (released under MIT license) and you can use it for your experiments.
 
-.. contents::
+The software was written for the `Advanced Concepts Team` (`European Space Agency`, `ESTEC`) experiment on subjective time perception.
 
-.. section-numbering::
+It is open source (released under MIT license) and you can use it for your experiments!
+
+.. contents:: Table of Contents
+    :depth: 2
+    :local:
+
 
 How to use this software?
 -------------------------
@@ -33,13 +39,13 @@ Computer can be connected to the internet:
 1. Connect computer to the internet
 2. Open with your browser ``frontend/index.html``.
 3. It should automatically upload results to the internet
-4. Depending on how much experiments was performed, after a minute or so you should be able to see results in the adinistration panel.
+4. Depending on how much experiments was performed, after a minute or so you should be able to see results in the administration panel.
 
 Computer can not be connected to the internet:
 
 1. Open ``frontend/cache.html``
 2. Save all this text as a txt (Notepad or whatever) file to USB Pendrive.
-3. Give me this file (or pendrive), and I will upload this results.
+3. Give me this file (or USB drive), and I will upload this results.
 4. Or send me the results via email: time-perception@haras.pl
 
 How to see results?
@@ -50,7 +56,6 @@ How to see results?
 
 Technology and Architecture
 ---------------------------
-
 *Subjective Time Perception Analizer* (STPA) is written as a web application platform. It uses frontend/backend model. Frontend is written in JavaScript with *jQuery* library to handle AJAX requests. Backend is written in *Python* using *Django* framework.
 
 
@@ -59,29 +64,35 @@ Alghorithm
 
 First user attempt
 ^^^^^^^^^^^^^^^^^^
-    1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
-        1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
-        2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
-        3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
-    2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
-    3. Obliczamy czasowy współczynnik regularności dla koloru
-        1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
+1. Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je:
 
-            ```json
-            {
-                "all": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124, 5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271, 5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409],
-                "blue": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124],
-                "red": [5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271],
-                "white": [5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409]
-            }
-            ```
+    1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
+    2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
+    3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
 
-    4. Wyliczamy odchylenie standardowe (Regularity Coefficient) dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów)
-        1. podnosimy każdy element listy do kwadratu
-        2. sumujemy kwadraty
-        3. pierwiastkujemy sumę
-        4. dzielimy pierwiastek przez ilość elementów
-    5. Obliczamy średnią czasu (Temporal Coefficient) dla wszystkich oraz dla każdego z kolorów osobno
+2. Zostawiamy tylko 80% wyników, tj. odrzucamy pierwsze 20%
+
+3. Obliczamy czasowy współczynnik regularności dla koloru. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami:
+
+.. code-block:: json
+
+    {
+        "blue": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124],
+        "red": [5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271],
+        "white": [5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409],
+        "all": [4.842, 4.884, 4.706, 5.0, 5.073, 5.028, 4.892, 5.192, 4.88, 5.056, 5.124,
+                5.009, 4.673, 5.074, 5.231, 4.946, 4.72, 5.228, 5.668, 4.822, 5.271,
+                5.332, 4.463, 4.973, 5.278, 4.788, 4.998, 5.292, 5.214, 5.286, 5.409]
+    }
+
+4. Wyliczamy odchylenie standardowe (Regularity Coefficient) dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów):
+
+    1. podnosimy każdy element listy do kwadratu
+    2. sumujemy kwadraty
+    3. pierwiastkujemy sumę
+    4. dzielimy pierwiastek przez ilość elementów
+
+5. Obliczamy średnią czasu (Temporal Coefficient) dla wszystkich oraz dla każdego z kolorów osobno
 
 Second user attempt
 ^^^^^^^^^^^^^^^^^^^
@@ -111,11 +122,13 @@ Tempo scale for subjective time perception
 Collected data are calculated and divied into following categories based on ``tempo`` coefficient for all colors.
 
 Valid for use in experiment:
+
 - Fast: 126% - 200%
 - Normal: 75% - 125%
 - Slow: 25% - 74%
 
 Cannot be used in experiment:
+
 - Too fast: 201% - ...
 - Too slow: 0% - 24%
 
@@ -126,7 +139,7 @@ The application would calculate 100% ``tempo`` (called a `Normal`) if subject is
 :Example:
 
     ``timeout = 60`` seconds for each color to be shown to user and for data to be collected
-    ``regularity = 5`` - user is expected to click every 5 seconds
+    ``regularity = 5`` user is expected to click every 5 seconds
 
     In this case we expect to receive 12 clicks (60 seconds / 5 seconds = 12).
     Then we discard (mark as ``is_valid = False``) first two clicks and hence we expect **10 clicks**.
@@ -219,55 +232,43 @@ POST input data format
 
 Output data description
 ^^^^^^^^^^^^^^^^^^^^^^^
+================= ==============================================
+Parameter          Description
+================= ==============================================
+uid               Unique Participant ID - Email
+age               Participant Age
+condition         Participant Condition
+gender            Participant Gender
+rhythm            Participant Rhythm
+\
+start_datetime    Start Datetime
+end_datetime      End Datetime
+location          Where experiment was conducted (eg. internet)
+device            Device
+polarization      Polarization
+timeout           Timeout
+regularity        Regularity
+\
+count_all         Count click events - all
+count_blue        Count click events - blue
+count_red         Count click events - red
+count_white       Count click events - white
+\
+percentage_all    Tempo - all
+percentage_blue   Tempo - blue
+percentage_red    Tempo - red
+percentage_white  Tempo - white
+\
+time_stdev_all    Regularity - all
+time_stdev_blue   Regularity - blue
+time_stdev_red    Regularity - red
+time_stdev_white  Regularity - white
+\
+time_mean_all     Interval - all
+time_mean_blue    Interval - blue
+time_mean_red     Interval - red
+time_mean_white   Interval - white
+================= ==============================================
 
-    - Participant Email
-    - Participant Age
-    - Participant Condition
-    - Participant Gender
-    - Participant Rhythm
 
-    - Start Datetime
-    - End Datetime
-    - Location
-    - Device
-    - Polarization Trial 1
-    - Polarization Trial 2
-    - Timeout
-    - Regularity
-
-    - C_1 - [Trial 1] Count click events - all
-    - C_2 - [Trial 2] Count click events - all
-    - CB1 - [Trial 1] Count click events - blue
-    - CB2 - [Trial 2] Count click events - blue
-    - CR1 - [Trial 1] Count click events - red
-    - CR2 - [Trial 2] Count click events - red
-    - CW1 - [Trial 1] Count click events - white
-    - CW2 - [Trial 2] Count click events - white
-
-    - P_1 - [Trial 1] Percentage Coefficient - all
-    - P_2 - [Trial 2] Percentage Coefficient - all
-    - PB1 - [Trial 1] Percentage Coefficient - blue
-    - PB2 - [Trial 2] Percentage Coefficient - blue
-    - PR1 - [Trial 1] Percentage Coefficient - red
-    - PR2 - [Trial 2] Percentage Coefficient - red
-    - PW1 - [Trial 1] Percentage Coefficient - white
-    - PW2 - [Trial 2] Percentage Coefficient - white
-
-    - TSD_1 - [Trial 1] Time Coefficient Standard Deviation - all
-    - TSD_2 - [Trial 2] Time Coefficient Standard Deviation - all
-    - TSDB1 - [Trial 1] Time Coefficient Standard Deviation - blue
-    - TSDB2 - [Trial 2] Time Coefficient Standard Deviation - blue
-    - TSDR1 - [Trial 1] Time Coefficient Standard Deviation - red
-    - TSDR2 - [Trial 2] Time Coefficient Standard Deviation - red
-    - TSDW1 - [Trial 1] Time Coefficient Standard Deviation - white
-    - TSDW2 - [Trial 2] Time Coefficient Standard Deviation - white
-
-    - TM_1 - [Trial 1] Time Coefficient Mean - all
-    - TM_2 - [Trial 2] Time Coefficient Mean - all
-    - TMB1 - [Trial 1] Time Coefficient Mean - blue
-    - TMB2 - [Trial 2] Time Coefficient Mean - blue
-    - TMR1 - [Trial 1] Time Coefficient Mean - red
-    - TMR2 - [Trial 2] Time Coefficient Mean - red
-    - TMW1 - [Trial 1] Time Coefficient Mean - white
-    - TMW2 - [Trial 2] Time Coefficient Mean - white
 

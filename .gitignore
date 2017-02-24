@@ -37,6 +37,7 @@ __pycache__
 
 # Python Sphinx and setuptools files
 /doc/_build
+/_build
 /build
 /dist
 /static/
