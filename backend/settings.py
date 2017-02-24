@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'backend.logger',
     'backend.api_v1',
     'backend.api_v2',
-    'backend.experiment',
     'import_export',
 ]
 
