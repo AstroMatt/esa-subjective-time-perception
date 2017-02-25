@@ -49,7 +49,7 @@ How to upload results?
 How to see results?
 ^^^^^^^^^^^^^^^^^^^
 1. Go to `Administrator Panel <http://stpa.astrotech.io/admin/api_v2/trial/>`_
-2. Superuser account is created during :ref:`installation` of the software.
+2. Superuser account is created during instlation of the software please refer to the ``docs/installation.rst``.
 
 
 .. toctree::
