@@ -29,22 +29,22 @@ class Trial(models.Model):
     is_valid = NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
     time_regularity_series = TextField(verbose_name=_('Time Regularity Series'), blank=True, null=True, default=None)
 
-    count_all = PositiveSmallIntegerField(verbose_name=_('Count - all'), null=True, blank=True)
+    count_all = PositiveSmallIntegerField(verbose_name=_('Count'), null=True, blank=True)
     count_blue = PositiveSmallIntegerField(verbose_name=_('Count - blue'), null=True, blank=True)
     count_red = PositiveSmallIntegerField(verbose_name=_('Count - red'), null=True, blank=True)
     count_white = PositiveSmallIntegerField(verbose_name=_('Count - white'), null=True, blank=True)
 
-    percentage_all = FloatField(verbose_name=_('Tempo - all'), null=True, blank=True)
+    percentage_all = FloatField(verbose_name=_('Tempo'), null=True, blank=True)
     percentage_blue = FloatField(verbose_name=_('Tempo - blue'), null=True, blank=True)
     percentage_red = FloatField(verbose_name=_('Tempo - red'), null=True, blank=True)
     percentage_white = FloatField(verbose_name=_('Tempo - white'), null=True, blank=True)
 
-    time_stdev_all = FloatField(verbose_name=_('Regularity - all'), null=True, blank=True)
+    time_stdev_all = FloatField(verbose_name=_('Regularity'), null=True, blank=True)
     time_stdev_blue = FloatField(verbose_name=_('Regularity - blue'), null=True, blank=True)
     time_stdev_red = FloatField(verbose_name=_('Regularity - red'), null=True, blank=True)
     time_stdev_white = FloatField(verbose_name=_('Regularity - white'), null=True, blank=True)
 
-    time_mean_all = FloatField(verbose_name=_('Interval - all'), null=True, blank=True)
+    time_mean_all = FloatField(verbose_name=_('Interval'), null=True, blank=True)
     time_mean_blue = FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
     time_mean_red = FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
     time_mean_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)

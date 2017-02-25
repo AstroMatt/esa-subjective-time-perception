@@ -18,7 +18,7 @@ How to run the experiment?
 
 :Device with internet connection:
 
-    1. Run experiment on `stpa.astrotech.io <http://stpa.astrotech.io>`_
+    1. Run experiment at `stpa.astrotech.io <http://stpa.astrotech.io>`_
     2. Results will be uploaded after each experiment.
 
 :Device without internet connection:
