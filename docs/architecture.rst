@@ -21,7 +21,16 @@ We have decided to use `Python` language with `Django` framework. This solution 
 
 `Django` framework provides out-of-the-box generation of administration panel with secure authentication, user and groups managements together with permissions and access control. Each element has it change history which gives us possibility to experiment with data and rollback modifications.
 
-This layer provides possibility to download data in different format such as ``.xslx``, ``.csv`` or several other formats.
+Data import and export
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. figure:: img/backend-export.png
+    :scale: 50%
+    :align: center
+
+    Various formats available to download via application.
+
+Application backend allows researchers to import and export data in various formats such as: ``.xslx``, ``.csv`` and others.
 
 
 Data synchronization
