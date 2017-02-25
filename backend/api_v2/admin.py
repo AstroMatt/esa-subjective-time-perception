@@ -40,6 +40,7 @@ class PercentageListFilter(admin.SimpleListFilter):
         if self.value() == 'too-few':
             return queryset.filter(percentage_all__lt=25)
 
+
 class ValidateAction:
     def make_invalid(modeladmin, request, queryset):
         queryset.update(is_valid=False)
@@ -81,6 +82,15 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
     ordering = ['-start_datetime']
     actions = ['make_invalid', 'make_valid', 'recalculate']
     inlines = [SurveyInline, EventInline, ClickInline]
+    fieldsets = [
+        ('', {'fields': ['uid', 'is_valid']}),
+        ('Experiment', {'fields': ['location', 'device', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'time_regularity_series']}),
+        ('Dates', {'fields': ['start_datetime', 'end_datetime']}),
+        ('Count', {'fields': ['count_all', 'count_blue', 'count_red', 'count_white']}),
+        ('Tempo', {'fields': ['percentage_all', 'percentage_blue', 'percentage_red', 'percentage_white']}),
+        ('Regularity', {'fields': ['time_stdev_all', 'time_stdev_blue', 'time_stdev_red', 'time_stdev_white']}),
+        ('Interval', {'fields': ['time_mean_all', 'time_mean_blue', 'time_mean_red', 'time_mean_white']}),
+    ]
 
 
 @admin.register(Survey)
