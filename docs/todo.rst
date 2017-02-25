@@ -12,9 +12,6 @@ Refactorings
 * Introduce ``Experiment.clicks_minimum`` parameter to make the calculations simpler
 * Introduce ``Experiment.clicks_maximum`` parameter to make the calculations simpler
 * Remove ``Trial.regularity``
-* Rename ``Trial.time_mean_*`` to ``Trial.interval_*``
-* Rename ``Trial.time_stdev_*`` to ``Trial.regularity_*``
-* Rename ``Trial.percentage_*`` to ``Trial.tempo_*``
 
 Functional changes
 ------------------
