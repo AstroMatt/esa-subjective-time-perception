@@ -7,13 +7,13 @@ from backend.api_v2.models import Survey
 from backend.api_v2.models import Trial
 
 
-class PercentageListFilter(admin.SimpleListFilter):
+class TempoListFilter(admin.SimpleListFilter):
     # Human-readable title which will be displayed in the
     # right admin sidebar just above the filter options.
-    title = _('Percentage all')
+    title = _('Tempo all')
 
     # Parameter for the filter that will be used in the URL query.
-    parameter_name = 'percentage_all'
+    parameter_name = 'tempo_all'
 
     def lookups(self, request, model_admin):
         return [
@@ -26,19 +26,19 @@ class PercentageListFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == 'too-many':
-            return queryset.filter(percentage_all__gt=200)
+            return queryset.filter(tempo_all__gt=200)
 
         if self.value() == 'fast':
-            return queryset.filter(percentage_all__gt=125, percentage_all__lte=200)
+            return queryset.filter(tempo_all__gt=125, tempo_all__lte=200)
 
         if self.value() == 'normal':
-            return queryset.filter(percentage_all__gte=75, percentage_all__lte=125)
+            return queryset.filter(tempo_all__gte=75, tempo_all__lte=125)
 
         if self.value() == 'slow':
-            return queryset.filter(percentage_all__gte=25, percentage_all__lt=75)
+            return queryset.filter(tempo_all__gte=25, tempo_all__lt=75)
 
         if self.value() == 'too-few':
-            return queryset.filter(percentage_all__lt=25)
+            return queryset.filter(tempo_all__lt=25)
 
 
 class ValidateAction:
@@ -75,21 +75,21 @@ class EventInline(admin.TabularInline):
 
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
-    list_display = ['is_valid', 'uid', 'end_datetime', 'timeout',  'regularity', 'count_all', 'percentage_all', 'time_stdev_all']
+    list_display = ['is_valid', 'uid', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
     list_display_links = ['uid']
-    list_filter = [PercentageListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
+    list_filter = [TempoListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid']
     ordering = ['-start_datetime']
     actions = ['make_invalid', 'make_valid', 'recalculate']
     inlines = [SurveyInline, EventInline, ClickInline]
     fieldsets = [
         ('', {'fields': ['uid', 'is_valid']}),
-        ('Experiment', {'fields': ['location', 'device', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'time_regularity_series']}),
+        ('Experiment', {'fields': ['location', 'device', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'time_between_clicks']}),
         ('Dates', {'fields': ['start_datetime', 'end_datetime']}),
         ('Count', {'fields': ['count_all', 'count_blue', 'count_red', 'count_white']}),
-        ('Tempo', {'fields': ['percentage_all', 'percentage_blue', 'percentage_red', 'percentage_white']}),
-        ('Regularity', {'fields': ['time_stdev_all', 'time_stdev_blue', 'time_stdev_red', 'time_stdev_white']}),
-        ('Interval', {'fields': ['time_mean_all', 'time_mean_blue', 'time_mean_red', 'time_mean_white']}),
+        ('Tempo', {'fields': ['tempo_all', 'tempo_blue', 'tempo_red', 'tempo_white']}),
+        ('Regularity', {'fields': ['regularity_all', 'regularity_blue', 'regularity_red', 'regularity_white']}),
+        ('Interval', {'fields': ['interval_all', 'interval_blue', 'interval_red', 'interval_white']}),
     ]
 
 

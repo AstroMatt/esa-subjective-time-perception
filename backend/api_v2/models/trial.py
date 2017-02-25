@@ -26,27 +26,27 @@ class Trial(models.Model):
     regularity = PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     attempt = PositiveSmallIntegerField(verbose_name=_('Attempt'), db_index=True)
     is_valid = NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
-    time_regularity_series = TextField(verbose_name=_('Time Regularity Series'), blank=True, null=True, default=None)
+    time_between_clicks = TextField(verbose_name=_('Time between clicks'), blank=True, null=True, default=None)
 
     count_all = PositiveSmallIntegerField(verbose_name=_('Count'), null=True, blank=True)
     count_blue = PositiveSmallIntegerField(verbose_name=_('Count - blue'), null=True, blank=True)
     count_red = PositiveSmallIntegerField(verbose_name=_('Count - red'), null=True, blank=True)
     count_white = PositiveSmallIntegerField(verbose_name=_('Count - white'), null=True, blank=True)
 
-    percentage_all = FloatField(verbose_name=_('Tempo'), null=True, blank=True)
-    percentage_blue = FloatField(verbose_name=_('Tempo - blue'), null=True, blank=True)
-    percentage_red = FloatField(verbose_name=_('Tempo - red'), null=True, blank=True)
-    percentage_white = FloatField(verbose_name=_('Tempo - white'), null=True, blank=True)
+    tempo_all = FloatField(verbose_name=_('Tempo'), null=True, blank=True)
+    tempo_blue = FloatField(verbose_name=_('Tempo - blue'), null=True, blank=True)
+    tempo_red = FloatField(verbose_name=_('Tempo - red'), null=True, blank=True)
+    tempo_white = FloatField(verbose_name=_('Tempo - white'), null=True, blank=True)
 
-    time_stdev_all = FloatField(verbose_name=_('Regularity'), null=True, blank=True)
-    time_stdev_blue = FloatField(verbose_name=_('Regularity - blue'), null=True, blank=True)
-    time_stdev_red = FloatField(verbose_name=_('Regularity - red'), null=True, blank=True)
-    time_stdev_white = FloatField(verbose_name=_('Regularity - white'), null=True, blank=True)
+    regularity_all = FloatField(verbose_name=_('Regularity'), null=True, blank=True)
+    regularity_blue = FloatField(verbose_name=_('Regularity - blue'), null=True, blank=True)
+    regularity_red = FloatField(verbose_name=_('Regularity - red'), null=True, blank=True)
+    regularity_white = FloatField(verbose_name=_('Regularity - white'), null=True, blank=True)
 
-    time_mean_all = FloatField(verbose_name=_('Interval'), null=True, blank=True)
-    time_mean_blue = FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
-    time_mean_red = FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
-    time_mean_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
+    interval_all = FloatField(verbose_name=_('Interval'), null=True, blank=True)
+    interval_blue = FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
+    interval_red = FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
+    interval_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
 
     def __str__(self):
         return f'[{self.start_datetime:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}), {self.uid}, attempt: {self.attempt}'
@@ -83,7 +83,7 @@ class Trial(models.Model):
             valid.save()
 
     def validate_trial(self, min=25, max=200):
-        if min <= self.percentage_all <= max:
+        if min <= self.tempo_all <= max:
             self.is_valid = True
         else:
             self.is_valid = False
@@ -113,7 +113,7 @@ class Trial(models.Model):
             'red': red,
             'white': white}
 
-        self.time_regularity_series = json.dumps(time_regularity_series)
+        self.time_between_clicks = json.dumps(time_regularity_series)
         self.save()
 
         return time_regularity_series
@@ -134,10 +134,10 @@ class Trial(models.Model):
         3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
         """
         percent_coefficient = self.timeout / self.regularity
-        self.percentage_all = round(self.count_all / (percent_coefficient * 3) * 100, precision)
-        self.percentage_blue = round(self.count_blue / percent_coefficient * 100, precision)
-        self.percentage_red = round(self.count_red / percent_coefficient * 100, precision)
-        self.percentage_white = round(self.count_white / percent_coefficient * 100, precision)
+        self.tempo_all = round(self.count_all / (percent_coefficient * 3) * 100, precision)
+        self.tempo_blue = round(self.count_blue / percent_coefficient * 100, precision)
+        self.tempo_red = round(self.count_red / percent_coefficient * 100, precision)
+        self.tempo_white = round(self.count_white / percent_coefficient * 100, precision)
         self.save()
 
     def calculate_regularity(self, precision=4):
@@ -156,10 +156,10 @@ class Trial(models.Model):
             except statistics.StatisticsError:
                 return None
 
-        self.time_stdev_all = stdev(clicks['all'])
-        self.time_stdev_blue = stdev(clicks['blue'])
-        self.time_stdev_red = stdev(clicks['red'])
-        self.time_stdev_white = stdev(clicks['white'])
+        self.regularity_all = stdev(clicks['all'])
+        self.regularity_blue = stdev(clicks['blue'])
+        self.regularity_red = stdev(clicks['red'])
+        self.regularity_white = stdev(clicks['white'])
         self.save()
 
     def calculate_interval(self, precision=4):
@@ -172,8 +172,8 @@ class Trial(models.Model):
             except statistics.StatisticsError:
                 return None
 
-        self.time_mean_all = mean(clicks['all'])
-        self.time_mean_blue = mean(clicks['blue'])
-        self.time_mean_red = mean(clicks['red'])
-        self.time_mean_white = mean(clicks['white'])
+        self.interval_all = mean(clicks['all'])
+        self.interval_blue = mean(clicks['blue'])
+        self.interval_red = mean(clicks['red'])
+        self.interval_white = mean(clicks['white'])
         self.save()
