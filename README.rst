@@ -64,3 +64,4 @@ How to see results?
     docs/data.rst
     docs/api.rst
     docs/todo.rst
+    docs/bibliography.rst

@@ -20,6 +20,7 @@ Functional changes
 ------------------
 * Create experiment creation wizard
 * Serve experiment setup as ``json`` file to the browser
+* Implement frontend click count validation based on experiment settings values
 * Support running multiple different offline experiments
 * Kiosk mode for single experiments (for Open Day and Conference experiments)
 * Create reports page with graphical data analysis
