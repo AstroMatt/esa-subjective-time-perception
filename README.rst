@@ -16,12 +16,12 @@ How to use this software?
 How to run the experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:When computer has internet connection:
+:Device with internet connection:
 
     1. Run experiment on `stpa.astrotech.io <http://stpa.astrotech.io>`_
     2. Results will be uploaded after each experiment.
 
-:When experiment need to work offline (on computer without internet connection):
+:Device without internet connection:
 
     1. Download https://github.com/AstroMatt/esa-time-perception/archive/master.zip
     2. Extract zip archive.
@@ -39,7 +39,7 @@ How to upload results?
     3. It should automatically upload results to the internet
     4. Depending on how much experiments was performed, after a minute or so you should be able to see results in the administration panel.
 
-:Computer can not be connected to the internet:
+:Computer cannot be connected to the internet:
 
     1. Open ``frontend/cache.html``
     2. Save all this text as a txt (Notepad or whatever) file to USB Pendrive.
