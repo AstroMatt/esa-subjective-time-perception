@@ -61,7 +61,6 @@ How to see results?
     docs/installation.rst
     docs/architecture.rst
     docs/algorithm.rst
-    docs/data.rst
     docs/api.rst
     docs/todo.rst
     docs/bibliography.rst
