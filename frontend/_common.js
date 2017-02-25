@@ -174,8 +174,8 @@ function shuffle(array) {
 }
 
 function sleep(seconds) {
-    let miliseconds = seconds * 1000;
-    return new Promise((resolve) => setTimeout(resolve, miliseconds));
+    let milliseconds = seconds * 1000;
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 function goto(filename) {

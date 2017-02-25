@@ -6,6 +6,12 @@ Technology and Architecture
 Frontend
 --------
 
+* Shuffle
+* Debug
+* Sync
+* zbyt mały count
+* Errory w formularzu
+* Odpalanie na dwóch niezależnych stanowiskach
 
 Backend
 -------

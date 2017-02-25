@@ -8,7 +8,9 @@ Architectural changes
 
 Refactorings
 ------------
-* Introduce ``Trial.expected_clicks`` parameter to make the calculations simpler
+* Introduce ``Experiment.clicks_expected`` parameter to make the calculations simpler
+* Introduce ``Experiment.clicks_minimum`` parameter to make the calculations simpler
+* Introduce ``Experiment.clicks_maximum`` parameter to make the calculations simpler
 * Remove ``Trial.regularity``
 * Rename ``Trial.time_mean_*`` to ``Trial.interval_*``
 * Rename ``Trial.time_stdev_*`` to ``Trial.regularity_*``
