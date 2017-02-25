@@ -138,7 +138,6 @@ Application supports login mechanism together with user and group management.
 
     Application user edit screen.
 
-
 Data import and export
 ^^^^^^^^^^^^^^^^^^^^^^
 
