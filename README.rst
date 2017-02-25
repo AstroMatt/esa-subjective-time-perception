@@ -58,6 +58,7 @@ How to see results?
     :caption: Technical Documentation
     :glob:
 
+    docs/installation.rst
     docs/architecture.rst
     docs/algorithm.rst
     docs/data.rst
