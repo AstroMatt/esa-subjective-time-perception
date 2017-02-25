@@ -1,12 +1,14 @@
-How to develop extensions
-=========================
+API Documentation
+=================
 
 API Usage
 ---------
 
-curl -X METHOD http://stpa.astrotech.io/api/v2/
+.. code-block:: sh
 
-Where method is one of following:
+    curl -X $METHOD http://stpa.astrotech.io/api/v2/
+
+Where $METHOD is one of following:
 
 ======= ====================================================
 METHOD  Action
@@ -18,7 +20,7 @@ PATCH   Recalculate results in db for one ``?id=...`` result
 ======= ====================================================
 
 POST input data format
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 
 .. code-block:: json
 
@@ -70,7 +72,7 @@ POST input data format
     }
 
 Output data description
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 ================= ==============================================
 Parameter          Description
 ================= ==============================================

@@ -1,5 +1,5 @@
 Alghorithm
-----------
+==========
 
 First user attempt
 ^^^^^^^^^^^^^^^^^^

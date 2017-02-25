@@ -5,7 +5,7 @@ How different colors and light polarization influence on time perception?
 
 The software was written for the `Advanced Concepts Team` (`European Space Agency`, `ESTEC`) experiment on subjective time perception.
 
-It is open source (released under MIT license) and you can use it for your experiments!
+.. tip:: This software is open source (released under MIT license) and you can use it for your experiments! I would appreciate Pull Requests and any other contribution.
 
 How to use this software?
 -------------------------
@@ -15,34 +15,36 @@ How to use this software?
 
 How to run the experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-When computer has internet connection:
 
-1. Run experiment on `stpa.astrotech.io <http://stpa.astrotech.io>`_
-2. Results will be uploaded after each experiment.
+:When computer has internet connection:
 
-When experiment need to work offline (on computer without internet connection):
+    1. Run experiment on `stpa.astrotech.io <http://stpa.astrotech.io>`_
+    2. Results will be uploaded after each experiment.
 
-1. Download https://github.com/AstroMatt/esa-time-perception/archive/master.zip
-2. Extract zip archive.
-3. Copy directory ``frontend/`` (you'll need only this one) to USB disk.
-4. On the other computer copy the directory or run directly from USB disk.
-5. To run, open with your browser ``frontend/index.html`` (double click on this file should be enough).
+:When experiment need to work offline (on computer without internet connection):
+
+    1. Download https://github.com/AstroMatt/esa-time-perception/archive/master.zip
+    2. Extract zip archive.
+    3. Copy directory ``frontend/`` (you'll need only this one) to USB disk.
+    4. On the other computer copy the directory or run directly from USB disk.
+    5. To run, open with your browser ``frontend/index.html`` (double click on this file should be enough).
 
 How to upload results?
 ^^^^^^^^^^^^^^^^^^^^^^
-Computer can be connected to the internet:
 
-1. Connect computer to the internet
-2. Open with your browser ``frontend/index.html``.
-3. It should automatically upload results to the internet
-4. Depending on how much experiments was performed, after a minute or so you should be able to see results in the administration panel.
+:Computer can be connected to the internet:
 
-Computer can not be connected to the internet:
+    1. Connect computer to the internet
+    2. Open with your browser ``frontend/index.html``.
+    3. It should automatically upload results to the internet
+    4. Depending on how much experiments was performed, after a minute or so you should be able to see results in the administration panel.
 
-1. Open ``frontend/cache.html``
-2. Save all this text as a txt (Notepad or whatever) file to USB Pendrive.
-3. Give me this file (or USB drive), and I will upload this results.
-4. Or send me the results via email: time-perception@haras.pl
+:Computer can not be connected to the internet:
+
+    1. Open ``frontend/cache.html``
+    2. Save all this text as a txt (Notepad or whatever) file to USB Pendrive.
+    3. Give me this file (or USB drive), and I will upload this results.
+    4. Or send me the results via email: time-perception@haras.pl
 
 How to see results?
 ^^^^^^^^^^^^^^^^^^^

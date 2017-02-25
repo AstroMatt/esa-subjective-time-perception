@@ -1,6 +1,9 @@
 Technology and Architecture
----------------------------
+===========================
 `Subjective Time Perception Analyzer` (`STPA`) is written as a web application platform. It uses frontend/backend model. Frontend is written in JavaScript with `jQuery` library to handle AJAX requests. Backend is written in `Python` using `Django` framework. Application was ment to be used both online and offline.
+
+Layers
+------
 
 Backend
 ^^^^^^^
@@ -20,7 +23,6 @@ Application starts in offline mode and allow user to run the experiment on the l
 Online usage
 ^^^^^^^^^^^^
 Application is working by default in online mode.  After the experiment results are stored in database and synchronized with the remote server. Synchronization procedure is described in `Uploading experiment results to database`_.
-
 
 Uploading experiment results to database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

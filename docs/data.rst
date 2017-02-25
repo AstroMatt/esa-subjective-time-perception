@@ -1,5 +1,5 @@
 Data description
-----------------
+================
 
 Standard Deviation (Regularity Coefficient)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
