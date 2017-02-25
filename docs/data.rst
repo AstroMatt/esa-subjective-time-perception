@@ -1,32 +1,14 @@
 Data description
 ================
 
-Count
------
-
-Tempo
------
-
-Regularity
-----------
-
-Interval
---------
-
-
-Standard Deviation (Regularity Coefficient)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Rozpoznajemy czy ktoś klikał regularnie, czy kliknął wielokrotnie a później przerwał.
-Im współczynnik bliższy zero, tym lepsza regularność klikania.
-
-Time Mean Coefficient (Temporal Coefficient)
-
-Co ile sekund (średnio) ktoś klikał.
-
+:Count: How many time user clicked on this colors
+:Tempo: What was the percent of user clicks to expected click count
+:Regularity: Standard deviation between clicks. Closer this parameter to 0 is better regularity.
+:Interval: Arithmetic mean between clicks.
 
 Tempo scale for subjective time perception
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Collected data are calculated and divied into following categories based on ``tempo`` coefficient for all colors.
+Collected data are calculated and divided into following categories based on ``tempo_all`` coefficient for all colors.
 
 Valid for use in experiment:
 
@@ -50,6 +32,3 @@ The application would calculate 100% ``tempo`` (called a `Normal`) if subject is
 
     In this case we expect to receive 12 clicks (60 seconds / 5 seconds = 12).
     Then we discard (mark as ``is_valid = False``) first two clicks and hence we expect **10 clicks**.
-
-
-Jeżeli user kliknął 15 razy, to jego Percentage będzie 150% normy.

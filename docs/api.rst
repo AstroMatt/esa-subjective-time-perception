@@ -73,40 +73,40 @@ POST input data format
 
 Output data description
 -----------------------
-================= ==============================================
+=================  ==============================================
 Parameter          Description
-================= ==============================================
-uid               Unique Participant ID - Email
-age               Participant Age
-condition         Participant Condition
-gender            Participant Gender
-rhythm            Participant Rhythm
+=================  ==============================================
+uid                Unique Participant ID - Email
+age                Participant Age
+condition          Participant Condition
+gender             Participant Gender
+rhythm             Participant Rhythm
 \
-start_datetime    Start Datetime
-end_datetime      End Datetime
-location          Where experiment was conducted (eg. internet)
-device            Device
-polarization      Polarization
-timeout           Timeout
-regularity        Regularity
+start_datetime     Start Datetime
+end_datetime       End Datetime
+location           Where experiment was conducted (eg. internet)
+device             Device
+polarization       Polarization
+timeout            Timeout
+regularity         Regularity
 \
-count_all         Count click events - all
-count_blue        Count click events - blue
-count_red         Count click events - red
-count_white       Count click events - white
+count_all          Count clicks - all
+count_blue         Count clicks - blue
+count_red          Count clicks - red
+count_white        Count clicks - white
 \
-percentage_all    Tempo - all
-percentage_blue   Tempo - blue
-percentage_red    Tempo - red
-percentage_white  Tempo - white
+tempo_all          Tempo - all
+tempo_blue         Tempo - blue
+tempo_red          Tempo - red
+tempo_white        Tempo - white
 \
-time_stdev_all    Regularity - all
-time_stdev_blue   Regularity - blue
-time_stdev_red    Regularity - red
-time_stdev_white  Regularity - white
+regularity_all     Regularity - all
+regularity_blue    Regularity - blue
+regularity_red     Regularity - red
+regularity_white   Regularity - white
 \
-time_mean_all     Interval - all
-time_mean_blue    Interval - blue
-time_mean_red     Interval - red
-time_mean_white   Interval - white
-================= ==============================================
+interval_all       Interval - all
+interval_blue      Interval - blue
+interval_red       Interval - red
+interval_white     Interval - white
+=================  ==============================================
