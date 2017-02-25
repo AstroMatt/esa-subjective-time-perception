@@ -1,6 +1,19 @@
 Data description
 ================
 
+Count
+-----
+
+Tempo
+-----
+
+Regularity
+----------
+
+Interval
+--------
+
+
 Standard Deviation (Regularity Coefficient)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Rozpoznajemy czy ktoś klikał regularnie, czy kliknął wielokrotnie a później przerwał.

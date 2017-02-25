@@ -24,25 +24,25 @@ Installation
 
 
 .. figure:: img/terminal-migrate.png
-    :scale: 50%
+    :scale: 100%
     :align: center
 
     Migrating database schema.
 
 .. figure:: img/terminal-createsuperuser.png
-    :scale: 50%
+    :scale: 100%
     :align: center
 
     Creating superuser in database.
 
 .. figure:: img/terminal-runserver.png
-    :scale: 50%
+    :scale: 100%
     :align: center
 
     Running development server.
 
 .. figure:: img/terminal-make-html.png
-    :scale: 50%
+    :scale: 100%
     :align: center
 
     Generating application documentation.

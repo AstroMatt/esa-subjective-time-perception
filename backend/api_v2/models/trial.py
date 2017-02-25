@@ -5,7 +5,6 @@ from django.db import models
 from django.db.models import DateTimeField
 from django.db.models import CharField
 from django.db.models import FloatField
-from django.db.models import ForeignKey
 from django.db.models import EmailField
 from django.db.models import NullBooleanField
 from django.db.models import PositiveSmallIntegerField
@@ -61,18 +60,18 @@ class Trial(models.Model):
         return super().save(*args, **kwargs)
 
     def validate(self):
-        self.invalidate_clicks('blue')
-        self.invalidate_clicks('red')
-        self.invalidate_clicks('white')
-        self.check_if_valid()
+        self.validate_clicks('blue')
+        self.validate_clicks('red')
+        self.validate_clicks('white')
+        self.validate_trial()
 
     def calculate(self):
-        self.calculate_counts()
-        self.calculate_percentage()
-        self.calculate_stdev()
-        self.calculate_mean()
+        self.calculate_count()
+        self.calculate_tempo()
+        self.calculate_regularity()
+        self.calculate_interval()
 
-    def invalidate_clicks(self, color, elements_to_drop=2):
+    def validate_clicks(self, color, elements_to_drop=2):
         clicks = Click.objects.filter(trial=self, color=color).order_by('datetime')
 
         for invalid in clicks[:elements_to_drop]:
@@ -83,36 +82,14 @@ class Trial(models.Model):
             valid.is_valid = True
             valid.save()
 
-    def calculate_counts(self):
-        clicks = Click.objects.filter(trial=self, is_valid=True)
-        self.count_all = clicks.all().count()
-        self.count_blue = clicks.filter(color='blue').count()
-        self.count_red = clicks.filter(color='red').count()
-        self.count_white = clicks.filter(color='white').count()
-        self.save()
-
-    def calculate_percentage(self, precision=2):
-        """
-        Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
-        1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
-        2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
-        3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
-        """
-        percent_coefficient = self.timeout / self.regularity
-        self.percentage_all = round(self.count_all / (percent_coefficient * 3) * 100, precision)
-        self.percentage_blue = round(self.count_blue / percent_coefficient * 100, precision)
-        self.percentage_red = round(self.count_red / percent_coefficient * 100, precision)
-        self.percentage_white = round(self.count_white / percent_coefficient * 100, precision)
-        self.save()
-
-    def check_if_valid(self, min=25, max=200):
+    def validate_trial(self, min=25, max=200):
         if min <= self.percentage_all <= max:
             self.is_valid = True
         else:
             self.is_valid = False
         self.save()
 
-    def get_time_regularity_series(self):
+    def get_time_between_clicks(self):
         """
         Obliczamy czasowy współczynnik regularności dla koloru
         1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
@@ -141,7 +118,29 @@ class Trial(models.Model):
 
         return time_regularity_series
 
-    def calculate_stdev(self, precision=4):
+    def calculate_count(self):
+        clicks = Click.objects.filter(trial=self, is_valid=True)
+        self.count_all = clicks.all().count()
+        self.count_blue = clicks.filter(color='blue').count()
+        self.count_red = clicks.filter(color='red').count()
+        self.count_white = clicks.filter(color='white').count()
+        self.save()
+
+    def calculate_tempo(self, precision=2):
+        """
+        Zliczam ilość wszystkich kliknięć na każdym z kolorów i sumuję je
+        1. Określam procentowy współczynnik regularności: (ilość czasu / co ile sekund miał klikać) - 100%; n kliknięć - x%
+        2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
+        3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
+        """
+        percent_coefficient = self.timeout / self.regularity
+        self.percentage_all = round(self.count_all / (percent_coefficient * 3) * 100, precision)
+        self.percentage_blue = round(self.count_blue / percent_coefficient * 100, precision)
+        self.percentage_red = round(self.count_red / percent_coefficient * 100, precision)
+        self.percentage_white = round(self.count_white / percent_coefficient * 100, precision)
+        self.save()
+
+    def calculate_regularity(self, precision=4):
         """
         Wyliczamy odchylenie standardowe dla wszystkich razem (po appendowaniu list - 60 elem), oraz dla każdego koloru osobno (listy po 20 elementów)
         1. podnosimy każdy element listy do kwadratu
@@ -149,7 +148,7 @@ class Trial(models.Model):
         3. pierwiastkujemy sumę
         4. dzielimy pierwiastek przez ilość elementów
         """
-        clicks = self.get_time_regularity_series()
+        clicks = self.get_time_between_clicks()
 
         def stdev(series):
             try:
@@ -163,11 +162,8 @@ class Trial(models.Model):
         self.time_stdev_white = stdev(clicks['white'])
         self.save()
 
-    def calculate_mean(self, precision=4):
-        """
-        Obliczamy średnią czasu dla wszystkich oraz dla każdego z kolorów osobno
-        """
-        clicks = self.get_time_regularity_series()
+    def calculate_interval(self, precision=4):
+        clicks = self.get_time_between_clicks()
 
         def mean(series):
             try:
