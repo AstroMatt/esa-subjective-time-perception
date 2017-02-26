@@ -13,7 +13,7 @@ Technology and Architecture
     :scale: 50%
     :align: center
 
-    Application activity diagram.
+    Subjective Time Perception Analyzer UML activity diagram.
 
 
 Frontend
@@ -115,6 +115,12 @@ Technology
 We have decided to use `Python` language with `Django` framework. This solution provide easy to develop and further extension web applications. As of we're planning to run the experiment at global internet scale the choice for application which does not require installation was obvious. Moreover we will be targeting for different platforms such as tablets, `PC`, `Mac`, smartphones and some custom made setup with LED lamp equipped blindfold.
 
 `Django` framework provides out-of-the-box generation of administration panel with secure authentication, user and groups management together with permissions and access control. Each element has it change history which gives us possibility to experiment with data and rollback modifications.
+
+.. figure:: img/backend-trial-list-3.png
+    :scale: 100%
+    :align: center
+
+    Administration panel listing of Trials with search, filter, validate/invalidate and recalculate actions.
 
 Login and user management
 ^^^^^^^^^^^^^^^^^^^^^^^^^
