@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'backend.api_v1',
     'backend.api_v2',
     'import_export',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

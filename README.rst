@@ -63,4 +63,4 @@ How to see results?
     docs/algorithm.rst
     docs/api.rst
     docs/todo.rst
-    docs/bibliography.rst
+    docs/references.rst

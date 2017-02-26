@@ -110,3 +110,32 @@ interval_blue      Interval - blue
 interval_red       Interval - red
 interval_white     Interval - white
 =================  ==============================================
+
+Internal Backend Architecture
+-----------------------------
+
+.. figure:: img/architecture-system.png
+    :scale: 50%
+    :align: center
+
+    Application architecture overview.
+
+.. figure:: img/architecture-api-v2.png
+    :scale: 50%
+    :align: center
+
+    Application architecture for ``backend.api_v2``.
+
+.. figure:: img/architecture-api-v1.png
+    :scale: 50%
+    :align: center
+
+    Application architecture for ``backend.api_v1``.
+
+.. note:: How to generate those diagrams?
+
+    .. code:: sh
+
+        python manage.py graph_models -a -g -o docs/img/architecture-system.png
+        python manage.py graph_models api_v1 -g -o docs/img/architecture-api-v1.png
+        python manage.py graph_models api_v2 -g -o docs/img/architecture-api-v2.png

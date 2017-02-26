@@ -3,9 +3,22 @@ Technology and Architecture
 
 `Subjective Time Perception Analyzer` (`STPA`) is written as a web application platform. It uses frontend/backend model. Frontend is written in JavaScript with `jQuery` library to handle AJAX requests. Backend is written in `Python` using `Django` framework. Application was meant to be used both online and offline.
 
+.. figure:: img/architecture-system.png
+    :scale: 50%
+    :align: center
+
+    Application architecture overview.
+
+.. figure:: img/architecture-activity-diagram.png
+    :scale: 50%
+    :align: center
+
+    Application activity diagram.
+
+
 Frontend
 --------
-Application was meant to be executed on public events like Open Days or conferences. This requirement has strong impact on application architecture. Frontend layer allows you to be run simultaneously on unlimited number of devices. Frontend part runs locally on guest web browser henceforth it scales. The requirement of being able to run offline and afterwards collect and combine the data shaped the application.
+Application was meant to be executed on public events like open days or conferences and therefore this requirement has strong impact on application architecture. Frontend part runs locally on guest web browser henceforth it could be run simultaneously on unlimited number of devices. The requirement of being able to run offline and afterwards collect and combine the data shaped the application.
 
 Frontend part of the application allows user for fill survey and measure clicks on the screen while displaying colors. After the experiment data is uploaded to remote server.
 
@@ -39,7 +52,7 @@ Application validates user input to the survey. This functionality was implement
 
 Random color algorithm
 ^^^^^^^^^^^^^^^^^^^^^^
-Frontend application randomize experiment color order. We've decided to use `Fisher-Yates (aka Knuth) Shuffle` algorithm because it provides unbiased shuffle results [KNUT1969]_ [FiYa1948]_. It generates random permutation of a finite set and produces an unbiased permutation: every permutation is equally likely.
+Frontend application randomize experiment color order. We've decided to use `Fisher-Yates (aka Knuth) Shuffle` algorithm because it provides unbiased shuffle results [Knu69]_ [FY48]_. It generates random permutation of a finite set and produces an unbiased permutation: every permutation is equally likely.
 
 .. code-block:: javascript
 
@@ -91,11 +104,17 @@ Backend
 -------
 Backend layer is responsible for processing data and calculations. It provides users with easy to use administration panel with search capability. As per each request to the backend is logged for safety reasons and for further analysis with different parameters the administration panel is bundled with request logging viewer.
 
+.. figure:: img/architecture-api-v2.png
+    :scale: 50%
+    :align: center
+
+    Application architecture for ``backend.api_v2``.
+
 Technology
 ^^^^^^^^^^
 We have decided to use `Python` language with `Django` framework. This solution provide easy to develop and further extension web applications. As of we're planning to run the experiment at global internet scale the choice for application which does not require installation was obvious. Moreover we will be targeting for different platforms such as tablets, `PC`, `Mac`, smartphones and some custom made setup with LED lamp equipped blindfold.
 
-`Django` framework provides out-of-the-box generation of administration panel with secure authentication, user and groups managements together with permissions and access control. Each element has it change history which gives us possibility to experiment with data and rollback modifications.
+`Django` framework provides out-of-the-box generation of administration panel with secure authentication, user and groups management together with permissions and access control. Each element has it change history which gives us possibility to experiment with data and rollback modifications.
 
 Login and user management
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -147,4 +166,4 @@ Data import and export
 
     Application data export screen with list of formats available to download.
 
-Application backend allows researchers to import and export data in various formats such as: ``.xslx``, ``.csv`` and others.
+Application backend allows researchers to import and export data in various formats such as: ``.xlsx``, ``.csv`` and others.
