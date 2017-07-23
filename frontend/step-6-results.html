@@ -20,7 +20,7 @@
             Trial.save();
             Trial.clear();
             Database.syncdb();
-            sleep(10).then(() => {
+            sleep(30).then(() => {
                goto('index');
             });
        } else {
@@ -32,7 +32,6 @@
 
 <body>
     <h1>Thank you for participating in the experiment!</h1>
-    <p>You'll get the results on your email in the next following days.</p>
 
     <p><button onclick="goto('index')">Start experiment once again</button>
 </body>
