@@ -14,8 +14,7 @@
 
 <body>
     <h1>Subjective Time Perception Experiment</h1>
-    <p>How different colors and light polarization influence on time perception?</p>
-    <p>Experiment takes around 10 minutes.</p>
+    <p>Experiment takes around 5 minutes.</p>
 
     <h2>Instructions</h2>
     <ol>
@@ -35,21 +34,9 @@
         <input type="hidden" name="polarization" value="horizontal">
 
         <input type="hidden" name="attempt" value="1">
-        <input type="submit" value="Start for the first time">
+        <input type="submit" value="Start experiment">
     </form>
 
-    <h2>I've already done it once</h2>
-    <form method="get" action="step-1-survey-second.html" onsubmit="return confirm('Did you change polarization?')">
-
-        <input type="hidden" name="timeout" value="60">
-        <input type="hidden" name="regularity" value="5">
-        <input type="hidden" name="device" value="lcd">
-        <input type="hidden" name="location" value="internet">
-        <input type="hidden" name="polarization" value="vertical">
-
-        <input type="hidden" name="attempt" value="2">
-        <input type="submit" value="Start for the second time">
-    </form>
 </body>
 
 </html>
