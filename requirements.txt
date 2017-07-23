@@ -1,4 +1,5 @@
 Django
+django-grappelli
 gunicorn
 psycopg2
 dj-database-url
