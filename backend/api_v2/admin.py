@@ -75,6 +75,7 @@ class EventInline(admin.TabularInline):
 
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
     list_display = ['is_valid', 'uid', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
     list_display_links = ['uid']
     list_filter = [TempoListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
@@ -95,6 +96,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
 
 @admin.register(Survey)
 class SurveyAdmin(ImportExportModelAdmin):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
     list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
     list_display_links = ['datetime']
     list_filter = ['gender', 'condition', 'rhythm', 'age']
@@ -104,6 +106,7 @@ class SurveyAdmin(ImportExportModelAdmin):
 
 @admin.register(Event)
 class EventAdmin(ImportExportModelAdmin):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
     list_display = ['datetime', 'target', 'action', 'trial']
     list_display_links = ['datetime']
     list_filter = ['target', 'action']
@@ -113,9 +116,11 @@ class EventAdmin(ImportExportModelAdmin):
 
 @admin.register(Click)
 class ClickAdmin(ImportExportModelAdmin, ValidateAction):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
     list_display = ['datetime', 'is_valid', 'color']
     list_display_links = ['datetime']
     list_filter = ['is_valid', 'color']
     search_fields = ['=trial__id']
     ordering = ['-datetime']
     actions = ['make_invalid', 'make_valid']
+
