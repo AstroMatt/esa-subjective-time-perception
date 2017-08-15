@@ -76,7 +76,7 @@ class EventInline(admin.TabularInline):
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
     change_list_template = 'admin/change_list_filter_sidebar.html'
-    list_display = ['is_valid', 'uid', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
+    list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
     list_display_links = ['uid']
     list_filter = [TempoListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid']

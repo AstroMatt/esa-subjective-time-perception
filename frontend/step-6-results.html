@@ -7,6 +7,10 @@
     <script src="_common.js"></script>
     <script src="_jquery-3.1.1.min.js"></script>
 
+    <style>
+        table { display: inline-block; }
+    </style>
+
     <script>
         Trial.config('end_datetime', new Date().toJSON());
         log('end', 'trial');
@@ -33,29 +37,54 @@
 <body>
     <h1>Thank you for participating in the experiment!</h1>
 
-    <table id="clicks">
-        <tr class="total"><th></th><td></td></tr>
-        <tr class="red"><th></th><td></td></tr>
-        <tr class="white"><th></th><td></td></tr>
-        <tr class="blue"><th></th><td></td></tr>
+    <table id="results">
+        <thead>
+            <tr class="header">
+                <th>Parameter</th>
+                <th class="total">Total</th>
+                <th class="red">Red</th>
+                <th class="white">White</th>
+                <th class="blue">Blue</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="count">
+                <th>Count</th>
+                <td class="total"><script>document.write(clicks.length);</script></td>
+                <td class="red"><script>document.write(red);</script></td>
+                <td class="white"><script>document.write(white);</script></td>
+                <td class="blue"><script>document.write(blue);</script></td>
+            </tr>
+
+            <tr class="tempo">
+                <th>Tempo</th>
+                <th class="total"></th>
+                <th class="red"></th>
+                <th class="white"></th>
+                <th class="blue"></th>
+            </tr>
+
+            <tr class="regularity">
+                <th>Regularity</th>
+                <th class="total"></th>
+                <th class="red"></th>
+                <th class="white"></th>
+                <th class="blue"></th>
+            </tr>
+
+            <tr class="interval">
+                <th>Interval</th>
+                <th class="total"></th>
+                <th class="red"></th>
+                <th class="white"></th>
+                <th class="blue"></th>
+            </tr>
+        </tbody>
     </table>
+
+
 
     <p><button onclick="goto('index')">Start experiment once again</button>
 </body>
-<script>
-    var td = querySelector('table#clicks tr.total td');
-    var row = table.insertRow();
-
-    var th = row.insertCell(0);
-    th.innerHTML = "th";
-
-    var red = row.insertCell(1);
-    td.innerHTML = "td";
-
-    var blue = row.insertCell(1);
-    td.innerHTML = "td";
-
-    var white = row.insertCell(1);
-    td.innerHTML = "td";
-</script>
 </html>
