@@ -83,6 +83,9 @@ class Trial(models.Model):
             valid.save()
 
     def validate_trial(self, min=25, max=200):
+        if not self.tempo_all:
+            self.calculate()
+
         if min <= self.tempo_all <= max:
             self.is_valid = True
         else:
@@ -133,7 +136,7 @@ class Trial(models.Model):
         2. Wyliczenie procentowych współczynników regularności (z kroku powyżej) dla każdego z kolorów osobno
         3. >>> {"biały": 100, "czerwony": 110, "niebieski": 90} // wartości są w procentach
         """
-        percent_coefficient = self.timeout / self.regularity
+        percent_coefficient = float(self.timeout) / float(self.regularity)
         self.tempo_all = round(self.count_all / (percent_coefficient * 3) * 100, precision)
         self.tempo_blue = round(self.count_blue / percent_coefficient * 100, precision)
         self.tempo_red = round(self.count_red / percent_coefficient * 100, precision)

@@ -1,5 +1,5 @@
-Django
-django-grappelli
+Django==1.11.4
+django-grappelli=2.10.1
 gunicorn
 psycopg2
 dj-database-url

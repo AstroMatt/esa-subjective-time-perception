@@ -23,7 +23,7 @@
             sleep(30).then(() => {
                goto('index');
             });
-       } else {
+        } else {
            alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
            goto('index');
         }
@@ -33,6 +33,29 @@
 <body>
     <h1>Thank you for participating in the experiment!</h1>
 
+    <table id="clicks">
+        <tr class="total"><th></th><td></td></tr>
+        <tr class="red"><th></th><td></td></tr>
+        <tr class="white"><th></th><td></td></tr>
+        <tr class="blue"><th></th><td></td></tr>
+    </table>
+
     <p><button onclick="goto('index')">Start experiment once again</button>
 </body>
+<script>
+    var td = querySelector('table#clicks tr.total td');
+    var row = table.insertRow();
+
+    var th = row.insertCell(0);
+    th.innerHTML = "th";
+
+    var red = row.insertCell(1);
+    td.innerHTML = "td";
+
+    var blue = row.insertCell(1);
+    td.innerHTML = "td";
+
+    var white = row.insertCell(1);
+    td.innerHTML = "td";
+</script>
 </html>
