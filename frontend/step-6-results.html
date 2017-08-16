@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Subjective Time Perception Experiment</title>
-    <link href="_common.css?ts=2017-08-16T08:49" rel="stylesheet" type="text/css" />
-    <script src="js/common.js?ts=2017-08-16T08:49"></script>
+    <link href="_common.css?ts=2017-08-16T09:51" rel="stylesheet" type="text/css" />
+    <script src="js/common.js?ts=2017-08-16T09:52"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
 
     <style>
-        table { display: inline-block; }
+        td { text-align: right; max-width: 200px; word-break: break-all; }
     </style>
 
     <script>
@@ -24,11 +24,40 @@
             Database.setItem('.veteran', true);
             Trial.save();
             Database.syncdb();
-            var results = Trial.getResults();
+            Trial.getResults();
             Trial.clear();
         } else {
            alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
-           goto('index');
+           goto('step-3-color-one');
+        }
+
+        function generateResultsTable(data) {
+            time_between_clicks = JSON.parse(data.time_between_clicks);
+
+            document.querySelector('#results #count .all').innerHTML = data.count_all;
+            document.querySelector('#results #count .red').innerHTML = data.count_red;
+            document.querySelector('#results #count .white').innerHTML = data.count_white;
+            document.querySelector('#results #count .blue').innerHTML = data.count_blue;
+
+            document.querySelector('#results #tempo .all').innerHTML = data.tempo_all;
+            document.querySelector('#results #tempo .red').innerHTML = data.tempo_red;
+            document.querySelector('#results #tempo .white').innerHTML = data.tempo_white;
+            document.querySelector('#results #tempo .blue').innerHTML = data.tempo_blue;
+
+            document.querySelector('#results #regularity .all').innerHTML = data.regularity_all;
+            document.querySelector('#results #regularity .red').innerHTML = data.regularity_red;
+            document.querySelector('#results #regularity .white').innerHTML = data.regularity_white;
+            document.querySelector('#results #regularity .blue').innerHTML = data.regularity_blue;
+
+            document.querySelector('#results #interval .all').innerHTML = data.interval_all;
+            document.querySelector('#results #interval .red').innerHTML = data.interval_red;
+            document.querySelector('#results #interval .white').innerHTML = data.interval_white;
+            document.querySelector('#results #interval .blue').innerHTML = data.interval_blue;
+
+            document.querySelector('#results #time_between_clicks .all').innerHTML = time_between_clicks.all;
+            document.querySelector('#results #time_between_clicks .red').innerHTML = time_between_clicks.red;
+            document.querySelector('#results #time_between_clicks .white').innerHTML = time_between_clicks.white;
+            document.querySelector('#results #time_between_clicks .blue').innerHTML = time_between_clicks.blue;
         }
     </script>
 </head>
@@ -40,44 +69,52 @@
         <thead>
             <tr class="header">
                 <th>Parameter</th>
-                <th class="total">Total</th>
-                <th class="red">Red</th>
-                <th class="white">White</th>
-                <th class="blue">Blue</th>
+                <td class="all">All</td>
+                <td class="red">Red</td>
+                <td class="white">White</td>
+                <td class="blue">Blue</td>
             </tr>
-        </thead>
+        </tdead>
 
         <tbody>
-            <tr class="count">
+            <tr id="count">
                 <th>Count</th>
-                <td class="total"><script>document.write(clicks.length);</script></td>
-                <td class="red"><script>document.write(red);</script></td>
-                <td class="white"><script>document.write(white);</script></td>
-                <td class="blue"><script>document.write(blue);</script></td>
+                <td class="all"></td>
+                <td class="red"></td>
+                <td class="white"></td>
+                <td class="blue"></td>
             </tr>
 
-            <tr class="tempo">
+            <tr id="tempo">
                 <th>Tempo</th>
-                <th class="total"></th>
-                <th class="red"></th>
-                <th class="white"></th>
-                <th class="blue"></th>
+                <td class="all"></td>
+                <td class="red"></td>
+                <td class="white"></td>
+                <td class="blue"></td>
             </tr>
 
-            <tr class="regularity">
+            <tr id="regularity">
                 <th>Regularity</th>
-                <th class="total"></th>
-                <th class="red"></th>
-                <th class="white"></th>
-                <th class="blue"></th>
+                <td class="all"></td>
+                <td class="red"></td>
+                <td class="white"></td>
+                <td class="blue"></td>
             </tr>
 
-            <tr class="interval">
+            <tr id="interval">
                 <th>Interval</th>
-                <th class="total"></th>
-                <th class="red"></th>
-                <th class="white"></th>
-                <th class="blue"></th>
+                <td class="all"></td>
+                <td class="red"></td>
+                <td class="white"></td>
+                <td class="blue"></td>
+            </tr>
+
+            <tr id="time_between_clicks">
+                <th>Time Between Clicks</th>
+                <td class="all"></td>
+                <td class="red"></td>
+                <td class="white"></td>
+                <td class="blue"></td>
             </tr>
         </tbody>
     </table>

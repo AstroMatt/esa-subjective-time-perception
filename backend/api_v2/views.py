@@ -23,14 +23,6 @@ def decode_json(obj):
     return obj
 
 
-class JSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        try:
-            return super().default(obj)
-        except TypeError:
-            return '{:%Y-%m-%dT%H:%M:%S.%fZ}'.format(obj)
-
-
 class APIv2View(View):
     http_method_names = ['get', 'post', 'head', 'update', 'patch']
 
@@ -78,24 +70,24 @@ class APIv2View(View):
 
             trial.validate()
             trial.calculate()
-            trial.__dict__.pop('_state')
-            response = JsonResponse({'code':201, 'status':'Created', 'message': 'Trial added to the database.', 'data': json.dumps(trial.__dict__, cls=JSONEncoder)}, status=201)
+
+            response = JsonResponse({'code': 201, 'status': 'Created', 'message': 'Trial added to the database.', 'data': trial.get_data()}, status=201)
         except JSONDecodeError:
-            response = JsonResponse({'code':400, 'status':'Bad Request', 'message': 'JSON decode error'}, status=400)
+            response = JsonResponse({'code': 400, 'status': 'Bad Request', 'message': 'JSON decode error'}, status=400)
         except IntegrityError:
-            response = JsonResponse({'code':400, 'status':'Bad Request', 'message': 'Integrity error'}, status=400)
+            response = JsonResponse({'code': 400, 'status': 'Bad Request', 'message': 'Integrity error'}, status=400)
 
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
     def get(self, request, *args, **kwargs):
-        start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%f')
+        start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
         try:
-            trial = Trial.objects.get(start_datetime__startswith=start_datetime)
-            trial.__dict__.pop('_state')
-            response = JsonResponse({'code':200, 'status':'OK', 'data': json.dumps(trial.__dict__)}, status=200)
-        except Trial.DoesNotExist:
-            response = JsonResponse({'code':400, 'status':'Bad Request', 'message': 'Integrity error'}, status=400)
+            trial = Trial.objects.filter(start_datetime__startswith=start_datetime)[0]
+            response = JsonResponse({'code': 200, 'status': 'OK', 'data': trial.get_data()}, status=200)
+        except (Trial.DoesNotExist, KeyError):
+            response = JsonResponse({'code': 404, 'status': 'Not Found', 'message': 'Trial Does Not Exists'}, status=400)
 
         response['Access-Control-Allow-Origin'] = '*'
         return response

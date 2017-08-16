@@ -34,7 +34,7 @@ Database = {
     },
 
     clear: function() {
-        console.debug("[SUCCESS] Database in localStorage cleared");
+        console.debug("[DEBUG] Database in localStorage cleared");
         localStorage.clear();
         localStorage.setItem('.veteran', true);
     },
@@ -44,20 +44,21 @@ Database = {
             $.ajax({
                 type: "POST",
                 crossDomain: true,
-                url: this.url,
+                url: URL,
                 data: JSON.stringify(trial),
 
                 success: function(response) {
                     let trial = JSON.parse(this.data);
-                    console.debug("[SUCCESS] Trial results uploaded to the remote database:", trial);
-                    console.debug("[SUCCESS] Received response", response)
+                    console.info("[INFO] Trial results uploaded to the remote database:", this.url);
+                    console.debug("[DEBUG] Received response", response.data)
                     Database.delete(trial);
-                    return response
+                    return response.data;
                 },
 
                 error: function() {
                     let trial = JSON.parse(this.data);
-                    console.debug("[WARNING] Will try syncdb latter:", trial);
+                    console.warn("[WARNING] Unable connect to database. Working in offline mode. Will try syncdb latter with:", URL);
+
                 }
             });
         }
@@ -75,12 +76,12 @@ Database = {
             url: URL,
 
             success: function() {
-                console.debug("[SUCCESS] Connection established to the remote database:", URL);
+                console.info("[INFO] Connection established to the remote database:", URL);
                 Database.uploadResults();
             },
 
             error: function() {
-                console.debug("[WARNING] Will try syncdb latter. Unable connect to database:", URL);
+                console.warn("[WARNING] Unable connect to database. Working in offline mode. Will try syncdb latter with:", URL);
             }
         });
     }
@@ -111,18 +112,17 @@ Trial = {
     getResults: function(datetime) {
             $.ajax({
                 type: "GET",
-                crossDomain: true,
                 url: URL,
-                data: {start_datetime: this.start_datetime},
+                data: {"start_datetime": Trial.config('start_datetime')},
 
                 success: function(response) {
-                    console.debug('[SUCCESS] Received response with trial results data', URL);
-                    //console.debug("[SUCCESS] Received response", response);
-                    return response
+                    console.info("[INFO] Received response from:", URL);
+                    console.debug("[DEBUG] Received response:", response.data);
+                    return generateResultsTable(response.data);
                 },
 
                 error: function() {
-                    console.debug("[ERROR] Cannot receive results for:", this.data);
+                    console.error("[ERROR] Cannot receive results for:", this.data);
                 }
             });
     },

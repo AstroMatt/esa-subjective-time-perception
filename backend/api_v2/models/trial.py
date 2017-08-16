@@ -55,6 +55,11 @@ class Trial(models.Model):
         verbose_name = _('Trial')
         verbose_name_plural = _('Trials')
 
+    def get_data(self):
+        data = self.__dict__.copy()
+        data.pop('_state')
+        return data
+
     def save(self, *args, **kwargs):
         self.uid = self.uid.lower()
         return super().save(*args, **kwargs)
