@@ -113,7 +113,7 @@ Trial = {
             $.ajax({
                 type: "GET",
                 url: URL,
-                data: {"start_datetime": Trial.config('start_datetime')},
+                data: {"start_datetime": datetime},
 
                 success: function(response) {
                     console.info("[INFO] Received response from:", URL);

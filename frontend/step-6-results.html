@@ -12,23 +12,28 @@
     </style>
 
     <script>
-        Trial.config('end_datetime', new Date().toJSON());
-        log('end', 'trial');
+        if(Trial) {
+            Trial.config('end_datetime', new Date().toJSON());
+            log('end', 'trial');
 
-        var clicks = Trial.get().clicks;
-        var blue = clicks.filter(click => click.color=='blue').length
-        var red = clicks.filter(click => click.color=='red').length
-        var white = clicks.filter(click => click.color=='white').length
+            var start_datetime = Trial.config('start_datetime');
+            var clicks = Trial.get().clicks;
+            var blue = clicks.filter(click => click.color=='blue').length
+            var red = clicks.filter(click => click.color=='red').length
+            var white = clicks.filter(click => click.color=='white').length
 
-        if ([blue, red, white].every(count => count > 5)) {
-            Database.setItem('.veteran', true);
-            Trial.save();
-            Database.syncdb();
-            Trial.getResults();
-            Trial.clear();
-        } else {
-           alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
-           goto('step-3-color-one');
+            if ([blue, red, white].every(count => count > 5)) {
+                Database.setItem('.veteran', true);
+                Trial.save();
+                Database.syncdb();
+
+                Trial.getResults(start_datetime);
+
+                Trial.clear();
+            } else {
+               alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
+               goto('step-3-color-one');
+            }
         }
 
         function generateResultsTable(data) {
@@ -74,7 +79,7 @@
                 <td class="white">White</td>
                 <td class="blue">Blue</td>
             </tr>
-        </tdead>
+        </thead>
 
         <tbody>
             <tr id="count">

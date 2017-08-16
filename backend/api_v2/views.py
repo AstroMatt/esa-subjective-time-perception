@@ -84,9 +84,9 @@ class APIv2View(View):
         start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
 
         try:
-            trial = Trial.objects.filter(start_datetime__startswith=start_datetime)[0]
+            trial = Trial.objects.get(start_datetime=start_datetime)
             response = JsonResponse({'code': 200, 'status': 'OK', 'data': trial.get_data()}, status=200)
-        except (Trial.DoesNotExist, KeyError):
+        except (Trial.DoesNotExist, IndexError):
             response = JsonResponse({'code': 404, 'status': 'Not Found', 'message': 'Trial Does Not Exists'}, status=400)
 
         response['Access-Control-Allow-Origin'] = '*'
