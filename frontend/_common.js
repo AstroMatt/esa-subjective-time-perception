@@ -1,7 +1,7 @@
 DEBUG = false
 
 Database = {
-    url: "http://localhost:8000/api/v2/",
+    url: "http://stpa.astrotech.io/api/v2/",
 
     getItem: function(key) {
         return localStorage.getItem(key);
