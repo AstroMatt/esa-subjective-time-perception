@@ -23,6 +23,14 @@ def decode_json(obj):
     return obj
 
 
+class JSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        try:
+            return super().default(obj)
+        except TypeError:
+            return '{:%Y-%m-%dT%H:%M:%S.%fZ}'.format(obj)
+
+
 class APIv2View(View):
     http_method_names = ['get', 'post', 'head', 'update', 'patch']
 
@@ -70,8 +78,8 @@ class APIv2View(View):
 
             trial.validate()
             trial.calculate()
-            data = [field for field in trial.__dict__ if not field.startswith('_')]
-            response = JsonResponse({'code':200, 'status':'OK', 'message': 'Trial added to the database.', 'data': json.dumps(data)}, status=200)
+            trial.__dict__.pop('_state')
+            response = JsonResponse({'code':201, 'status':'Created', 'message': 'Trial added to the database.', 'data': json.dumps(trial.__dict__, cls=JSONEncoder)}, status=201)
         except JSONDecodeError:
             response = JsonResponse({'code':400, 'status':'Bad Request', 'message': 'JSON decode error'}, status=400)
         except IntegrityError:
@@ -84,8 +92,8 @@ class APIv2View(View):
         start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%f')
         try:
             trial = Trial.objects.get(start_datetime__startswith=start_datetime)
-            data = [field for field in trial.__dict__ if not field.startswith('_')]
-            response = JsonResponse({'code':200, 'status':'OK', 'data': json.dumps(data)}, status=200)
+            trial.__dict__.pop('_state')
+            response = JsonResponse({'code':200, 'status':'OK', 'data': json.dumps(trial.__dict__)}, status=200)
         except Trial.DoesNotExist:
             response = JsonResponse({'code':400, 'status':'Bad Request', 'message': 'Integrity error'}, status=400)
 

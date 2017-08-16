@@ -24,13 +24,24 @@
                 rhythm:    document.querySelector('input[name="rhythm"]:checked').value,
             });
         }
+
+        function nextStep() {
+            var veteran = Database.getItem('.veteran');
+            if(! veteran) {
+                console.debug("[INFO] User is newbie, needs test.");
+                goto('step-2-test');
+            } else {
+                console.debug("[INFO] User already done the experiment, skipping test session.");
+                goto('step-3-color-one');
+            }
+        }
     </script>
 </head>
 
 <body>
     <h1>User Survey</h1>
 
-    <form id="form" action="#" method="GET" onsubmit="save(); goto('step-2-test'); return false">
+    <form id="form" action="#" method="GET" onsubmit="save(); nextStep(); return false">
 
         <table>
             <tr>

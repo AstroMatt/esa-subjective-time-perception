@@ -1,13 +1,21 @@
 DEBUG = false
 
 Database = {
-    url: "http://stpa.astrotech.io/api/v2/",
+    url: "http://localhost:8000/api/v2/",
+
+    getItem: function(key) {
+        return localStorage.getItem(key);
+    },
+
+    setItem: function(key, value) {
+        return localStorage.setItem(key, value);
+    },
 
     get: function() {
         database = Array();
 
         for (let key of Object.keys(localStorage)) {
-            if (key != ".temp") {
+            if (key != ".temp" && key != ".veteran") {
                 let value = localStorage.getItem(key);
                 database.push(JSON.parse(value));
             }
@@ -28,7 +36,8 @@ Database = {
 
     clear: function() {
         console.debug("[SUCCESS] Database in localStorage cleared");
-        return localStorage.clear();
+        localStorage.clear();
+        localStorage.setItem('.veteran', true);
     },
 
     uploadResults: function() {
@@ -39,10 +48,12 @@ Database = {
                 url: this.url,
                 data: JSON.stringify(trial),
 
-                success: function() {
+                success: function(response) {
                     let trial = JSON.parse(this.data);
                     console.debug("[SUCCESS] Trial results uploaded to the remote database:", trial);
+                    console.debug("[SUCCESS] Received response", response)
                     Database.delete(trial);
+                    return response
                 },
 
                 error: function() {
@@ -96,6 +107,25 @@ Trial = {
 
         console.debug("[SUCCESS] Trial created", Trial.get());
         return Trial.get();
+    },
+
+    getResults: function(datetime) {
+            $.ajax({
+                type: "GET",
+                crossDomain: true,
+                url: this.url,
+                data: {start_datetime: this.start_datetime},
+
+                success: function(response) {
+                    console.debug(this.url);
+                    //console.debug("[SUCCESS] Received response", response);
+                    return response
+                },
+
+                error: function() {
+                    console.debug("[ERROR] Cannot receive results for:", this.data);
+                }
+            });
     },
 
     config: function(key, value) {

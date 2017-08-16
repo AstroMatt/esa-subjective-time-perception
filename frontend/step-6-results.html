@@ -21,12 +21,11 @@
         var white = clicks.filter(click => click.color=='white').length
 
         if ([blue, red, white].every(count => count > 5)) {
-            Trial.save();
-            Trial.clear();
-            Database.syncdb();
-            sleep(30).then(() => {
-               goto('index');
-            });
+            Database.setItem('.veteran', true);
+            //Trial.save();
+            // Database.syncdb();
+            var results = Trial.getResults();
+            // Trial.clear();
         } else {
            alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
            goto('index');
