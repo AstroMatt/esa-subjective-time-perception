@@ -12,11 +12,12 @@
     </style>
 
     <script>
-        if(Trial) {
+        if (Trial.length) {
             Trial.config('end_datetime', new Date().toJSON());
             log('end', 'trial');
 
             var start_datetime = Trial.config('start_datetime');
+
             var clicks = Trial.get().clicks;
             var blue = clicks.filter(click => click.color=='blue').length
             var red = clicks.filter(click => click.color=='red').length
@@ -36,6 +37,17 @@
                alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
                goto('step-3-color-one');
             }
+        }
+
+        start_datetime = '2017-08-15T23:54:55.555Z';
+        Trial.getResults(start_datetime);
+
+        function generateListFromArray(array) {
+            result = ['<ol>'];
+            for (let element of array)
+                result.push(`<li>${element}</li>`);
+            result.push('</ol>');
+            return result.join('');
         }
 
         function generateResultsTable(data) {
@@ -61,10 +73,10 @@
             document.querySelector('#results #interval .white').innerHTML = data.interval_white;
             document.querySelector('#results #interval .blue').innerHTML = data.interval_blue;
 
-            document.querySelector('#results #time_between_clicks .all').innerHTML = time_between_clicks.all;
-            document.querySelector('#results #time_between_clicks .red').innerHTML = time_between_clicks.red;
-            document.querySelector('#results #time_between_clicks .white').innerHTML = time_between_clicks.white;
-            document.querySelector('#results #time_between_clicks .blue').innerHTML = time_between_clicks.blue;
+            document.querySelector('#results #time_between_clicks .all').innerHTML = generateListFromArray(time_between_clicks.all);
+            document.querySelector('#results #time_between_clicks .red').innerHTML = generateListFromArray(time_between_clicks.red);
+            document.querySelector('#results #time_between_clicks .white').innerHTML = generateListFromArray(time_between_clicks.white);
+            document.querySelector('#results #time_between_clicks .blue').innerHTML = generateListFromArray(time_between_clicks.blue);
         }
     </script>
 </head>
