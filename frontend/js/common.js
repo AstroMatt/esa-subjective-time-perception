@@ -1,8 +1,7 @@
 DEBUG = false
+URL = 'http://stpa.astrotech.io/api/v2/'
 
 Database = {
-    url: "http://stpa.astrotech.io/api/v2/",
-
     getItem: function(key) {
         return localStorage.getItem(key);
     },
@@ -73,15 +72,15 @@ Database = {
         $.ajax({
             type: "HEAD",
             crossDomain: true,
-            url: this.url,
+            url: URL,
 
             success: function() {
-                console.debug("[SUCCESS] Connection established to the remote database:", this.url);
+                console.debug("[SUCCESS] Connection established to the remote database:", URL);
                 Database.uploadResults();
             },
 
             error: function() {
-                console.debug("[WARNING] Will try syncdb latter. Unable connect to database:", this.url);
+                console.debug("[WARNING] Will try syncdb latter. Unable connect to database:", URL);
             }
         });
     }
@@ -113,11 +112,11 @@ Trial = {
             $.ajax({
                 type: "GET",
                 crossDomain: true,
-                url: this.url,
+                url: URL,
                 data: {start_datetime: this.start_datetime},
 
                 success: function(response) {
-                    console.debug(this.url);
+                    console.debug('[SUCCESS] Received response with trial results data', URL);
                     //console.debug("[SUCCESS] Received response", response);
                     return response
                 },

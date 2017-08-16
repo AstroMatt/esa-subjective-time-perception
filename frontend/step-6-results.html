@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Subjective Time Perception Experiment</title>
-    <link href="_common.css?ts=2017-08-16T08:24" rel="stylesheet" type="text/css" />
-    <script src="js/common.js?ts=2017-08-16T08:24"></script>
-    <script src="js/time-perception.js?ts=2017-08-16T08:24"></script>
+    <link href="_common.css?ts=2017-08-16T08:49" rel="stylesheet" type="text/css" />
+    <script src="js/common.js?ts=2017-08-16T08:49"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
 
     <style>
@@ -23,10 +22,10 @@
 
         if ([blue, red, white].every(count => count > 5)) {
             Database.setItem('.veteran', true);
-            //Trial.save();
-            // Database.syncdb();
+            Trial.save();
+            Database.syncdb();
             var results = Trial.getResults();
-            // Trial.clear();
+            Trial.clear();
         } else {
            alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
            goto('index');
