@@ -28,7 +28,10 @@
                 Database.syncdb();
                 Trial.clear();
 
-                $(document).bind('post_syncdb', Trial.getResults(start_datetime));
+                sleep(2).then(() => {
+                    Trial.getResults(start_datetime);
+                });
+
             } else {
                alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
                goto('step-3-color-one');
