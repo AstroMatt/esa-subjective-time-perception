@@ -39,17 +39,6 @@
             }
         }
 
-        start_datetime = '2017-08-15T23:54:55.555Z';
-        Trial.getResults(start_datetime);
-
-        function generateListFromArray(array) {
-            result = ['<ol>'];
-            for (let element of array)
-                result.push(`<li>${element}</li>`);
-            result.push('</ol>');
-            return result.join('');
-        }
-
         function generateResultsTable(data) {
             time_between_clicks = JSON.parse(data.time_between_clicks);
 
@@ -73,7 +62,6 @@
             document.querySelector('#results #interval .white').innerHTML = data.interval_white;
             document.querySelector('#results #interval .blue').innerHTML = data.interval_blue;
 
-            document.querySelector('#results #time_between_clicks .all').innerHTML = generateListFromArray(time_between_clicks.all);
             document.querySelector('#results #time_between_clicks .red').innerHTML = generateListFromArray(time_between_clicks.red);
             document.querySelector('#results #time_between_clicks .white').innerHTML = generateListFromArray(time_between_clicks.white);
             document.querySelector('#results #time_between_clicks .blue').innerHTML = generateListFromArray(time_between_clicks.blue);
