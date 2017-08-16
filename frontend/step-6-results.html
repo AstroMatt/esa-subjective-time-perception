@@ -26,10 +26,9 @@
                 Database.setItem('.veteran', true);
                 Trial.save();
                 Database.syncdb();
-
-                Trial.getResults(start_datetime);
-
                 Trial.clear();
+
+                $(document).bind('post_syncdb', Trial.getResults(start_datetime););
             } else {
                alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
                goto('step-3-color-one');

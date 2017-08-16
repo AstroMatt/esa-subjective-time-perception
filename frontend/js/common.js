@@ -76,8 +76,10 @@ Database = {
             url: URL,
 
             success: function() {
+                $(document).trigger('pre_dbsync');
                 console.info("[INFO] Connection established to the remote database:", URL);
-                Database.uploadResults();
+                return Database.uploadResults();
+                $(document).trigger('post_dbsync');
             },
 
             error: function() {
