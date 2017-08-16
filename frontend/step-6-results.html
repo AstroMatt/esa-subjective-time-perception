@@ -37,6 +37,14 @@
            goto('step-3-color-one');
         }
 
+        function generateListFromArray(array) {
+            result = ['<ol>'];
+            for (let element of array)
+                result.push(`<li>${element}</li>`);
+            result.push('</ol>');
+            return result.join('');
+        }
+
         function generateResultsTable(data) {
             time_between_clicks = JSON.parse(data.time_between_clicks);
 
