@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.logger',
-    'backend.api_v1',
+    # 'backend.api_v1',
     'backend.api_v2',
     'import_export',
     # 'django_extensions',
@@ -134,3 +134,5 @@ en_formats.DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
 admin.site.site_header = _('Subjective Time Perception')
 admin.site.index_title = _('Control Panel')
 admin.site.site_title = _('Subjective Time Perception Control Panel')
+
+GRAPPELLI_ADMIN_TITLE = _('Subjective Time Perception')

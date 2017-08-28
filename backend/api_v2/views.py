@@ -24,27 +24,7 @@ def decode_json(obj):
 
 
 class APIv2View(View):
-    http_method_names = ['get', 'post', 'head', 'update', 'patch']
-
-    def patch(self, request, *args, **kwargs):
-        RequestLogger.add(request, api_version=2)
-        id = request.GET.get('id')
-        Trial.objects.get(id=id).validate()
-        Trial.objects.get(id=id).calculate()
-        response = HttpResponse(status=200)
-        response['Access-Control-Allow-Origin'] = '*'
-        return response
-
-    def update(self, request, *args, **kwargs):
-        RequestLogger.add(request, api_version=2)
-
-        for t in Trial.objects.all():
-            t.validate()
-            t.calculate()
-
-        response = HttpResponse(status=200)
-        response['Access-Control-Allow-Origin'] = '*'
-        return response
+    http_method_names = ['get', 'post', 'head']
 
     def head(self, request, *args, **kwargs):
         RequestLogger.add(request, api_version=2)
@@ -72,6 +52,7 @@ class APIv2View(View):
             trial.calculate()
 
             response = JsonResponse({'code': 201, 'status': 'Created', 'message': 'Trial added to the database.', 'data': trial.get_data()}, status=201)
+
         except JSONDecodeError:
             response = JsonResponse({'code': 400, 'status': 'Bad Request', 'message': 'JSON decode error'}, status=400)
         except IntegrityError:

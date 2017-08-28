@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Subjective Time Perception Experiment</title>
-    <link href="_common.css?ts=2017-08-16T11:42" rel="stylesheet" type="text/css" />
-    <script src="js/common.js?ts=2017-08-16T11:42"></script>
+    <link href="_common.css?v=1.0" rel="stylesheet" type="text/css" />
+    <script src="js/common.js?v=1.0"></script>
 
     <script>
         Trial.create();
@@ -16,12 +16,16 @@
             Trial.config('uid', document.querySelector('input[name="email"]').value);
 
             Trial.update('survey', {
-                datetime:  new Date().toJSON(),
-                email:     document.querySelector('input[name="email"]').value,
-                age:       document.querySelector('input[name="age"]').value,
-                gender:    document.querySelector('input[name="gender"]:checked').value,
-                condition: document.querySelector('input[name="condition"]:checked').value,
-                rhythm:    document.querySelector('input[name="rhythm"]:checked').value,
+                datetime:       new Date().toJSON(),
+                email:          document.querySelector('input[name="email"]').value,
+                age:            document.querySelector('input[name="age"]').value,
+                gender:         document.querySelector('input[name="gender"]:checked').value,
+                condition:      document.querySelector('input[name="condition"]:checked').value,
+                heart_rate:     document.querySelector('input[name="heart_rate"]').value,
+                bp_systolic:    document.querySelector('input[name="bp_systolic"]').value,
+                bp_diastolic:   document.querySelector('input[name="bp_diastolic"]').value,
+                sleep_hours:    document.querySelector('input[name="sleep_hours"]').value,
+                sleep_minutes:  document.querySelector('input[name="sleep_minutes"]').value,
             });
         }
 
@@ -55,12 +59,24 @@
             </tr>
 
             <tr>
-                <th>Gender</th>
-                <td><ul>
-                    <li><input type="radio" name="gender" value="male" required> Male</li>
-                    <li><input type="radio" name="gender" value="female" required> Female</li>
-                </ul></td>
+                <th>Heart Rate [bpm]</th>
+                <td><input type="number" placeholder="HR" name="heart_rate" min="40" max="220" autocomplete="off"></td>
             </tr>
+
+            <tr>
+                <th>Blood Pressure [SYS/DIA]</th>
+                <td>
+                    <input type="number" placeholder="SYS" name="bp_systolic" min="80" max="220" autocomplete="off"> /
+                    <input type="number" placeholder="DIA" name="bp_diastolic" min="40" max="160" autocomplete="off">
+                </td>
+            </tr>
+
+            <tr>
+                <th>Sleep duration</th>
+                <td><input type="number" placeholder="h" name="sleep_hours" min="0" max="23" autocomplete="off">
+                <input type="number" placeholder="min" name="sleep_minutes" min="0" max="59" autocomplete="off"></td>
+            </tr>
+
 
             <tr>
                 <th>How do you feel?</th>
@@ -72,16 +88,12 @@
             </tr>
 
             <tr>
-                <th>Heart Rate [bpm]</th>
-                <td><input type="number" placeholder="heart-rate" name="heart-rate" min="40" max="220" autocomplete="off"></td>
-            </tr>
-
-            <tr>
-                <th>Blood Pressure [SYS/DIA]</th>
-                <td>
-                    <input type="number" placeholder="Systolic" name="systolic" min="80" max="220" autocomplete="off"> /
-                    <input type="number" placeholder="Diastolic" name="diastolic" min="40" max="160" autocomplete="off">
-                </td>
+                <th>Gender</th>
+                <td><ul>
+                    <li><input type="radio" name="gender" value="male" required> Male</li>
+                    <li><input type="radio" name="gender" value="female" required> Female</li>
+                    <li><input type="radio" name="gender" value="other" required> Other</li>
+                </ul></td>
             </tr>
 
             <tr>

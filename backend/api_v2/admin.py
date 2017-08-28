@@ -60,6 +60,8 @@ class RecalculateAction:
 
 class SurveyInline(admin.StackedInline):
     model = Survey
+    classes = ['collapse open']
+    inline_classes = ['collapse open']
     extra = 0
 
 
@@ -78,14 +80,14 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
     change_list_template = 'admin/change_list_filter_sidebar.html'
     list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
     list_display_links = ['uid']
-    list_filter = [TempoListFilter, 'is_valid', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'device', 'location']
+    list_filter = [TempoListFilter, 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid']
     ordering = ['-start_datetime']
     actions = ['make_invalid', 'make_valid', 'recalculate']
     inlines = [SurveyInline]
     fieldsets = [
         ('', {'fields': ['uid', 'is_valid']}),
-        ('Experiment', {'fields': ['location', 'device', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'time_between_clicks']}),
+        ('Experiment', {'fields': ['location', 'device', 'timeout', 'regularity', 'colors', 'time_between_clicks']}),
         ('Dates', {'fields': ['start_datetime', 'end_datetime']}),
         ('Count', {'fields': ['count_all', 'count_blue', 'count_red', 'count_white']}),
         ('Tempo', {'fields': ['tempo_all', 'tempo_blue', 'tempo_red', 'tempo_white']}),
