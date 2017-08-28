@@ -18,8 +18,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'time-perception.herokuapp.com',
     'stpa.astrotech.io',
+    'time.astrotech.io',
 ]
 
 # Application definition
