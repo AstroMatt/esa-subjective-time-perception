@@ -8,12 +8,28 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Survey(models.Model):
+    GENDER_FEMALE = 'female'
+    GENDER_MALE = 'male'
+    GENDER_OTHER = 'other'
+    GENDER_CHOICES = [
+        (GENDER_FEMALE, _('Female')),
+        (GENDER_MALE, _('Male')),
+        (GENDER_OTHER, _('Other'))]
+
+    CONDITION_RESTED = 'rested'
+    CONDITION_NORMAL = 'normal'
+    CONDITION_TIRED = 'tired'
+    CONDITION_CHOICES = [
+        (CONDITION_RESTED, _('Well rested')),
+        (CONDITION_NORMAL, _('Normal')),
+        (CONDITION_TIRED, _('Tired'))]
+
     trial = ForeignKey(verbose_name=_('Trial'), to='api_v2.Trial', db_index=True)
     datetime = DateTimeField(verbose_name=_('Datetime'), db_index=True)
     email = EmailField(verbose_name=_('Email'), db_index=True)
     age = PositiveSmallIntegerField(verbose_name=_('Age'))
-    condition = CharField(verbose_name=_('Condition'), max_length=50)
-    gender = CharField(verbose_name=_('Gender'), max_length=50)
+    condition = CharField(verbose_name=_('Condition'), max_length=50, choices=CONDITION_CHOICES)
+    gender = CharField(verbose_name=_('Gender'), max_length=50, choices=GENDER_CHOICES)
     rhythm = CharField(verbose_name=_('Rhythm'), max_length=50, null=True, blank=True, default=None, editable=False)
 
     bp_systolic = PositiveSmallIntegerField(verbose_name=_('Blood Pressure SYS'), null=True, blank=True, default=None)
