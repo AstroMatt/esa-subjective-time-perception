@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Subjective Time Perception Experiment</title>
+    <link href="_common.css?ts=2017-08-16T11:42" rel="stylesheet" type="text/css" />
+    <script src="js/common.js?ts=2017-08-16T11:42"></script>
+
+    <script>
+        Trial.create();
+        log('start', 'trial');
+        log('start', 'survey');
+
+        function save() {
+            log('end', 'survey');
+            Trial.config('uid', document.querySelector('input[name="email"]').value);
+
+            Trial.update('survey', {
+                datetime:  new Date().toJSON(),
+                email:     document.querySelector('input[name="email"]').value,
+                age:       document.querySelector('input[name="age"]').value,
+                gender:    document.querySelector('input[name="gender"]:checked').value,
+                condition: document.querySelector('input[name="condition"]:checked').value,
+                rhythm:    document.querySelector('input[name="rhythm"]:checked').value,
+            });
+        }
+
+        function nextStep() {
+            var veteran = Database.getItem('.veteran');
+            if(! veteran) {
+                console.debug("[INFO] User is newbie, needs test.");
+                goto('step-2-test');
+            } else {
+                console.debug("[INFO] User already done the experiment, skipping test session.");
+                goto('step-3-color-one');
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>User Survey</h1>
+
+    <form id="form" action="#" method="GET" onsubmit="save(); nextStep(); return false">
+
+        <table>
+            <tr>
+                <th>Email</th>
+                <td><input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required></td>
+            </tr>
+
+            <tr>
+                <th>Age</th>
+                <td><input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required></td>
+            </tr>
+
+            <tr>
+                <th>Gender</th>
+                <td><ul>
+                    <li><input type="radio" name="gender" value="male" required> Male</li>
+                    <li><input type="radio" name="gender" value="female" required> Female</li>
+                </ul></td>
+            </tr>
+
+            <tr>
+                <th>How do you feel?</th>
+                <td><ul>
+                    <li><input type="radio" name="condition" value="well rested" required> Well rested</li>
+                    <li><input type="radio" name="condition" value="normal" required> Normal</li>
+                    <li><input type="radio" name="condition" value="tired" required> Tired</li>
+                </ul></td>
+            </tr>
+
+            <tr>
+                <th>Heart Rate [bpm]</th>
+                <td><input type="number" placeholder="heart-rate" name="heart-rate" min="40" max="220" autocomplete="off"></td>
+            </tr>
+
+            <tr>
+                <th>Blood Pressure [SYS/DIA]</th>
+                <td>
+                    <input type="number" placeholder="Systolic" name="systolic" min="80" max="220" autocomplete="off"> /
+                    <input type="number" placeholder="Diastolic" name="diastolic" min="40" max="160" autocomplete="off">
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><input type="submit" value="Proceed to the test"></td>
+            </tr>
+        </table>
+
+    </form>
+</body>
+</html>

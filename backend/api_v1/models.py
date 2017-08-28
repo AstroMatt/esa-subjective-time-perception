@@ -145,38 +145,6 @@ class Experiment(models.Model):
             'red': mean(clicks['red']),
             'white': mean(clicks['white'])}
 
-    def add(**data):
-
-        raise KeyError
-        return
-
-        experiment, status = Experiment.objects.get_or_create(
-            date=date_of_experiment,
-            location=data.get('location'),
-            polarization=data.get('polarization'),
-            device=data.get('device'),
-            first_name=data.get('first_name').title(),
-            last_name=data.get('last_name').title(),
-            timeout=data.get('timeout'),
-            age=data.get('age'),
-            gender=data.get('gender'),
-            rhythm=data.get('rhythm'),
-            condition=data.get('condition'))
-
-        for event in data.get('events'):
-            Event.objects.get_or_create(
-                experiment=experiment,
-                datetime=make_datetime(event.get('datetime')),
-                action=event.get('action'),
-                message=event.get('message'))
-
-        for click in data.get('clicks'):
-            Click.objects.get_or_create(
-                experiment=experiment,
-                datetime=make_datetime(click.get('datetime')),
-                background=click.get('background'))
-        return experiment
-
     def __str__(self):
         return f'[{self.experiment_start:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}) {self.first_name} {self.last_name}'
 
