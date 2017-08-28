@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import DateTimeField
+from django.db.models import DecimalField
 from django.db.models import CharField
 from django.db.models import ForeignKey
 from django.db.models import EmailField
@@ -32,6 +33,7 @@ class Survey(models.Model):
     gender = CharField(verbose_name=_('Gender'), max_length=50, choices=GENDER_CHOICES)
     rhythm = CharField(verbose_name=_('Rhythm'), max_length=50, null=True, blank=True, default=None, editable=False)
 
+    temperature = DecimalField(verbose_name=_('Temperature'), max_digits=3, decimal_places=1, null=True, blank=True, default=None)
     bp_systolic = PositiveSmallIntegerField(verbose_name=_('Blood Pressure SYS'), null=True, blank=True, default=None)
     bp_diastolic = PositiveSmallIntegerField(verbose_name=_('Blood Pressure DIA'), null=True, blank=True, default=None)
     heart_rate = PositiveSmallIntegerField(verbose_name=_('Heart Rate'), null=True, blank=True, default=None)

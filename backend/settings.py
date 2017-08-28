@@ -25,6 +25,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -136,3 +137,4 @@ admin.site.index_title = _('Control Panel')
 admin.site.site_title = _('Subjective Time Perception Control Panel')
 
 GRAPPELLI_ADMIN_TITLE = _('Subjective Time Perception')
+GRAPPELLI_INDEX_DASHBOARD = 'backend.dashboard.IndexDashboard'

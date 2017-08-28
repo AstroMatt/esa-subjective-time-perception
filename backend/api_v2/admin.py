@@ -1,8 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
-from backend.api_v2.models import Click
-from backend.api_v2.models import Event
 from backend.api_v2.models import Survey
 from backend.api_v2.models import Trial
 
@@ -51,13 +49,6 @@ class ValidateAction:
     make_valid.short_description = _('Mark as valid')
 
 
-class RecalculateAction:
-    def recalculate(modeladmin, request, queryset):
-        for trial in queryset:
-            trial.calculate()
-    recalculate.short_description = _('Recalculate')
-
-
 class SurveyInline(admin.StackedInline):
     model = Survey
     classes = ['collapse open']
@@ -65,25 +56,15 @@ class SurveyInline(admin.StackedInline):
     extra = 0
 
 
-class ClickInline(admin.TabularInline):
-    model = Click
-    extra = 0
-
-
-class EventInline(admin.TabularInline):
-    model = Event
-    extra = 0
-
-
 @admin.register(Trial)
-class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
+class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'admin/change_list_filter_sidebar.html'
     list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
     list_display_links = ['uid']
     list_filter = [TempoListFilter, 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid']
     ordering = ['-start_datetime']
-    actions = ['make_invalid', 'make_valid', 'recalculate']
+    actions = ['make_invalid', 'make_valid']
     inlines = [SurveyInline]
     fieldsets = [
         ('', {'fields': ['uid', 'is_valid']}),
@@ -94,34 +75,3 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
         ('Regularity', {'fields': ['regularity_all', 'regularity_blue', 'regularity_red', 'regularity_white']}),
         ('Interval', {'fields': ['interval_all', 'interval_blue', 'interval_red', 'interval_white']}),
     ]
-
-
-@admin.register(Survey)
-class SurveyAdmin(ImportExportModelAdmin):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
-    list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
-    list_display_links = ['datetime']
-    list_filter = ['gender', 'condition', 'rhythm', 'age']
-    search_fields = ['^email']
-    ordering = ['-datetime']
-
-
-@admin.register(Event)
-class EventAdmin(ImportExportModelAdmin):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
-    list_display = ['datetime', 'target', 'action', 'trial']
-    list_display_links = ['datetime']
-    list_filter = ['target', 'action']
-    search_fields = ['=trial__id']
-    ordering = ['-datetime']
-
-
-@admin.register(Click)
-class ClickAdmin(ImportExportModelAdmin, ValidateAction):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
-    list_display = ['datetime', 'is_valid', 'color']
-    list_display_links = ['datetime']
-    list_filter = ['is_valid', 'color']
-    search_fields = ['=trial__id']
-    ordering = ['-datetime']
-    actions = ['make_invalid', 'make_valid']
