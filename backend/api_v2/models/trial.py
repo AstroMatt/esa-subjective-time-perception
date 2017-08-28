@@ -49,7 +49,7 @@ class Trial(models.Model):
     interval_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
 
     def __str__(self):
-        return f'[{self.start_datetime:%Y-%m-%d %H:%M}] {self.location} ({self.device}, {self.polarization}), {self.uid}, attempt: {self.attempt}'
+        return f'[{self.start_datetime:%Y-%m-%d %H:%M}] ({self.location}, {self.device}) {self.uid}'
 
     class Meta:
         verbose_name = _('Trial')
