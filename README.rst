@@ -2,10 +2,28 @@ Subjective Time Perception Analyzer
 ===================================
 
 How different colors and light polarization influence on time perception?
-
 The software was written for the `Advanced Concepts Team` (`European Space Agency`, `ESTEC`) experiment on subjective time perception.
 
 .. tip:: This software is open source (released under MIT license) and you can use it for your experiments! I would appreciate Pull Requests and any other contribution.
+
+Contact
+-------
+
+.. image:: https://travis-ci.org/AstroMatt/esa-time-perception.svg?branch=master
+    :target: https://travis-ci.org/AstroMatt/esa-time-perception
+
+- `STPA on SonarCloud <https://sonarcloud.io/dashboard?id=Time-Perception>`_
+- `STPA on Github <https://github.com/AstroMatt/esa-time-perception/>`_
+- `STPA on Travis CI <https://www.travis-ci.org/AstroMatt/esa-time-perception>`_
+
+**Author**
+    :name: `Matt Harasymczuk <http://astromatt.space>`_
+    :email: `stpa@astrotech.io <mailto:stpa@astrotech.io>`_
+    :www: `http://www.astromatt.space <http://astromatt.space>`_
+    :facebook: `https://facebook.com/astromatt.space <https://facebook.com/astromatt.space>`_
+    :linkedin: `https://linkedin.com/in/mattharasymczuk <https://linkedin.com/in/mattharasymczuk>`_
+    :slideshare: `https://www.slideshare.net/astrotech/presentations <https://www.slideshare.net/astrotech/presentations>`_
+
 
 How to use this software?
 -------------------------
