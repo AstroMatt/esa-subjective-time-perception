@@ -20,7 +20,7 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - pep8 habitat
+  - pep8 backend
   - python manage.py check
   - python manage.py migrate
   - python manage.py test --verbosity 2

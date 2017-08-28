@@ -72,14 +72,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '_data', 'db.sqlite3'),
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
+if os.environ.get('DATABASE_URL'):
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -128,11 +130,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
 
 DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
-
-
-if os.environ.get('DATABASE_URL'):
-    import dj_database_url
-    DATABASES['default'] =  dj_database_url.config()
 
 
 
