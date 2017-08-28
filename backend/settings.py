@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'backend.api_v1',
     'backend.api_v2',
     'import_export',
-    #'django_extensions',
+    # 'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +81,7 @@ DATABASES = {
 
 if os.environ.get('DATABASE_URL'):
     import dj_database_url
-    DATABASES['default'] =  dj_database_url.config()
+    DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -128,9 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
-
-DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
-
+en_formats.DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
 
 
 admin.site.site_header = _('Subjective Time Perception')

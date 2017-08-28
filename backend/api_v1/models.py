@@ -7,20 +7,33 @@ from django.db import models
 
 
 class Experiment(models.Model):
+
     RHYTHMS = [
         ('perfect', _('Perfect')),
         ('above-average', _('Above average')),
         ('average', _('Average')),
         ('below-average', _('Below average')),
         ('poor', _('Poor'))]
+
     GENDERS = [
         ('female', _('Female')),
         ('male', _('Male')),
         ('other', _('Other'))]
+
     CONDITIONS = [
         ('well-rested', _('Well rested')),
         ('normal', _('Normal')),
         ('tired', _('Tired'))]
+
+    DEVICES = [
+        ('computer-1', _('Computer 1')),
+        ('computer-2', _('Computer 2'))]
+
+    POLARIZATIONS = [
+        ('horizontal', _('Horizontal')),
+        ('vertical', _('Vertical')),
+        ('cross', _('Cross')),
+        ('mixed', _('Mixed'))]
 
     location = models.CharField(verbose_name=_('Location'), max_length=50)
     experiment_start = models.DateTimeField(verbose_name=_('Start date'), null=True)
@@ -28,22 +41,14 @@ class Experiment(models.Model):
     timeout = models.PositiveIntegerField(verbose_name=_('Timeout'), help_text=_('Microseconds'))
     first_name = models.CharField(verbose_name=_('First name'), max_length=50, null=True)
     last_name = models.CharField(verbose_name=_('Last name'), max_length=50, null=True)
-    #email = models.EmailField(verbose_name=_('Email'), null=True, blank=True)
+    # email = models.EmailField(verbose_name=_('Email'), null=True, blank=True)
     age = models.PositiveSmallIntegerField(verbose_name=_('Age'), )
-    #attempt = models.PositiveSmallIntegerField(verbose_name=_('Attempt'))
+    # attempt = models.PositiveSmallIntegerField(verbose_name=_('Attempt'))
     rhythm = models.CharField(verbose_name=_('Rhythm'), max_length=50, choices=RHYTHMS)
     gender = models.CharField(verbose_name=_('Gender'), max_length=50, choices=GENDERS)
     condition = models.CharField(verbose_name=_('Condition'), max_length=50, choices=CONDITIONS)
     is_valid = models.NullBooleanField(verbose_name=_('Is valid?'), null=True)
 
-    DEVICES = [
-        ('computer-1', _('Computer 1')),
-        ('computer-2', _('Computer 2'))]
-    POLARIZATIONS = [
-        ('horizontal', _('Horizontal')),
-        ('vertical', _('Vertical')),
-        ('cross', _('Cross')),
-        ('mixed', _('Mixed'))]
     polarization = models.CharField(verbose_name=_('Polarization'), max_length=15, choices=POLARIZATIONS)
     device = models.CharField(verbose_name=_('Device'), max_length=50, choices=DEVICES)
     order = models.CharField(verbose_name=_('Order'), max_length=70, null=True)
@@ -142,12 +147,8 @@ class Experiment(models.Model):
 
     def add(**data):
 
-
-
         raise KeyError
         return
-
-
 
         experiment, status = Experiment.objects.get_or_create(
             date=date_of_experiment,

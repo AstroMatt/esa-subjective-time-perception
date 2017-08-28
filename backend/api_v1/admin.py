@@ -42,6 +42,7 @@ class TrialInline(admin.StackedInline):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
 class ClickInline(admin.TabularInline):
     model = Click
     readonly_fields = ['datetime', 'background']

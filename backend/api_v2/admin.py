@@ -82,7 +82,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction, RecalculateAction):
     search_fields = ['=id', '^uid']
     ordering = ['-start_datetime']
     actions = ['make_invalid', 'make_valid', 'recalculate']
-    inlines = [SurveyInline, EventInline, ClickInline]
+    inlines = [SurveyInline]
     fieldsets = [
         ('', {'fields': ['uid', 'is_valid']}),
         ('Experiment', {'fields': ['location', 'device', 'polarization', 'attempt', 'timeout', 'regularity', 'colors', 'time_between_clicks']}),
@@ -123,4 +123,3 @@ class ClickAdmin(ImportExportModelAdmin, ValidateAction):
     search_fields = ['=trial__id']
     ordering = ['-datetime']
     actions = ['make_invalid', 'make_valid']
-

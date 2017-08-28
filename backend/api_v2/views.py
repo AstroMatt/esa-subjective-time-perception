@@ -17,7 +17,7 @@ from backend.logger.models import RequestLogger
 def decode_json(obj):
     for key, value in obj.items():
         if 'datetime' in key:
-           obj[key] = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=datetime.timezone.utc)
+            obj[key] = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=datetime.timezone.utc)
         elif key == 'colors':
             obj[key] = ','.join(value)
     return obj

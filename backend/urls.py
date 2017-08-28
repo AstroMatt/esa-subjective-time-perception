@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
 
-    #url(r'^api/v1/', include('backend.api_v1.urls')),
+    # url(r'^api/v1/', include('backend.api_v1.urls')),
     url(r'^api/v2/', include('backend.api_v2.urls')),
 
     url(r'^$', RedirectView.as_view(url='/index.html', permanent=False)),
