@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Subjective Time Perception Experiment</title>
     <link href="_common.css?v=1.1" rel="stylesheet" type="text/css" />
-    <script src="js/common.js?v=1.0"></script>
+    <script src="js/common.js?v=1.1"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
 
     <style>
@@ -28,9 +28,9 @@
             Database.syncdb();
             Trial.clear();
 
-            sleep(2).then(() => {
-                Trial.getResults(start_datetime);
-            });
+            // sleep(2).then(() => {
+            //    Trial.getResults(start_datetime);
+            // });
 
         } else {
            alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
@@ -77,7 +77,8 @@
 
 <body>
     <h1>Thank you for participating in the experiment!</h1>
-
+    Results from now will be hidden and presented after the experiment.
+    <!--
     <table id="results">
         <thead>
             <tr class="header">
@@ -131,7 +132,7 @@
             </tr>
         </tbody>
     </table>
-
+    -->
 
 
     <p><button onclick="goto('index')">Start experiment once again</button>
