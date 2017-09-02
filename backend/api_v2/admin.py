@@ -59,19 +59,19 @@ class SurveyInline(admin.StackedInline):
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'admin/change_list_filter_sidebar.html'
-    list_display = ['is_valid', 'uid', 'start_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
+    list_display = ['is_valid', 'uid', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all']
     list_display_links = ['uid']
-    list_filter = [TempoListFilter, 'uid', 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
+    list_filter = [TempoListFilter, 'uid', 'end_datetime', 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid']
-    ordering = ['-start_datetime']
+    ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
     inlines = [SurveyInline]
     fieldsets = [
-        ('', {'fields': ['uid', 'is_valid']}),
-        ('Experiment', {'fields': ['location', 'device', 'timeout', 'regularity', 'colors', 'time_between_clicks']}),
-        ('Dates', {'fields': ['start_datetime', 'end_datetime']}),
+        ('', {'fields': ['uid', 'is_valid', 'start_datetime', 'end_datetime']}),
+        ('Summary', {'fields': ['count_all', 'tempo_all', 'regularity_all', 'interval_all']}),
         ('Count', {'fields': ['count_all', 'count_blue', 'count_red', 'count_white']}),
         ('Tempo', {'fields': ['tempo_all', 'tempo_blue', 'tempo_red', 'tempo_white']}),
         ('Regularity', {'fields': ['regularity_all', 'regularity_blue', 'regularity_red', 'regularity_white']}),
         ('Interval', {'fields': ['interval_all', 'interval_blue', 'interval_red', 'interval_white']}),
+        ('Details', {'fields': ['device', 'location', 'timeout', 'regularity', 'colors', 'time_between_clicks']})
     ]
