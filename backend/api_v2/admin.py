@@ -60,7 +60,8 @@ class SurveyInline(admin.StackedInline):
 
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
+    change_list_template = 'admin/change_list_import_export.html'
+    change_list_filter_template = 'admin/filter_listing.html'
     list_display = ['is_valid', 'uid', 'time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
     list_display_links = ['uid']
     list_editable = ['time']
@@ -82,7 +83,8 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
 
 @admin.register(Survey)
 class SurveyAdmin(ImportExportModelAdmin):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
+    change_list_template = 'admin/change_list_import_export.html'
+    change_list_filter_template = 'admin/filter_listing.html'
     list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
     list_display_links = ['datetime']
     list_filter = ['gender', 'condition', 'rhythm', 'age']
@@ -92,7 +94,8 @@ class SurveyAdmin(ImportExportModelAdmin):
 
 @admin.register(Event)
 class EventAdmin(ImportExportModelAdmin):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
+    change_list_template = 'admin/change_list_import_export.html'
+    change_list_filter_template = 'admin/filter_listing.html'
     list_display = ['datetime', 'target', 'action', 'trial']
     list_display_links = ['datetime']
     list_filter = ['target', 'action']
@@ -102,7 +105,8 @@ class EventAdmin(ImportExportModelAdmin):
 
 @admin.register(Click)
 class ClickAdmin(ImportExportModelAdmin, ValidateAction):
-    change_list_template = 'admin/change_list_filter_sidebar.html'
+    change_list_template = 'admin/change_list_import_export.html'
+    change_list_filter_template = 'admin/filter_listing.html'
     list_display = ['datetime', 'is_valid', 'color']
     list_display_links = ['datetime']
     list_filter = ['is_valid', 'color']
