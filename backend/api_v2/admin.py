@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
+
+from backend.api_v2.models import Event, Click
 from backend.api_v2.models import Survey
 from backend.api_v2.models import Trial
 
@@ -76,3 +78,34 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
         ('Interval', {'fields': ['interval_all', 'interval_blue', 'interval_red', 'interval_white']}),
         ('Details', {'fields': ['device', 'location', 'timeout', 'regularity', 'colors', 'time_between_clicks']})
     ]
+
+
+@admin.register(Survey)
+class SurveyAdmin(ImportExportModelAdmin):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
+    list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
+    list_display_links = ['datetime']
+    list_filter = ['gender', 'condition', 'rhythm', 'age']
+    search_fields = ['^email']
+    ordering = ['-datetime']
+
+
+@admin.register(Event)
+class EventAdmin(ImportExportModelAdmin):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
+    list_display = ['datetime', 'target', 'action', 'trial']
+    list_display_links = ['datetime']
+    list_filter = ['target', 'action']
+    search_fields = ['=trial__id']
+    ordering = ['-datetime']
+
+
+@admin.register(Click)
+class ClickAdmin(ImportExportModelAdmin, ValidateAction):
+    change_list_template = 'admin/change_list_filter_sidebar.html'
+    list_display = ['datetime', 'is_valid', 'color']
+    list_display_links = ['datetime']
+    list_filter = ['is_valid', 'color']
+    search_fields = ['=trial__id']
+    ordering = ['-datetime']
+    actions = ['make_invalid', 'make_valid']
