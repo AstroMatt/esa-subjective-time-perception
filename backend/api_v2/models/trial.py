@@ -15,11 +15,22 @@ from backend.api_v2.models import Click
 
 
 class Trial(models.Model):
+    TIME_MORNING = 'morning'
+    TIME_EVENING = 'evening'
+    TIME_OTHER = 'other'
+
+    TIME_CHOICES = [
+        (TIME_MORNING, _('Morning')),
+        (TIME_EVENING, _('Evening')),
+        (TIME_OTHER, _('Other')),
+    ]
+
     start_datetime = DateTimeField(verbose_name=_('Start datetime'), db_index=True)
     end_datetime = DateTimeField(verbose_name=_('End datetime'))
     colors = CharField(verbose_name=_('Color order'), max_length=50)
     device = CharField(verbose_name=_('Device'), max_length=50)
     location = CharField(verbose_name=_('Location'), max_length=50)
+    time = CharField(verbose_name=_('Time'), max_length=30, choices=TIME_CHOICES, null=True, blank=True, default=None)
     uid = EmailField(verbose_name=_('User ID'), db_index=True)
     polarization = CharField(verbose_name=_('Polarization'), max_length=50, null=True, blank=True, default=None)
     timeout = FloatField(verbose_name=_('Timeout'), help_text=_('Seconds per color'))
