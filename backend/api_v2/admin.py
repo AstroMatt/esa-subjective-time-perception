@@ -113,3 +113,4 @@ class ClickAdmin(ImportExportModelAdmin, ValidateAction):
     search_fields = ['=trial__id']
     ordering = ['-datetime']
     actions = ['make_invalid', 'make_valid']
+
