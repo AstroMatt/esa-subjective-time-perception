@@ -53,6 +53,8 @@ __pycache__
 
 # Project temporary directories
 _data/
+_fixtures/
+fixtures
 data/
 contrib/
 public/
