@@ -69,7 +69,7 @@ class HTTPRequest(models.Model):
         )
 
     def __str__(self):
-        return f'[{self.datetime}] ({self.sha1:.7}) {self.method} - {self.ip}'
+        return f'[{self.modified}] ({self.sha1:.7}) {self.method} - {self.ip}'
 
     class Meta:
         verbose_name = _('HTTP Request')

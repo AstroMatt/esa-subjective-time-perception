@@ -1,6 +1,8 @@
 import sys
 import datetime
 import json
+import logging
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from json.decoder import JSONDecodeError
 from django.core.management.base import BaseCommand
@@ -9,6 +11,15 @@ from backend.api_v2.models import Event
 from backend.api_v2.models import Trial
 from backend.api_v2.models import Survey
 from backend.logger.models import HTTPRequest
+
+
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(message)s',
+    filename='error.log',
+)
+
+log = logging.getLogger(__name__)
 
 
 def decode_json(obj):
@@ -48,7 +59,13 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
         Event.objects.filter(trial=trial).delete()
 
     except IntegrityError:
-        print(f'IntegrityError: {sha1}')
+        log.warning(f'IntegrityError: {http_request_sha1}')
+
+    except ValidationError:
+        log.warning(f'ValidationError: {http_request_sha1}')
+
+    except ValueError:
+        log.error(http_request_sha1)
 
 
 def clean():
