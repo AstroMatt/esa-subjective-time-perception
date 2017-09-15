@@ -12,7 +12,6 @@ from django.db.models import TextField
 from django.utils.translation import ugettext_lazy as _
 from backend.api_v2.models import Click
 from backend.api_v2.models import Event
-from backend.api_v2.models import Trial
 from backend.api_v2.models import Survey
 
 
@@ -67,8 +66,8 @@ class Trial(models.Model):
     def add(http_request_sha1, trial, surveys, clicks, events):
         trial, _ = Trial.objects.get_or_create(http_request_sha1=http_request_sha1, defaults=trial)
 
-        for survey in surveys:
-            Survey.objects.get_or_create(trial=trial, **Survey.clean(survey))
+        if surveys:
+            Survey.objects.get_or_create(trial=trial, **Survey.clean(surveys))
 
         for click in clicks:
             Click.objects.get_or_create(trial=trial, **click)

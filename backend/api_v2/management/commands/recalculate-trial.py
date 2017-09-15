@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 Trial.add(
                     http_request_sha1=request.sha1,
                     trial=data.get('trial', None),
-                    survey=data.get('survey', None),
+                    surveys=data.get('survey', None),
                     clicks=data.get('clicks', None),
                     events=data.get('events', None),
                 )
