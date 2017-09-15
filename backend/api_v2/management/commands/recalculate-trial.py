@@ -58,14 +58,19 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
         Click.objects.filter(trial=trial).delete()
         Event.objects.filter(trial=trial).delete()
 
-    except IntegrityError:
-        log.warning(f'IntegrityError: {http_request_sha1}')
+    except IntegrityError as e:
+        out = f'{http_request_sha1} IntegrityError: {e}'
+        log.warning(out)
 
-    except ValidationError:
-        log.warning(f'ValidationError: {http_request_sha1}')
+    except ValidationError as e:
+        out = f'{http_request_sha1} ValidationError: {e}'
+        print(out)
+        log.error(out)
 
-    except ValueError:
-        log.error(http_request_sha1)
+    except ValueError as e:
+        out = f'{http_request_sha1} ValueError: {e}'
+        print(out)
+        log.error(out)
 
 
 def clean():
