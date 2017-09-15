@@ -88,9 +88,6 @@ class Command(BaseCommand):
         with open('error.log') as file:
             errors = [line.replace('\n', '') for line in file]
 
-            print(errors)
-        return
-
         # for request in HTTPRequest.objects.all():
         for request in HTTPRequest.objects.filter(sha1__in=errors):
             data = get_data(request.data)
