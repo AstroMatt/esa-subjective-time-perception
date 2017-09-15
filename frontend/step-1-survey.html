@@ -50,17 +50,17 @@
 
         <table>
             <tr>
-                <th>Email</th>
+                <th>Email (*)</th>
                 <td><input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required></td>
             </tr>
 
             <tr>
-                <th>Age</th>
+                <th>Age [years] (*)</th>
                 <td><input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required></td>
             </tr>
 
             <tr>
-                <th>Temperature [°C]</th>
+                <th>Temperature [°C] (*)</th>
                 <td><input type="number" step="0.1" placeholder="°C" name="temperature" min="34" max="42" autocomplete="off"></td>
             </tr>
 
@@ -78,14 +78,14 @@
             </tr>
 
             <tr>
-                <th>Sleep duration</th>
+                <th>Sleep duration [hh:mm] (*)</th>
                 <td><input type="number" placeholder="h" name="sleep_hours" min="0" max="23" autocomplete="off">
-                <input type="number" placeholder="min" name="sleep_minutes" min="0" max="59" autocomplete="off"></td>
+                    <input type="number" placeholder="min" name="sleep_minutes" min="0" max="59" autocomplete="off">
+                </td>
             </tr>
 
-
             <tr>
-                <th>How do you feel?</th>
+                <th>How do you feel? (*)</th>
                 <td><ul>
                     <li><input type="radio" name="condition" value="rested" required> Well rested</li>
                     <li><input type="radio" name="condition" value="normal" required> Normal</li>
@@ -94,7 +94,7 @@
             </tr>
 
             <tr>
-                <th>Gender</th>
+                <th>Gender (*)</th>
                 <td><ul>
                     <li><input type="radio" name="gender" value="male" required> Male</li>
                     <li><input type="radio" name="gender" value="female" required> Female</li>
