@@ -11,7 +11,7 @@ from backend.api_v2.models import Click
 from backend.api_v2.models import Event
 from backend.api_v2.models import Trial
 from backend.api_v2.models import Survey
-from backend.logger.models import RequestLogger
+from backend.logger.models import HTTPRequest
 
 
 def decode_json(obj):
@@ -33,7 +33,7 @@ class APIv2View(View):
 
     def post(self, request, *args, **kwargs):
         try:
-            RequestLogger.add(request, api_version=2)
+            HTTPRequest.add(request, api_version=2)
         except IntegrityError:
             response = JsonResponse({'code': 409, 'status': 'Conflict', 'message': 'Integrity error'}, status=409)
             response['Access-Control-Allow-Origin'] = '*'
