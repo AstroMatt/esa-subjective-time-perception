@@ -39,18 +39,27 @@ def get_data(request):
         sys.exit(1)
 
 
+def get_survey(survey):
+    out = {}
+    for key, value in survey.items():
+        if not value:
+            value = None
+        out[key] = value
+    return out
+
+
 def save_data(http_request_sha1, trial, survey, clicks, events):
     try:
-        trial = Trial.objects.create(http_request_sha1=http_request_sha1, **trial)
+        trial, _ = Trial.objects.get_or_create(http_request_sha1=http_request_sha1, defaults=trial)
 
         if survey:
-            Survey.objects.create(trial=trial, **survey)
+            Survey.objects.get_or_create(trial=trial, **get_survey(survey))
 
         for click in clicks:
-            Click.objects.create(trial=trial, **click)
+            Click.objects.get_or_create(trial=trial, **click)
 
         for event in events:
-            Event.objects.create(trial=trial, **event)
+            Event.objects.get_or_create(trial=trial, **event)
 
         trial.validate()
         trial.calculate()
@@ -60,7 +69,8 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
 
     except IntegrityError as e:
         out = f'{http_request_sha1} IntegrityError: {e}'
-        log.warning(out)
+        print(out)
+        log.error(out)
 
     except ValidationError as e:
         out = f'{http_request_sha1} ValidationError: {e}'
@@ -80,16 +90,26 @@ def clean():
     Trial.objects.all().delete()
 
 
+def from_errorlog():
+    with open('error.log') as file:
+        errors = [line.replace('\n', '') for line in file]
+    return HTTPRequest.objects.filter(sha1__in=errors)
+
+
+def from_everywhere():
+    return HTTPRequest.objects.all()
+
+
+def from_trial():
+    hashes = list(Trial.objects.filter(regularity_all__isnull=True).values_list('http_request_sha1', flat=True))
+    return HTTPRequest.objects.filter(sha1__in=hashes)
+
+
 class Command(BaseCommand):
     help = 'Recalculate whole database.'
 
     def handle(self, *args, **options):
-
-        with open('error.log') as file:
-            errors = [line.replace('\n', '') for line in file]
-
-        # for request in HTTPRequest.objects.all():
-        for request in HTTPRequest.objects.filter(sha1__in=errors):
+        for request in from_trial():
             data = get_data(request.data)
             save_data(
                 http_request_sha1=request.sha1,
@@ -98,3 +118,6 @@ class Command(BaseCommand):
                 clicks=data.get('clicks'),
                 events=data.get('events'),
             )
+
+        Click.objects.all().delete()
+        Event.objects.all().delete()
