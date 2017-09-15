@@ -27,7 +27,6 @@ class APIv2View(View):
     http_method_names = ['get', 'post', 'head']
 
     def head(self, request, *args, **kwargs):
-        RequestLogger.add(request, api_version=2)
         response = HttpResponse(status=200)
         response['Access-Control-Allow-Origin'] = '*'
         return response
