@@ -42,7 +42,7 @@ class HTTPRequest(models.Model):
     method = CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_GET)
     api_version = PositiveSmallIntegerField(verbose_name=_('API version'))
     data = TextField(verbose_name=_('Data'), null=True, blank=True)
-    sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, unique=True, null=True, blank=True, default=None)
+    sha1 = CharField(verbose_name=_('SHA1'), max_length=40, unique=True, null=True, blank=True, default=None)
 
     def save(self, *args, **kwargs):
         self.sha1 = get_sha1(self.data)
@@ -59,7 +59,7 @@ class HTTPRequest(models.Model):
         )
 
     def __str__(self):
-        return f'[{self.datetime}] {self.method} - {self.ip}'
+        return f'[{self.datetime}] ({self.sha1:.7}) {self.method} - {self.ip}'
 
     class Meta:
         verbose_name = _('HTTP Request')

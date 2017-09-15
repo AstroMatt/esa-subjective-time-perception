@@ -25,6 +25,8 @@ class Trial(models.Model):
         (TIME_OTHER, _('Other')),
     ]
 
+    http_request_sha1 = CharField(verbose_name=_('SHA1'), max_length=40, unique=True, null=True, blank=True, default=None)
+
     start_datetime = DateTimeField(verbose_name=_('Start datetime'), db_index=True)
     end_datetime = DateTimeField(verbose_name=_('End datetime'))
     colors = CharField(verbose_name=_('Color order'), max_length=50)
