@@ -3,7 +3,7 @@ from backend.logger.models import RequestLogger
 
 
 class Command(BaseCommand):
-    help = 'Request fix Logger SHA1'
+    help = 'Request Logger calculate SHA1'
 
     def handle(self, *args, **options):
         for req in RequestLogger.objects.all():

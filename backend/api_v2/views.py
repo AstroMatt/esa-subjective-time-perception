@@ -32,7 +32,12 @@ class APIv2View(View):
         return response
 
     def post(self, request, *args, **kwargs):
-        RequestLogger.add(request, api_version=2)
+        try:
+            RequestLogger.add(request, api_version=2)
+        except IntegrityError:
+            response = JsonResponse({'code': 409, 'status': 'Conflict', 'message': 'Integrity error'}, status=409)
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
 
         try:
             data = json.loads(request.body, object_hook=decode_json)
