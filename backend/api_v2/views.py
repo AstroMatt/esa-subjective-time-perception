@@ -41,7 +41,7 @@ class APIv2View(View):
 
         try:
             data = json.loads(request.body, object_hook=decode_json)
-            trial, _ = Trial.objects.get_or_create(**data.get('trial'))
+            trial, _ = Trial.objects.get_or_create(**data.get('trial'), defaults={'time': data.get('survey').get('time')})
 
             if data.get('survey'):
                 Survey.objects.get_or_create(trial=trial, **data.get('survey'))

@@ -25,6 +25,15 @@ class Survey(models.Model):
         (CONDITION_NORMAL, _('Normal')),
         (CONDITION_TIRED, _('Tired'))]
 
+    TIME_MORNING = 'morning'
+    TIME_EVENING = 'evening'
+    TIME_OTHER = 'other'
+    TIME_CHOICES = [
+        (TIME_MORNING, _('Morning')),
+        (TIME_EVENING, _('Evening')),
+        (TIME_OTHER, _('Other')),
+    ]
+
     trial = ForeignKey(verbose_name=_('Trial'), to='api_v2.Trial', db_index=True)
     datetime = DateTimeField(verbose_name=_('Datetime'), db_index=True)
     email = EmailField(verbose_name=_('Email'), db_index=True)
@@ -32,6 +41,7 @@ class Survey(models.Model):
     condition = CharField(verbose_name=_('Condition'), max_length=50, choices=CONDITION_CHOICES)
     gender = CharField(verbose_name=_('Gender'), max_length=50, choices=GENDER_CHOICES)
     rhythm = CharField(verbose_name=_('Rhythm'), max_length=50, null=True, blank=True, default=None, editable=False)
+    time = CharField(verbose_name=_('Time'), max_length=50, choices=TIME_CHOICES, null=True, blank=True, default=None)
 
     temperature = DecimalField(verbose_name=_('Temperature'), help_text=_('Celsius'), max_digits=3, decimal_places=1, null=True, blank=True, default=None)
     bp_systolic = PositiveSmallIntegerField(verbose_name=_('Blood Pressure SYS'), null=True, blank=True, default=None)

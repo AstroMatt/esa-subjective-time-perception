@@ -27,6 +27,7 @@
                 sleep_hours:    document.querySelector('input[name="sleep_hours"]').value,
                 sleep_minutes:  document.querySelector('input[name="sleep_minutes"]').value,
                 temperature:    document.querySelector('input[name="temperature"]').value,
+                time:           document.querySelector('input[name="time"]').value,
             });
         }
 
@@ -82,7 +83,7 @@
                 <td><input type="number" placeholder="h" name="sleep_hours" min="0" max="23" autocomplete="off">
                     <input type="number" placeholder="min" name="sleep_minutes" min="0" max="59" autocomplete="off">
 
-                    <input type="time" placeholder="08:30" name="sleep" min="00:00" max="24:00" step="600" autocomplete="off" required>
+                    <!-- <input type="time" placeholder="08:30" name="sleep" min="00:00" max="24:00" step="600" autocomplete="off" required> -->
 
                 </td>
             </tr>
@@ -93,6 +94,15 @@
                     <li><input type="radio" name="condition" value="rested" required> Well rested</li>
                     <li><input type="radio" name="condition" value="normal" required> Normal</li>
                     <li><input type="radio" name="condition" value="tired" required> Tired</li>
+                </ul></td>
+            </tr>
+
+            <tr>
+                <th>Time (*)</th>
+                <td><ul>
+                    <li><input type="radio" name="time" value="morning" required> Morning</li>
+                    <li><input type="radio" name="time" value="evening" required> Evening</li>
+                    <li><input type="radio" name="time" value="other" required> Other</li>
                 </ul></td>
             </tr>
 
