@@ -79,7 +79,15 @@ class Command(BaseCommand):
     help = 'Recalculate whole database.'
 
     def handle(self, *args, **options):
-        for request in HTTPRequest.objects.all():
+
+        with open('error.log') as file:
+            errors = [line.replace('\n', '') for line in file]
+
+            print(errors)
+        return
+
+        # for request in HTTPRequest.objects.all():
+        for request in HTTPRequest.objects.filter(sha1__in=errors):
             data = get_data(request.data)
             save_data(
                 http_request_sha1=request.sha1,
