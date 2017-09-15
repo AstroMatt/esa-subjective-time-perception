@@ -36,7 +36,17 @@ class HTTPRequest(models.Model):
         (METHOD_HEAD, _('HEAD')),
     ]
 
-    datetime = DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
+    DATA_STATUS_PRODUCTION = 'production'
+    DATA_STATUS_TEST = 'test'
+    DATA_STATUS_CHOICES = [
+        (DATA_STATUS_PRODUCTION, _('Production')),
+        (DATA_STATUS_TEST, _('Test')),
+    ]
+
+    # TODO: merge logger with APIvX...
+
+    data_status = CharField(verbose_name=_('Data status'), max_length=30, choices=DATA_STATUS_CHOICES, null=True, blank=True, default=DATA_STATUS_PRODUCTION)
+    added = DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
     modified = DateTimeField(verbose_name=_('Datetime'), auto_now=True)
     ip = GenericIPAddressField(verbose_name=_('IP'))
     method = CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_GET)

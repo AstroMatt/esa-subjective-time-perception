@@ -71,4 +71,3 @@ class Command(BaseCommand):
                 clicks=data.get('clicks'),
                 events=data.get('events'),
             )
-
