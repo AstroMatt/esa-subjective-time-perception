@@ -62,7 +62,7 @@ class SurveyInline(admin.StackedInline):
 class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'admin/change_list_import_export.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['is_valid', 'uid', 'time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
+    list_display = ['is_valid', 'uid', 'http_request_sha1', 'time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
     list_display_links = ['uid']
     list_editable = ['time']
     list_filter = [TempoListFilter, 'time', 'uid', 'end_datetime', 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
