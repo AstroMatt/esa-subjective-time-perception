@@ -1,3 +1,4 @@
+import sys
 import datetime
 import json
 from django.db import IntegrityError
@@ -20,48 +21,55 @@ def decode_json(obj):
     return obj
 
 
-def add_data(data, sha1):
+def get_data(request):
     try:
-        data = json.loads(data, object_hook=decode_json)
+        return json.loads(request, object_hook=decode_json)
     except JSONDecodeError:
         print(f'JSON decode error: {data.sha1}')
+        sys.exit(1)
 
-    trial_data = data.get('trial')
-    start_datetime = trial_data.get('start_datetime')
-    trial_data.pop('start_datetime', None)
-    trial_data.update(
-        time=data.get('survey', {}).get('time'),
-        http_request_sha1=sha1,
-    )
 
+def save_data(http_request_sha1, trial, survey, clicks, events):
     try:
-        trial, _ = Trial.objects.get_or_create(start_datetime=start_datetime, defaults=trial_data)
-        print(f'SHA1: {sha1:.7}, trial: {trial}')
+        trial = Trial.objects.create(http_request_sha1=http_request_sha1, **trial)
 
-        if data.get('survey'):
-            Survey.objects.get_or_create(trial=trial, **data.get('survey'))
+        if survey:
+            Survey.objects.create(trial=trial, **survey)
 
-        for click in data.get('clicks'):
-            Click.objects.get_or_create(trial=trial, **click)
+        for click in clicks:
+            Click.objects.create(trial=trial, **click)
 
-        for event in data.get('events'):
-            Event.objects.get_or_create(trial=trial, **event)
+        for event in events:
+            Event.objects.create(trial=trial, **event)
 
         trial.validate()
         trial.calculate()
 
-        #Click.objects.filter(trial=trial).delete()
-        #Event.objects.filter(trial=trial).delete()
+        Click.objects.filter(trial=trial).delete()
+        Event.objects.filter(trial=trial).delete()
 
     except IntegrityError:
-        print(f'IntegrityError: {data.sha1}')
+        print(f'IntegrityError: {sha1}')
+
+
+def clean():
+    Survey.objects.all().delete()
+    Click.objects.all().delete()
+    Event.objects.all().delete()
+    Trial.objects.all().delete()
 
 
 class Command(BaseCommand):
-    help = 'Clean Click and Event in the database.'
+    help = 'Recalculate whole database.'
 
     def handle(self, *args, **options):
         for request in HTTPRequest.objects.all():
-            if not Trial.objects.filter(http_request_sha1=request.sha1).count():
-                add_data(data=request.data, sha1=request.sha1)
+            data = get_data(request)
+            save_data(
+                http_request_sha1=request.sha1,
+                trial=data.get('trial', None),
+                survey=data.get('survey', None),
+                clicks=data.get('clicks'),
+                events=data.get('events'),
+            )
 
