@@ -61,7 +61,7 @@
 
             <tr>
                 <th>Temperature [°C] (*)</th>
-                <td><input type="number" step="0.1" placeholder="°C" name="temperature" min="34" max="42" autocomplete="off"></td>
+                <td><input type="number" step="0.1" placeholder="°C" name="temperature" min="34" max="42" autocomplete="off" required></td>
             </tr>
 
             <tr>
@@ -81,6 +81,9 @@
                 <th>Sleep duration [hh:mm] (*)</th>
                 <td><input type="number" placeholder="h" name="sleep_hours" min="0" max="23" autocomplete="off">
                     <input type="number" placeholder="min" name="sleep_minutes" min="0" max="59" autocomplete="off">
+
+                    <input type="time" placeholder="08:30" name="sleep" min="00:00" max="24:00" step="600" autocomplete="off" required>
+
                 </td>
             </tr>
 
