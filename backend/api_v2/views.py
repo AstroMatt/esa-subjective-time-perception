@@ -1,26 +1,13 @@
 import datetime
 import json
-from json.decoder import JSONDecodeError
-
+from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import View
-
-from backend.api_v2.models import Click
-from backend.api_v2.models import Event
 from backend.api_v2.models import Trial
-from backend.api_v2.models import Survey
 from backend.logger.models import HTTPRequest
-
-
-def decode_json(obj):
-    for key, value in obj.items():
-        if 'datetime' in key:
-            obj[key] = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=datetime.timezone.utc)
-        elif key == 'colors':
-            obj[key] = ','.join(value)
-    return obj
+from backend.api_v2.utils import json_decode
 
 
 class APIv2View(View):
@@ -31,48 +18,33 @@ class APIv2View(View):
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
-            HTTPRequest.add(request, api_version=2)
-        except IntegrityError:
-            response = JsonResponse({'code': 409, 'status': 'Conflict', 'message': 'Integrity error'}, status=409)
-            response['Access-Control-Allow-Origin'] = '*'
-            return response
+            start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            trial = Trial.objects.get(start_datetime=start_datetime)
+            response = JsonResponse(status=200, data={'code': 200, 'status': 'OK', 'data': trial.get_data()})
 
-        try:
-            data = json.loads(request.body, object_hook=decode_json)
-            trial, _ = Trial.objects.get_or_create(**data.get('trial'), defaults={'time': data.get('survey').get('time')})
-
-            if data.get('survey'):
-                Survey.objects.get_or_create(trial=trial, **data.get('survey'))
-
-            for click in data.get('clicks'):
-                Click.objects.get_or_create(trial=trial, **click)
-
-            for event in data.get('events'):
-                Event.objects.get_or_create(trial=trial, **event)
-
-            trial.validate()
-            trial.calculate()
-
-            response = JsonResponse({'code': 201, 'status': 'Created', 'message': 'Trial added to the database.', 'data': trial.get_data()}, status=201)
-
-        except JSONDecodeError:
-            response = JsonResponse({'code': 400, 'status': 'Bad Request', 'message': 'JSON decode error'}, status=400)
-        except IntegrityError:
-            response = JsonResponse({'code': 400, 'status': 'Bad Request', 'message': 'Integrity error'}, status=400)
+        except (Trial.DoesNotExist, IndexError):
+            response = JsonResponse(status=400, data={'code': 404, 'status': 'Not Found', 'message': 'Trial Does Not Exists'})
 
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
-    def get(self, request, *args, **kwargs):
-        start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
-
+    def post(self, request, *args, **kwargs):
         try:
-            trial = Trial.objects.get(start_datetime=start_datetime)
-            response = JsonResponse({'code': 200, 'status': 'OK', 'data': trial.get_data()}, status=200)
-        except (Trial.DoesNotExist, IndexError):
-            response = JsonResponse({'code': 404, 'status': 'Not Found', 'message': 'Trial Does Not Exists'}, status=400)
+            http_request_sha1 = HTTPRequest.add(request, api_version=2)
+            data = json.loads(request.body, object_hook=json_decode)
+            Trial.add(
+                http_request_sha1=http_request_sha1,
+                trial=data.get('trial', None),
+                surveys=data.get('survey', None),
+                clicks=data.get('clicks', None),
+                events=data.get('events', None),
+            )
+            response = JsonResponse(status=201, data={'code': 201, 'status': 'Created', 'message': 'Trial added to the database.', 'sha1': http_request_sha1})
+
+        except (json.decoder.JSONDecodeError, IntegrityError, ValidationError, ValueError):
+            response = JsonResponse(status=400, data={'code': 400, 'status': 'Bad Request', 'message': 'JSON decode error'})
 
         response['Access-Control-Allow-Origin'] = '*'
         return response

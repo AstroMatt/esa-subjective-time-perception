@@ -50,6 +50,15 @@ class Survey(models.Model):
     sleep_hours = PositiveSmallIntegerField(verbose_name=_('Sleep Hours'), null=True, blank=True, default=None)
     sleep_minutes = PositiveSmallIntegerField(verbose_name=_('Sleep Minutes'), null=True, blank=True, default=None)
 
+    @staticmethod
+    def clean(survey):
+        out = {}
+        for key, value in survey.items():
+            if not value:
+                value = None
+            out[key] = value
+        return out
+
     def __str__(self):
         return f'{self.datetime}'
 

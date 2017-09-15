@@ -10,8 +10,10 @@ from django.db.models import NullBooleanField
 from django.db.models import PositiveSmallIntegerField
 from django.db.models import TextField
 from django.utils.translation import ugettext_lazy as _
-
 from backend.api_v2.models import Click
+from backend.api_v2.models import Event
+from backend.api_v2.models import Trial
+from backend.api_v2.models import Survey
 
 
 class Trial(models.Model):
@@ -60,6 +62,27 @@ class Trial(models.Model):
     interval_blue = FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
     interval_red = FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
     interval_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
+
+    @staticmethod
+    def add(http_request_sha1, trial, surveys, clicks, events):
+        trial, _ = Trial.objects.get_or_create(http_request_sha1=http_request_sha1, defaults=trial)
+
+        for survey in surveys:
+            Survey.objects.get_or_create(trial=trial, **Survey.clean(survey))
+
+        for click in clicks:
+            Click.objects.get_or_create(trial=trial, **click)
+
+        for event in events:
+            Event.objects.get_or_create(trial=trial, **event)
+
+        trial.validate()
+        trial.calculate()
+
+        Click.objects.filter(trial=trial).delete()
+        Event.objects.filter(trial=trial).delete()
+
+        return trial
 
     def __str__(self):
         return f'[{self.start_datetime:%Y-%m-%d %H:%M}] ({self.location}, {self.device}) {self.uid}'
