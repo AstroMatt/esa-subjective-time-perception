@@ -22,7 +22,6 @@ install:
 script:
   - pep8 backend
   - python manage.py check
-  - python manage.py migrate
   - python manage.py test --verbosity 2
 
 after_success:
