@@ -39,7 +39,7 @@ def get_data(request):
         sys.exit(1)
 
 
-def get_survey(survey):
+def clean_survey(survey):
     out = {}
     for key, value in survey.items():
         if not value:
@@ -53,7 +53,7 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
         trial, _ = Trial.objects.get_or_create(http_request_sha1=http_request_sha1, defaults=trial)
 
         if survey:
-            Survey.objects.get_or_create(trial=trial, **get_survey(survey))
+            Survey.objects.get_or_create(trial=trial, **clean_survey(survey))
 
         for click in clicks:
             Click.objects.get_or_create(trial=trial, **click)
@@ -82,15 +82,6 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
         log.error(out)
 
 
-def from_everywhere():
-    return HTTPRequest.objects.all()
-
-
-def from_trial():
-    hashes = list(Trial.objects.filter(regularity_all__isnull=True).values_list('http_request_sha1', flat=True))
-    return HTTPRequest.objects.filter(sha1__in=hashes)
-
-
 class Command(BaseCommand):
     help = 'Recalculate whole database.'
 
@@ -100,7 +91,7 @@ class Command(BaseCommand):
         Event.objects.all().delete()
         Trial.objects.all().delete()
 
-        for request in from_everywhere():
+        for request in HTTPRequest.objects.all():
             data = get_data(request.data)
             save_data(
                 http_request_sha1=request.sha1,
