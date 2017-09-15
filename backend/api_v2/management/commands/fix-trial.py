@@ -3,7 +3,6 @@ import datetime
 import json
 from django.db import IntegrityError
 from json.decoder import JSONDecodeError
-
 from django.core.management.base import BaseCommand
 from backend.api_v2.models import Click
 from backend.api_v2.models import Event
@@ -64,7 +63,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for request in HTTPRequest.objects.all():
-            data = get_data(request)
+            data = get_data(request.data)
             save_data(
                 http_request_sha1=request.sha1,
                 trial=data.get('trial', None),
