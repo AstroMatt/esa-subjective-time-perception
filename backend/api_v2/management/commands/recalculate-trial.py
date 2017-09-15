@@ -69,8 +69,7 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
 
     except IntegrityError as e:
         out = f'{http_request_sha1} IntegrityError: {e}'
-        print(out)
-        log.error(out)
+        log.warning(out)
 
     except ValidationError as e:
         out = f'{http_request_sha1} ValidationError: {e}'
@@ -81,19 +80,6 @@ def save_data(http_request_sha1, trial, survey, clicks, events):
         out = f'{http_request_sha1} ValueError: {e}'
         print(out)
         log.error(out)
-
-
-def clean():
-    Survey.objects.all().delete()
-    Click.objects.all().delete()
-    Event.objects.all().delete()
-    Trial.objects.all().delete()
-
-
-def from_errorlog():
-    with open('error.log') as file:
-        errors = [line.replace('\n', '') for line in file]
-    return HTTPRequest.objects.filter(sha1__in=errors)
 
 
 def from_everywhere():
@@ -109,14 +95,19 @@ class Command(BaseCommand):
     help = 'Recalculate whole database.'
 
     def handle(self, *args, **options):
-        for request in from_trial():
+        Survey.objects.all().delete()
+        Click.objects.all().delete()
+        Event.objects.all().delete()
+        Trial.objects.all().delete()
+
+        for request in from_everywhere():
             data = get_data(request.data)
             save_data(
                 http_request_sha1=request.sha1,
                 trial=data.get('trial', None),
                 survey=data.get('survey', None),
-                clicks=data.get('clicks'),
-                events=data.get('events'),
+                clicks=data.get('clicks', None),
+                events=data.get('events', None),
             )
 
         Click.objects.all().delete()
