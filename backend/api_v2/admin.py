@@ -70,6 +70,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
     inlines = [SurveyInline]
+    list_per_page = 20
     fieldsets = [
         ('', {'fields': ['uid', 'is_valid', 'start_datetime', 'end_datetime', 'time']}),
         ('Summary', {'fields': ['count_all', 'tempo_all', 'regularity_all', 'interval_all']}),

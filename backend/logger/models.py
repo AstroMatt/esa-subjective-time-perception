@@ -60,13 +60,14 @@ class HTTPRequest(models.Model):
 
     @staticmethod
     def add(request, api_version):
-        return HTTPRequest.objects.create(
-            ip=get_client_ip(request),
-            api_version=api_version,
-            method=request.method,
-            data=request.body,
-            sha1=get_sha1(request.body),
-        )
+        return HTTPRequest.objects.get_or_create(
+            sha1=get_sha1(request.body.decode('utf-8')),
+            defaults={
+                'ip': get_client_ip(request),
+                'api_version': api_version,
+                'method': request.method,
+                'data': request.body.decode('utf-8'),
+            })
 
     def __str__(self):
         return f'[{self.modified}] ({self.sha1:.7}) {self.method} - {self.ip}'

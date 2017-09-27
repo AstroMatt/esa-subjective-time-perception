@@ -1,5 +1,5 @@
 DEBUG = false
-URL = 'http://stpa.astrotech.io/api/v2/'
+URL = 'http://time.astrotech.io/api/v2/'
 
 Database = {
     getItem: function(key) {

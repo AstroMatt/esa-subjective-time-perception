@@ -31,8 +31,17 @@ class APIv2View(View):
         return response
 
     def post(self, request, *args, **kwargs):
+        response = JsonResponse(data={})
+        response['Access-Control-Allow-Origin'] = '*'
+
+        http_request_sha1, created = HTTPRequest.add(request, api_version=2)
+
+        if not created:
+            response['status'] = 200
+            response['data'] = {'message': 'Response already uploaded', 'sha1': http_request_sha1.sha1}
+            return response
+
         try:
-            http_request_sha1 = HTTPRequest.add(request, api_version=2)
             data = json.loads(request.body, object_hook=json_decode)
             Trial.add(
                 http_request_sha1=http_request_sha1,
@@ -41,10 +50,16 @@ class APIv2View(View):
                 clicks=data.get('clicks', None),
                 events=data.get('events', None),
             )
-            response = JsonResponse(status=201, data={'code': 201, 'status': 'Created', 'message': 'Trial added to the database.', 'sha1': http_request_sha1})
+            response['status'] = 201
+            response['data'] = {'message': 'Trial added to the database.', 'sha1': http_request_sha1.sha1}
+            return response
 
-        except (json.decoder.JSONDecodeError, IntegrityError, ValidationError, ValueError):
-            response = JsonResponse(status=400, data={'code': 400, 'status': 'Bad Request', 'message': 'JSON decode error'})
+        except IntegrityError:
+            response['status'] = 200
+            response['data'] = {'message': 'Response already uploaded', 'sha1': http_request_sha1.sha1}
+            return response
 
-        response['Access-Control-Allow-Origin'] = '*'
-        return response
+        except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError):
+            response['status'] = 400
+            response['data'] = {'message': 'Bad Request'}
+            return response

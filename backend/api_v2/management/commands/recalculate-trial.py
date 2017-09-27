@@ -9,6 +9,11 @@ from backend.api_v2.models import Survey
 from backend.api_v2.utils import json_decode
 from backend.logger.models import HTTPRequest
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime).19s] %(levelname)s %(message)s',
+)
+
 
 class Command(BaseCommand):
     help = 'Recalculate Trials.'
@@ -29,8 +34,17 @@ class Command(BaseCommand):
             Event.objects.all().delete()
             Trial.objects.all().delete()
         else:
-            hashes = list(Trial.objects.filter(regularity_all__isnull=True).values_list('http_request_sha1', flat=True))
-            requests_to_recalculate = HTTPRequest.objects.filter(sha1__in=hashes)
+            todo = []
+            invalid = list(Trial.objects.filter(regularity_all__isnull=True).values_list('http_request_sha1', flat=True))
+            valid = list(Trial.objects.all().values_list('http_request_sha1', flat=True))
+
+            for req in list(HTTPRequest.objects.all().values_list('sha1', flat=True)):
+                if req in invalid or req not in valid:
+                    todo.append(req)
+
+            requests_to_recalculate = HTTPRequest.objects.filter(sha1__in=todo)
+
+        self.stdout.write(f'Will recalculate: {requests_to_recalculate}')
 
         for request in requests_to_recalculate:
             data = json_decode(request.data)

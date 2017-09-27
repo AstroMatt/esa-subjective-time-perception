@@ -10,3 +10,4 @@ class HTTPRequestAdmin(admin.ModelAdmin):
     list_filter = ['method', 'api_version', 'modified']
     search_fields = ['ip', 'sha1']
     ordering = ['-modified']
+    list_per_page = 10
