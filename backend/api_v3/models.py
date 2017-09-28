@@ -5,18 +5,17 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Click(models.Model):
-    result = models.ForeignKey(verbose_name=_('Result'), to='api_v3.Result', db_index=True)
-    datetime = models.DateTimeField(verbose_name=_('Datetime'), db_index=True)
-    color = models.CharField(verbose_name=_('Target'), max_length=50, db_index=True)
-    is_valid = models.NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
+    result = models.ForeignKey(verbose_name=_('Result'), to='api_v3.Result')
+    datetime = models.DateTimeField(verbose_name=_('Datetime'))
+    color = models.CharField(verbose_name=_('Target'), max_length=50)
+    is_valid = models.NullBooleanField(verbose_name=_('Is Valid?'), default=None)
 
     class Meta:
         verbose_name = _('Click')
         verbose_name_plural = _('Click')
-        ordering = ['datetime']
 
     def __str__(self):
-        return f'[{self.datetime:%Y-%m-%d %H:%M.%f}] {self.color}'
+        return f'[{self.datetime:%Y-%m-%d %H:%M:%S.%f}] {self.color}'
 
 
 class Result(models.Model):

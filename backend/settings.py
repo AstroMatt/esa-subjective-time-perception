@@ -34,9 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend._common',
     'backend.logger',
-    'backend.api_v1',
-    'backend.api_v2',
     'backend.api_v3',
+    'backend.api_v2',
+    'backend.api_v1',
 ]
 
 MIDDLEWARE = [

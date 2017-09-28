@@ -1,10 +1,5 @@
 import hashlib
 from django.db import models
-from django.db.models import CharField
-from django.db.models import DateTimeField
-from django.db.models import GenericIPAddressField
-from django.db.models import PositiveSmallIntegerField
-from django.db.models import TextField
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -45,14 +40,14 @@ class HTTPRequest(models.Model):
 
     # TODO: merge logger with APIvX...
 
-    data_status = CharField(verbose_name=_('Data status'), max_length=30, choices=DATA_STATUS_CHOICES, null=True, blank=True, default=DATA_STATUS_PRODUCTION)
-    added = DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
-    modified = DateTimeField(verbose_name=_('Datetime'), auto_now=True)
-    ip = GenericIPAddressField(verbose_name=_('IP'))
-    method = CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_GET)
-    api_version = PositiveSmallIntegerField(verbose_name=_('API version'))
-    data = TextField(verbose_name=_('Data'), null=True, blank=True)
-    sha1 = CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True, null=True, blank=True, default=None)
+    data_status = models.CharField(verbose_name=_('Data status'), max_length=30, choices=DATA_STATUS_CHOICES, null=True, blank=True, default=DATA_STATUS_PRODUCTION)
+    added = models.DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
+    modified = models.DateTimeField(verbose_name=_('Datetime'), auto_now=True, db_index=True)
+    ip = models.GenericIPAddressField(verbose_name=_('IP'))
+    method = models.CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_GET)
+    api_version = models.PositiveSmallIntegerField(verbose_name=_('API version'))
+    data = models.TextField(verbose_name=_('Data'), null=True, blank=True)
+    sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True, null=True, blank=True, default=None)
 
     def save(self, *args, **kwargs):
         self.sha1 = get_sha1(self.data)
@@ -75,3 +70,16 @@ class HTTPRequest(models.Model):
     class Meta:
         verbose_name = _('HTTP Request')
         verbose_name_plural = _('HTTP Requests')
+
+
+class ErrorLogger(models.Model):
+    added = models.DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
+    modified = models.DateTimeField(verbose_name=_('Datetime'), auto_now=True, db_index=True)
+    http_request_sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True)
+
+    class Meta:
+        verbose_name = _('Error')
+        verbose_name_plural = _('Errors')
+
+    def __str__(self):
+        return f'[{self.modified:%Y-%m-%d %H:%M:%S}] {self.http_request_sha1}'

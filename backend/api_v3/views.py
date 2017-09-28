@@ -9,6 +9,7 @@ from django.views.generic import View
 
 from backend._common.utils import json_datetime_decoder
 from backend.logger.models import HTTPRequest
+from backend.logger.models import ErrorLogger
 from backend.api_v3.models import Result
 
 
@@ -64,4 +65,5 @@ class APIv3View(View):
         except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError):
             response['status'] = 400
             response['data'] = {'message': 'Bad Request'}
+            ErrorLogger.objects.create(http_request_sha1=http_request_sha1.sha1)
             return response
