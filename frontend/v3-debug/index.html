@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Subjective Time Perception Experiment</title>
+
+    <style>
+        html,body {padding:0;margin:0;font-family:sans-serif;line-height:1.5em;color:white;}
+        section {padding:1em;}
+        h2 {margin-top:2em}
+        strong {text-decoration:underline}
+        th {text-align:right}
+        th,td {padding:.5em;vertical-align:top}
+        input[type="text"] {width:20em}
+        input[type="number"] {width:4em}
+        ul {margin:0;margin-left:-2.75em}
+        ul li {list-style:none;margin:0;padding:0}
+
+        #background {width:100vw;height:100vh;background-color: black}
+        //#background {background-image: url('http://time.astrotech.io/background.jpg'); background-repeat: no-repeat;  background-attachment: fixed; background-position: center; background-size: cover}
+        #instructions {display: block}
+        #survey {display: none;}
+        #test {display: none}
+        #color0 {display: none}
+        #color1 {display: none}
+        #color2 {display: none}
+        #results {display: none}
+    </style>
+
+    <script src="main.js"></script>
+    <script>trySyncDB();</script>
+</head>
+
+<body>
+<form id="background" action="#" method="POST" onsubmit="return false;">
+    <section id="instructions">
+        <h1>Subjective Time Perception Experiment</h1>
+        <p>Experiment takes around 5 minutes.</p>
+        <h2>Instructions</h2>
+        <ol>
+            <li>Use only <strong>Chrome, Safari or Firefox</strong>!</li>
+            <li>Sit 20 cm from the screen.</li>
+            <li>Click start and fill survey.</li>
+            <li>When you see gray, red, blue or white screen <strong>click left mouse button once every 5 seconds</strong>.</li>
+            <li>Run this experiment two times a day:
+                <ul>
+                    <li>- Right after you wake up</li>
+                    <li>- Directly before going to sleep</li>
+                </ul>
+            </li>
+        </ol>
+        <button onclick="fullscreen(); hide('instructions'); show('survey')">Start experiment</button>
+    </section>
+
+    <section id="survey">
+        <h1>User Survey</h1>
+        <table>
+            <tr><th>Email</th><td><input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required></td></tr>
+            <tr><th>Age [years]</th><td><input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required></td></tr>
+            <tr><th>What is your gender?</th><td><ul>
+                <li><input type="radio" name="gender" value="male" required> Male</li>
+                <li><input type="radio" name="gender" value="female" required> Female</li>
+                <li><input type="radio" name="gender" value="other" required> Other</li></ul></td></tr>
+
+            <tr><th>Temperature [°C]</th><td><input type="number" step="0.1" placeholder="°C" name="temperature" min="34" max="42" autocomplete="off" required> (use dot "." as a decimal separator)</td></tr>
+            <tr><th>Blood Pressure [SYS/DIA]</th><td><input type="number" placeholder="SYS" name="bp_systolic" min="80" max="220" autocomplete="off"> / <input type="number" placeholder="DIA" name="bp_diastolic" min="40" max="160" autocomplete="off"> (optional)</td></tr>
+            <tr><th>Heart Rate [bpm]</th><td><input type="number" placeholder="HR" name="heart_rate" min="40" max="220" autocomplete="off"> (optional)</td></tr>
+            <tr><th>Sleep duration [hh:mm]</th><td><input type="time" placeholder="08:30" name="sleep" min="00:00" max="23:59" step="60" autocomplete="off" required></td></tr>
+            <tr><th>How do you feel?</th><td><ul>
+                <li><input type="radio" name="condition" value="rested" required> Well rested</li>
+                <li><input type="radio" name="condition" value="normal" required> Normal</li>
+                <li><input type="radio" name="condition" value="tired" required> Tired</li></ul></td></tr>
+            <tr><th>When you're doing the experiment?</th><td><ul>
+                <li><input type="radio" name="time" value="after-sleep" required> After wake up</li>
+                <li><input type="radio" name="time" value="before-sleep" required> Before sleep</li>
+                <li><input type="radio" name="time" value="other" required> Other</li></ul></td></tr>
+        </table>
+        <button onclick="saveSurvey(); fullscreen(); hide('survey'); show('test');">Proceed</button>
+    </section>
+
+    <section id="test">
+        <h1>You may now proceed to test section</h1>
+        <ol>
+            <li>When you see blank screen with color</li>
+            <li>Click as you were asked</li>
+        </ol>
+        <button onclick="testAndProceed('color0')">Run the test!</button>
+    </section>
+
+    <section id="color0">
+        <h1>You will see the first color now</h1>
+        <ol>
+            <li>When you see blank screen with color</li>
+            <li>Click as you were asked</li>
+        </ol>
+        <button onclick="runAndProceed(0, 'color1')">Ok, go!</button>
+    </section>
+
+    <section id="color1">
+        <h1>You will see the second color now</h1>
+        <ol>
+            <li>When you see blank screen with color</li>
+            <li>Click as you were asked</li>
+        </ol>
+        <button onclick="runAndProceed(1, 'color2')">Ok, go!</button>
+    </section>
+
+    <section id="color2">
+        <h1>You will see the third color now</h1>
+        <ol>
+            <li>When you see blank screen with color</li>
+            <li>Click as you were asked</li>
+        </ol>
+        <button onclick="runAndProceed(2, 'results')">Ok, go!</button>
+    </section>
+
+    <section id="results">
+        <h1>Thank you for participating in the experiment!</h1>
+        Results from now will be hidden and presented after the experiment.
+        <p><button onclick="finish()">Start experiment once again</button></p>
+    </section>
+</form>
+</body>
+<script>
+    if (Trial.location == "internet") {
+        let data = JSON.parse(localStorage.getItem('.remember'));
+        if (data) {
+            document.querySelector('input[name="email"]').value = data.uid;
+            document.querySelector('input[name="age"]').value = data.survey_age;
+            document.querySelector(`input[name="gender"][value="${data.survey_gender}"]`).checked = true;
+        }
+    }
+</script>
+</html>
