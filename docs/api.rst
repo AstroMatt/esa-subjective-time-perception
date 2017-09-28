@@ -6,7 +6,7 @@ API Usage
 
 .. code-block:: sh
 
-    curl -X $METHOD http://stpa.astrotech.io/api/v2/
+    curl -X $METHOD http://time.astrotech.io/api/3/
 
 Where $METHOD is one of following:
 
@@ -14,9 +14,8 @@ Where $METHOD is one of following:
 METHOD  Action
 ======= ====================================================
 POST    Create new trial from POST data (see below)
-HEAD    Check whether application accepts incoming requests
-UPDATE  Recalculate all results in th database
-PATCH   Recalculate results in db for one ``?id=...`` result
+OPTIONS Check whether application accepts incoming requests
+GET     Get calculated results
 ======= ====================================================
 
 POST input data format
@@ -26,39 +25,24 @@ POST input data format
 
     {
       "trial":{
-        "timeout": 3,
+        "timeout": "60.0",
         "device": "lcd",
-        "polarization": "horizontal",
         "location": "internet",
-        "regularity": "1",
+        "regularity": "5",
         "colors": ["red", "white", "blue"],
-        "attempt": "1",
         "start_datetime": "2017-02-24T04:38:04.290Z",
         "end_datetime": "2017-02-24T04:38:30.021Z",
         "uid": "test@example.com"
+        "survey_age": "29",
+        "survey_condition": "normal",
+        "survey_gender": "male",
+        "survey_time": "after-sleep",
+        "survey_temperature": "36.6",
+        "survey_bp_systolic": "120",
+        "survey_bp_diastolic": "80",
+        "survey_heart_rate": "60",
+        "survey_sleep": "08:30",
       },
-      "survey":{
-        "datetime": "2017-02-24T04:38:14.284Z",
-        "email": "test@example.com",
-        "age": "29",
-        "gender": "male",
-        "condition": "normal",
-        "rhythm": "average"
-      },
-      "events":[
-        {"datetime":"2017-02-24T04:38:04.290Z", "target":"trial",  "action":"start"},
-        {"datetime":"2017-02-24T04:38:04.290Z", "target":"survey", "action":"start"},
-        {"datetime":"2017-02-24T04:38:14.283Z", "target":"survey", "action":"end"},
-        {"datetime":"2017-02-24T04:38:15.463Z", "target":"black",  "action":"start"},
-        {"datetime":"2017-02-24T04:38:16.965Z", "target":"black",  "action":"end"},
-        {"datetime":"2017-02-24T04:38:18.233Z", "target":"red",    "action":"start"},
-        {"datetime":"2017-02-24T04:38:21.234Z", "target":"red",    "action":"end"},
-        {"datetime":"2017-02-24T04:38:22.481Z", "target":"white",  "action":"start"},
-        {"datetime":"2017-02-24T04:38:25.483Z", "target":"white",  "action":"end"},
-        {"datetime":"2017-02-24T04:38:26.981Z", "target":"blue",   "action":"start"},
-        {"datetime":"2017-02-24T04:38:29.982Z", "target":"blue",   "action":"end"},
-        {"datetime":"2017-02-24T04:38:30.021Z", "target":"trial",  "action":"end"}
-      ],
       "clicks":[
         {"datetime":"2017-02-24T04:38:18.233Z", "color":"red"},
         {"datetime":"2017-02-24T04:38:18.849Z", "color":"red"},
@@ -70,6 +54,7 @@ POST input data format
         {"datetime":"2017-02-24T04:38:28.161Z", "color":"blue"},
         {"datetime":"2017-02-24T04:38:29.325Z", "color":"blue"}]
     }
+
 
 Output data description
 -----------------------

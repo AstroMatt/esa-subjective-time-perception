@@ -54,15 +54,15 @@ class ValidateAction:
 class ResultAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'admin/change_list_import_export.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['is_valid', 'uid', 'http_request_sha1', 'survey_time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
-    list_display_links = ['uid']
-    list_filter = [TempoListFilter, 'survey_time', 'uid', 'end_datetime', 'is_valid', 'timeout', 'regularity', 'colors', 'device', 'location']
-    search_fields = ['=id', '^uid', '^http_request_sha1']
+    list_display = ['is_valid', 'email', 'http_request_sha1', 'survey_time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
+    list_display_links = ['email']
+    list_filter = [TempoListFilter, 'survey_time', 'email', 'end_datetime', 'is_valid', 'timeout', 'regularity', 'colors', 'device', 'location']
+    search_fields = ['=id', '^email', '^http_request_sha1']
     ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
     list_per_page = 20
     fieldsets = [
-        ('', {'fields': ['uid', 'is_valid', 'start_datetime', 'end_datetime']}),
+        ('', {'fields': ['email', 'is_valid', 'start_datetime', 'end_datetime']}),
         ('Summary', {'fields': ['count_all', 'tempo_all', 'regularity_all', 'interval_all']}),
         ('Count', {'fields': ['count_all', 'count_blue', 'count_red', 'count_white']}),
         ('Tempo', {'fields': ['tempo_all', 'tempo_blue', 'tempo_red', 'tempo_white']}),

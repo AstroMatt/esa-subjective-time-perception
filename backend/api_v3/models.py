@@ -52,7 +52,7 @@ class Result(models.Model):
     colors = models.CharField(verbose_name=_('Color order'), max_length=50)
     device = models.CharField(verbose_name=_('Device'), max_length=50)
     location = models.CharField(verbose_name=_('Location'), max_length=50)
-    uid = models.EmailField(verbose_name=_('User ID'), db_index=True)
+    email = models.EmailField(verbose_name=_('User Email'), db_index=True)
     timeout = models.FloatField(verbose_name=_('Timeout'), help_text=_('Seconds per color'))
     regularity = models.PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     time_between_clicks = models.TextField(verbose_name=_('Time between clicks'), blank=True, null=True, default=None)
@@ -101,7 +101,7 @@ class Result(models.Model):
         return result
 
     def __str__(self):
-        return f'[{self.start_datetime:%Y-%m-%d %H:%M}] ({self.location}, {self.device}) {self.uid}'
+        return f'[{self.start_datetime:%Y-%m-%d %H:%M}] ({self.location}, {self.device}) {self.email}'
 
     class Meta:
         verbose_name = _('Result')
@@ -113,7 +113,7 @@ class Result(models.Model):
         return data
 
     def save(self, *args, **kwargs):
-        self.uid = self.uid.lower()
+        self.email = self.email.lower()
         return super().save(*args, **kwargs)
 
     def validate(self):

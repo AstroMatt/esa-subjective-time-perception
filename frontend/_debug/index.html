@@ -129,7 +129,7 @@
     if (Trial.location == "internet") {
         let data = JSON.parse(localStorage.getItem('.remember'));
         if (data) {
-            document.querySelector('input[name="email"]').value = data.uid;
+            document.querySelector('input[name="email"]').value = data.email;
             document.querySelector('input[name="age"]').value = data.survey_age;
             document.querySelector(`input[name="gender"][value="${data.survey_gender}"]`).checked = true;
         }
