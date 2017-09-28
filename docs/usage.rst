@@ -6,12 +6,16 @@ Running the experiment while connected to the internet
 This is the typical use of the software.
 
 1. Run experiment at http://time.astrotech.io
-2. Results will be uploaded after each experiment.
+2. Results will be uploaded automatically.
 
 
 Running the experiment without access to the internet
 -----------------------------------------------------
-Offline use is handy for example during analog simulations with time delay or at public events.
+Offline use is handy for example during:
+
+    - analog simulations with time delay (hence no realtime internet)
+    - at public events, conferences, opendays etc. (when you cannot connect machine to the internet)
+    - while in travel (airport, train, etc.)
 
 1. Download https://raw.githubusercontent.com/AstroMatt/esa-time-perception/master/frontend/v3/index.html
 2. Open with your browser (double click) ``index.html`` file and run the experiment.
