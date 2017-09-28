@@ -35,12 +35,15 @@ How to see results?
 1. Go to `Administrator Panel <http://time.astrotech.io/admin/api_v2/trial/>`_
 2. Superuser account is created during instlation of the software please refer to the ``docs/installation.rst``:
 
-    - `Installation <docs/installation.rst>`_
-    - `Usage <docs/usage.rst>`_
-    - `Architecture <docs/architecture.rst>`_
-    - `Algorithm <docs/algorithm.rst>`_
-    - `TODO <docs/todo.rst>`_
-    - `References <docs/references.rst>`_
+
+Documentation
+-------------
+- `Installation <docs/installation.rst>`_
+- `Usage <docs/usage.rst>`_
+- `Architecture <docs/architecture.rst>`_
+- `Algorithm <docs/algorithm.rst>`_
+- `TODO <docs/todo.rst>`_
+- `References <docs/references.rst>`_
 
 
 Development - CI/CD
@@ -53,6 +56,7 @@ Development - CI/CD
 - `STPA on SonarCloud <https://sonarcloud.io/dashboard?id=Time-Perception>`_
 - `STPA on Github <https://github.com/AstroMatt/esa-time-perception/>`_
 - `STPA on Travis CI <https://www.travis-ci.org/AstroMatt/esa-time-perception>`_
+
 
 Contact
 -------
