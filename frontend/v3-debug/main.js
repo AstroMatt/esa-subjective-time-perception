@@ -1,5 +1,5 @@
-// minify JS: https://dotmaui.com/jsminify/
 // minify HTML: https://www.willpeavy.com/minifier/
+// minify JS: https://dotmaui.com/jsminify/
 
 if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
     URL = 'http://localhost:8000/api/v2/'
