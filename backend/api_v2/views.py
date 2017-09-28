@@ -16,6 +16,8 @@ class APIv2View(View):
     def options(self, request, *args, **kwargs):
         response = HttpResponse(status=200)
         response['Access-Control-Allow-Origin'] = '*'
+        response['Access-Control-Allow-Methods'] = ', '.join(self.http_method_names).upper()
+        response['Access-Control-Allow-Headers'] = 'Content-Type'
         return response
 
     def get(self, request, *args, **kwargs):
