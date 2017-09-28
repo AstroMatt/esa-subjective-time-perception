@@ -13,7 +13,7 @@ class ReadOnlyMixin:
         return self.readonly_fields
 
 
-@admin.register(Click)
+# @admin.register(Click)
 class ClickAdmin(ReadOnlyMixin, ImportExportModelAdmin):
     list_display = ['experiment', 'datetime', 'background']
     list_filter = ['background']
@@ -28,7 +28,7 @@ class TrialAdmin(ReadOnlyMixin, ImportExportModelAdmin):
     ordering = ['-start']
 
 
-@admin.register(Event)
+# @admin.register(Event)
 class EventAdmin(ReadOnlyMixin, ImportExportModelAdmin):
     list_display = ['experiment', 'datetime', 'action', 'message']
     list_filter = ['action', 'message']
@@ -69,7 +69,7 @@ class ExperimentAdmin(ReadOnlyMixin, ImportExportModelAdmin):
     list_filter = ['is_valid', 'location', 'device', 'polarization', 'timeout', 'order', 'condition', 'rhythm', 'age']
     ordering = ['-experiment_start']
     search_fields = ['^last_name']
-    inlines = [TrialInline, ClickInline]
+    inlines = [TrialInline]
     fieldsets = [
         ('Experiment', {'fields': ['location', 'device', 'polarization', 'order', 'timeout', 'is_valid']}),
         ('Survey', {'fields': ['last_name', 'first_name', 'age', 'rhythm', 'condition']}),

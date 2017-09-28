@@ -93,7 +93,7 @@ class SurveyAdmin(ImportExportModelAdmin):
     ordering = ['-datetime']
 
 
-@admin.register(Event)
+# @admin.register(Event)
 class EventAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/change_list_import_export.html'
     change_list_filter_template = 'admin/filter_listing.html'
@@ -104,7 +104,7 @@ class EventAdmin(ImportExportModelAdmin):
     ordering = ['-datetime']
 
 
-@admin.register(Click)
+# @admin.register(Click)
 class ClickAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'admin/change_list_import_export.html'
     change_list_filter_template = 'admin/filter_listing.html'
