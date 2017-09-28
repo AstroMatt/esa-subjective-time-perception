@@ -1,5 +1,5 @@
-How to use this software?
-=========================
+How to use Subjective Time Perception software?
+===============================================
 
 Running the experiment while connected to the internet
 ------------------------------------------------------
