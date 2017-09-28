@@ -19,4 +19,4 @@ urlpatterns = [
 ]
 
 urlpatterns += static(r'/static/', document_root=os.path.join(settings.BASE_DIR, 'static'))
-urlpatterns += static(r'/', document_root=os.path.join(settings.BASE_DIR, 'frontend', 'v3'))
+urlpatterns += static(r'/', document_root=os.path.join(settings.BASE_DIR, 'frontend'))
