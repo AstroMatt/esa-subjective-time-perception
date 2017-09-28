@@ -66,7 +66,7 @@ class HTTPRequest(models.Model):
                 'ip': get_client_ip(request),
                 'api_version': api_version,
                 'method': request.method,
-                'data': request.body.decode('utf-8'),
+                'data': str(request.body, encoding='utf-8'),
             })
 
     def __str__(self):

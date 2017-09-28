@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import View
 
-from backend._common.utils import json_decode
+from backend._common.utils import json_datetime_decoder
 from backend.logger.models import HTTPRequest
 from backend.api_v3.models import Result
 
@@ -46,11 +46,11 @@ class APIv3View(View):
             return response
 
         try:
-            data = json.loads(request.body, object_hook=json_decode)
+            data = json.loads(str(request.body, encoding='utf-8'), object_hook=json_datetime_decoder)
             Result.add(
-                http_request_sha1=http_request_sha1,
-                result=data.get('result', None),
-                clicks=data.get('clicks', None),
+                http_request_sha1=http_request_sha1.sha1,
+                clicks=data.pop('clicks'),
+                result=data,
             )
             response['status'] = 201
             response['data'] = {'message': 'Result added to the database.', 'sha1': http_request_sha1.sha1}

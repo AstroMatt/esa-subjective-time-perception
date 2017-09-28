@@ -1,17 +1,19 @@
+import json
 import logging
 
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.core.management.base import BaseCommand
+from django.core.serializers import deserialize
 
-from backend._common.utils import json_decode
+from backend._common.utils import json_datetime_decoder
 from backend.logger.models import HTTPRequest
 from backend.api_v3.models import Click
 from backend.api_v3.models import Result
 
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='[%(asctime).19s] %(levelname)s %(message)s',
 )
 
@@ -28,8 +30,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        requests_to_recalculate = HTTPRequest.objects.filter(api_version=3)
+
         if options['all']:
-            requests_to_recalculate = HTTPRequest.objects.all()
             Click.objects.all().delete()
             Result.objects.all().delete()
         else:
@@ -41,18 +44,21 @@ class Command(BaseCommand):
                 if req in invalid or req not in valid:
                     todo.append(req)
 
-            requests_to_recalculate = HTTPRequest.objects.filter(sha1__in=todo)
+            requests_to_recalculate = requests_to_recalculate.filter(sha1__in=todo)
 
+        self.recalculate(requests_to_recalculate)
+
+    def recalculate(self, requests_to_recalculate):
         self.stdout.write(f'Will recalculate: {requests_to_recalculate}')
 
         for request in requests_to_recalculate:
-            data = json_decode(request.data)
+            data = json.loads(request.data, object_hook=json_datetime_decoder)
 
             try:
                 Result.add(
                     http_request_sha1=request.sha1,
-                    result=data.get('result', None),
-                    clicks=data.get('clicks', None),
+                    clicks=data.pop('clicks'),
+                    result=data,
                 )
 
             except IntegrityError as e:

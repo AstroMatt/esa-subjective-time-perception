@@ -35,7 +35,6 @@ function show(id) {
 
 function saveSurvey() {
     Trial.email = document.querySelector('input[name="email"]').value;
-    Trial.survey_datetime = new Date().toJSON(),
     Trial.survey_age = document.querySelector('input[name="age"]').value;
     Trial.survey_gender = document.querySelector('input[name="gender"]:checked').value;
     Trial.survey_condition = document.querySelector('input[name="condition"]:checked').value;
