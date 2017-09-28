@@ -22,6 +22,12 @@ function hide(id) {
 }
 
 function show(id) {
+    if (id == 'test' && localStorage.getItem('.remember')) {
+        hide('test');
+        show('color0');
+        return;
+    }
+
     var element = document.getElementById(id);
     element.style.display = 'block';
 }
@@ -77,12 +83,14 @@ function testAndProceed(next) {
     let background = document.getElementById('background');
     let oldBackground = background.style.background;
     let content = document.getElementById('test');
+    let oldContent = content.innerHTML;
 
     content.innerHTML = '<h1>Click now!</h1>';
     background.style.background = color;
 
     sleep(timeout).then(() => {
         background.style.background = oldBackground;
+        content.innerHTML = oldContent;
         hide('test');
         show(next);
     });
@@ -94,6 +102,7 @@ function runAndProceed(number, next) {
     let id = 'color' + number;
     let oldBackground = background.style.background;
     let content = document.getElementById(id);
+    let oldContent = content.innerHTML;
 
     content.innerHTML = '';
     background.style.background = color;
@@ -102,8 +111,12 @@ function runAndProceed(number, next) {
     sleep(timeout).then(() => {
         background.removeEventListener('click', click);
         background.style.background = oldBackground;
+        content.innerHTML = oldContent;
         hide(id);
         show(next);
+
+        if (next == 'results')
+            finish();
     });
 }
 
@@ -117,15 +130,23 @@ function click() {
 }
 
 function finish() {
-    Trial.end_datetime = new Date().toJSON();
-    localStorage.setItem(Trial.end_datetime, JSON.stringify(Trial));
+    let blue = Trial.clicks.filter(click => click.color=='blue').length
+    let red = Trial.clicks.filter(click => click.color=='red').length
+    let white = Trial.clicks.filter(click => click.color=='white').length
 
-    if (Trial.location == "internet") {
+    if (Trial.location == "internet")
         localStorage.setItem('.remember', JSON.stringify(Trial));
-    }
 
-    trySyncDB();
-    window.location.reload(true);
+    if ([blue, red, white].every(count => count > 5)) {
+        Trial.end_datetime = new Date().toJSON();
+        localStorage.setItem(Trial.end_datetime, JSON.stringify(Trial));
+        trySyncDB();
+        window.location.reload(true);
+    } else {
+       alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
+       hide('results');
+       show('survey');
+    }
 }
 
 function request(arg) {
@@ -173,9 +194,10 @@ function uploadResults() {
             data: localStorage.getItem(key),
             onSuccess: function(status) {
                 console.log('Result uploaded');
+                localStorage.removeItem(key);
             },
-            onError: function() {
-                console.log('Problems');
+            onError: function(status) {
+                console.log('There is a problem with uploading data. We will try later. Received status:', status);
             }
         });
     }
@@ -191,3 +213,4 @@ if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
 }
 
 window.addEventListener('online', trySyncDB);
+

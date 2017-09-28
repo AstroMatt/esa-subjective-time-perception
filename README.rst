@@ -18,11 +18,11 @@ Contact
 
 **Author**
     :name: `Matt Harasymczuk <http://astromatt.space>`_
-    :email: `stpa@astrotech.io <mailto:stpa@astrotech.io>`_
+    :email: `time-perception@astrotech.io <mailto:time-perception@astrotech.io>`_
     :www: `http://www.astromatt.space <http://astromatt.space>`_
     :facebook: `https://facebook.com/astromatt.space <https://facebook.com/astromatt.space>`_
     :linkedin: `https://linkedin.com/in/mattharasymczuk <https://linkedin.com/in/mattharasymczuk>`_
-    :slideshare: `https://www.slideshare.net/astrotech/presentations <https://www.slideshare.net/astrotech/presentations>`_
+    :slideshare: `https://www.slideshare.net/astromatt/presentations <https://www.slideshare.net/astromatt/presentations>`_
 
 
 How to use this software?
@@ -36,16 +36,13 @@ How to run the experiment?
 
 :Device with internet connection:
 
-    1. Run experiment at `stpa.astrotech.io <http://stpa.astrotech.io>`_
+    1. Run experiment at http://time.astrotech.io
     2. Results will be uploaded after each experiment.
 
 :Device without internet connection:
 
-    1. Download https://github.com/AstroMatt/esa-time-perception/archive/master.zip
-    2. Extract zip archive.
-    3. Copy directory ``frontend/`` (you'll need only this one) to USB disk.
-    4. On the other computer copy the directory or run directly from USB disk.
-    5. To run, open with your browser ``frontend/index.html`` (double click on this file should be enough).
+    1. Download https://raw.githubusercontent.com/AstroMatt/esa-time-perception/master/frontend/v3/index.html
+    2. Oen with your browser ``index.html`` file (double click on this file should be enough).
 
 How to upload results?
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -53,20 +50,21 @@ How to upload results?
 :Computer can be connected to the internet:
 
     1. Connect computer to the internet
-    2. Open with your browser ``frontend/index.html``.
+    2. Oen with your browser ``index.html`` file (double click on this file should be enough).
     3. It should automatically upload results to the internet
     4. Depending on how much experiments was performed, after a minute or so you should be able to see results in the administration panel.
 
 :Computer cannot be connected to the internet:
 
-    1. Open ``frontend/cache.html``
-    2. Save all this text as a txt (Notepad or whatever) file to USB Pendrive.
-    3. Give me this file (or USB drive), and I will upload this results.
-    4. Or send me the results via email: time-perception@haras.pl
+    1. Download https://github.com/AstroMatt/esa-time-perception/blob/master/frontend/v3/cache.html
+    2. Oen with your browser ``cache.html`` file (double click on this file should be enough).
+    3. Save all this text as a txt (Notepad or whatever) file to USB Pendrive.
+    4. From the other computer send me the results via email: `time-perception@astrotech.io <mailto:time-perception@astrotech.io>`_
+
 
 How to see results?
 ^^^^^^^^^^^^^^^^^^^
-1. Go to `Administrator Panel <http://stpa.astrotech.io/admin/api_v2/trial/>`_
+1. Go to `Administrator Panel <http://time.astrotech.io/admin/api_v2/trial/>`_
 2. Superuser account is created during instlation of the software please refer to the ``docs/installation.rst``:
 
     - `Installation <docs/installation.rst>`_

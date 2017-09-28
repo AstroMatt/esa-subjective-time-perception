@@ -27,7 +27,10 @@
         #results {display: none}
     </style>
 
-    <script src="main.js"></script>
+    <script>
+        function hide(e){document.getElementById(e).style.display="none"}function show(e){if("test"==e&&localStorage.getItem(".remember"))return hide("test"),void show("color0");document.getElementById(e).style.display="block"}function saveSurvey(){Trial.uid=document.querySelector('input[name="email"]').value,Trial.survey_datetime=(new Date).toJSON(),Trial.survey_age=document.querySelector('input[name="age"]').value,Trial.survey_gender=document.querySelector('input[name="gender"]:checked').value,Trial.survey_condition=document.querySelector('input[name="condition"]:checked').value,Trial.survey_heart_rate=document.querySelector('input[name="heart_rate"]').value,Trial.survey_bp_systolic=document.querySelector('input[name="bp_systolic"]').value,Trial.survey_bp_diastolic=document.querySelector('input[name="bp_diastolic"]').value,Trial.survey_sleep=document.querySelector('input[name="sleep"]').value,Trial.survey_temperature=document.querySelector('input[name="temperature"]').value,Trial.survey_time=document.querySelector('input[name="time"]').value}function fullscreen(){let e=document.getElementById("background");e.webkitRequestFullScreen?e.webkitRequestFullScreen():e.mozRequestFullScreen?e.mozRequestFullScreen():e.msRequestFullscreen?e.msRequestFullscreen():e.requestFullscreen()}function shuffle(e){for(var t,n,o=e.length;0!==o;)n=Math.floor(Math.random()*o),t=e[o-=1],e[o]=e[n],e[n]=t;return e}function sleep(e){let t=1e3*e;return new Promise(e=>setTimeout(e,t))}function testAndProceed(e){let t=Trial.timeout/2,n=document.getElementById("background"),o=n.style.background,r=document.getElementById("test"),l=r.innerHTML;r.innerHTML="<h1>Click now!</h1>",n.style.background="gray",sleep(t).then(()=>{n.style.background=o;r.innerHTML=l;hide("test");show(e)})}function runAndProceed(e,t){let n=Trial.colors[e],o=Trial.timeout,r="color"+e,l=background.style.background,a=document.getElementById(r),i=a.innerHTML;a.innerHTML="",background.style.background=n,background.addEventListener("click",click),sleep(o).then(()=>{background.removeEventListener("click",click);background.style.background=l;a.innerHTML=i;hide(r);show(t);"results"==t&&finish()})}function click(){var e=document.getElementById("background");Trial.clicks.push({datetime:(new Date).toJSON(),color:e.style.backgroundColor})}function finish(){let e=Trial.clicks.filter(e=>"blue"==e.color).length,t=Trial.clicks.filter(e=>"red"==e.color).length,n=Trial.clicks.filter(e=>"white"==e.color).length;"internet"==Trial.location&&localStorage.setItem(".remember",JSON.stringify(Trial)),[e,t,n].every(e=>e>5)?(Trial.end_datetime=(new Date).toJSON(),localStorage.setItem(Trial.end_datetime,JSON.stringify(Trial)),trySyncDB(),window.location.reload(!0)):(alert("Not enough clicks, for the experiment to be valid! Please re-run the experiment."),hide("results"),show("survey"))}function request(e){var t=new XMLHttpRequest;t.onreadystatechange=function(){if(this.readyState==XMLHttpRequest.DONE)switch(this.status){case 200:case 201:e.onSuccess(this.status);break;default:e.onError(this.status)}},t.open(e.method,e.url,!0),t.setRequestHeader("Content-type","application/json"),t.send(e.data)}function trySyncDB(){navigator.onLine?request({method:"HEAD",url:URL,onSuccess:function(e){uploadResults()},onError:function(){console.log("Server cannot be contacted")}}):console.log("Browser is not online.")}function uploadResults(){for(let e of Object.keys(localStorage))".remember"!=e&&request({method:"POST",url:URL,data:localStorage.getItem(e),onSuccess:function(t){console.log("Result uploaded"),localStorage.removeItem(e)},onError:function(e){console.log("There is a problem with uploading data. We will try later. Received status:",e)}})}"localhost"==location.hostname||"127.0.0.1"==location.hostname?URL="http://localhost:8000/api/v2/":URL="http://time.astrotech.io/api/v2/";var Trial={device:"lcd",location:"internet",regularity:5,timeout:3,colors:shuffle(["red","blue","white"]),clicks:[],start_datetime:(new Date).toJSON()};"localhost"!==location.hostname&&"127.0.0.1"!==location.hostname&&(!function(e,t,n,o,r,l,a){e.GoogleAnalyticsObject=r,e[r]=e[r]||function(){(e[r].q=e[r].q||[]).push(arguments)},e[r].l=1*new Date,l=t.createElement(n),a=t.getElementsByTagName(n)[0],l.async=1,l.src="https://www.google-analytics.com/analytics.js",a.parentNode.insertBefore(l,a)}(window,document,"script",0,"ga"),ga("create","UA-92351316-5","auto"),ga("send","pageview")),window.addEventListener("online",trySyncDB);
+    </script>
+
     <script>trySyncDB();</script>
 </head>
 
@@ -38,14 +41,14 @@
         <p>Experiment takes around 5 minutes.</p>
         <h2>Instructions</h2>
         <ol>
+            <li>Use only <strong>Chrome, Safari or Firefox</strong>!</li>
             <li>Sit 20 cm from the screen.</li>
             <li>Click start and fill survey.</li>
-            <li>Fill the survey.</li>
             <li>When you see gray, red, blue or white screen <strong>click left mouse button once every 5 seconds</strong>.</li>
-            <li>Run this experiment two times:
+            <li>Run this experiment two times a day:
                 <ul>
-                    <li>- After you wake up</li>
-                    <li>- Before going to sleep</li>
+                    <li>- Right after you wake up</li>
+                    <li>- Directly before going to sleep</li>
                 </ul>
             </li>
         </ol>
@@ -57,6 +60,11 @@
         <table>
             <tr><th>Email</th><td><input type="email" name="email" placeholder="Email address" maxlength="100" autocomplete="off" required></td></tr>
             <tr><th>Age [years]</th><td><input type="number" placeholder="Age" name="age" min="1" max="150" autocomplete="off" required></td></tr>
+            <tr><th>What is your gender?</th><td><ul>
+                <li><input type="radio" name="gender" value="male" required> Male</li>
+                <li><input type="radio" name="gender" value="female" required> Female</li>
+                <li><input type="radio" name="gender" value="other" required> Other</li></ul></td></tr>
+
             <tr><th>Temperature [°C]</th><td><input type="number" step="0.1" placeholder="°C" name="temperature" min="34" max="42" autocomplete="off" required> (use dot "." as a decimal separator)</td></tr>
             <tr><th>Blood Pressure [SYS/DIA]</th><td><input type="number" placeholder="SYS" name="bp_systolic" min="80" max="220" autocomplete="off"> / <input type="number" placeholder="DIA" name="bp_diastolic" min="40" max="160" autocomplete="off"> (optional)</td></tr>
             <tr><th>Heart Rate [bpm]</th><td><input type="number" placeholder="HR" name="heart_rate" min="40" max="220" autocomplete="off"> (optional)</td></tr>
@@ -65,16 +73,12 @@
                 <li><input type="radio" name="condition" value="rested" required> Well rested</li>
                 <li><input type="radio" name="condition" value="normal" required> Normal</li>
                 <li><input type="radio" name="condition" value="tired" required> Tired</li></ul></td></tr>
-            <tr><th>What time of the day is now?</th><td><ul>
-                <li><input type="radio" name="time" value="morning" required> Morning</li>
-                <li><input type="radio" name="time" value="evening" required> Evening</li>
+            <tr><th>When you're doing the experiment?</th><td><ul>
+                <li><input type="radio" name="time" value="after-sleep" required> Right after you wake up</li>
+                <li><input type="radio" name="time" value="before-sleep" required> Directly before going to sleep</li>
                 <li><input type="radio" name="time" value="other" required> Other</li></ul></td></tr>
-            <tr><th>What is your gender?</th><td><ul>
-                <li><input type="radio" name="gender" value="male" required> Male</li>
-                <li><input type="radio" name="gender" value="female" required> Female</li>
-                <li><input type="radio" name="gender" value="other" required> Other</li></ul></td></tr>
         </table>
-        <button onclick="saveSurvey(); hide('survey'); show('test');">Proceed to the test</button>
+        <button onclick="saveSurvey(); hide('survey'); show('test');">Proceed</button>
     </section>
 
     <section id="test">

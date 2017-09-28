@@ -1,0 +1,13 @@
+<script>
+    var database = [];
+
+    for (let key of Object.keys(localStorage)) {
+        if (key != ".remember") {
+            let value = localStorage.getItem(key);
+            database.push(JSON.parse(value));
+        }
+    }
+
+    let output = JSON.stringify(database);
+    document.write(output);
+</script>
