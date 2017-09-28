@@ -62,8 +62,8 @@ class APIv3View(View):
             response['data'] = {'message': 'Response already uploaded', 'sha1': http_request_sha1.sha1}
             return response
 
-        except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError):
+        except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError) as e:
             response['status'] = 400
             response['data'] = {'message': 'Bad Request'}
-            ErrorLogger.objects.create(http_request_sha1=http_request_sha1.sha1)
+            ErrorLogger.objects.create(http_request_sha1=http_request_sha1.sha1, descrption=e)
             return response
