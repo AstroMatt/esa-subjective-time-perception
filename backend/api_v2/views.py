@@ -11,9 +11,9 @@ from backend.api_v2.utils import json_decode
 
 
 class APIv2View(View):
-    http_method_names = ['get', 'post', 'head']
+    http_method_names = ['get', 'post', 'options']
 
-    def head(self, request, *args, **kwargs):
+    def options(self, request, *args, **kwargs):
         response = HttpResponse(status=200)
         response['Access-Control-Allow-Origin'] = '*'
         return response

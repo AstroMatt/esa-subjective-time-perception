@@ -172,7 +172,7 @@ function trySyncDB() {
     }
 
     request({
-        method: "HEAD",
+        method: "OPTIONS",
         url: URL,
         onSuccess: function(status) {
             uploadResults();
