@@ -2,9 +2,9 @@
 // minify JS: https://dotmaui.com/jsminify/
 
 if (location.hostname == "localhost" || location.hostname == "127.0.0.1")
-    URL = 'http://localhost:8000/api/v2/'
+    URL = 'http://localhost:8000/api/v3/'
 else
-    URL = 'http://time.astrotech.io/api/v2/'
+    URL = 'http://time.astrotech.io/api/v3/'
 
 
 var Trial = {

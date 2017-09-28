@@ -33,8 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.logger',
-    # 'backend.api_v1',
+    'backend.api_v1',
     'backend.api_v2',
+    'backend.api_v3',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +116,7 @@ admin.site.index_title = _('Control Panel')
 admin.site.site_title = _('Subjective Time Perception Control Panel')
 
 GRAPPELLI_ADMIN_TITLE = _('Subjective Time Perception')
-GRAPPELLI_INDEX_DASHBOARD = 'backend.dashboard.IndexDashboard'
+GRAPPELLI_INDEX_DASHBOARD = 'backend._common.dashboard.IndexDashboard'
 GRAPPELLI_AUTOCOMPLETE_SEARCH_FIELDS = {
     'auth': {
         'user': ['username__icontains']

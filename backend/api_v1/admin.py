@@ -22,6 +22,7 @@ class ClickAdmin(ReadOnlyMixin, ImportExportModelAdmin):
 
 @admin.register(Trial)
 class TrialAdmin(ReadOnlyMixin, ImportExportModelAdmin):
+    change_list_template = 'admin/change_list_import_export.html'
     list_display = ['experiment', 'start', 'end', 'is_valid']
     list_filter = ['is_valid', 'device', 'polarization', 'order']
     ordering = ['-start']
@@ -63,6 +64,7 @@ class EventInline(admin.TabularInline):
 
 @admin.register(Experiment)
 class ExperimentAdmin(ReadOnlyMixin, ImportExportModelAdmin):
+    change_list_template = 'admin/change_list_import_export.html'
     list_display = ['when', 'last_name', 'first_name', 'age', 'device', 'polarization', 'order', 'is_valid']
     list_filter = ['is_valid', 'location', 'device', 'polarization', 'timeout', 'order', 'condition', 'rhythm', 'age']
     ordering = ['-experiment_start']

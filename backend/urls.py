@@ -11,8 +11,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
 
-    # url(r'^api/v1/', include('backend.api_v1.urls')),
-    url(r'^api/v2/', include('backend.api_v2.urls')),
+    # url(r'^api/v1/', include('backend.api_v1.urls', namespace='api-v1')),
+    # url(r'^api/v2/', include('backend.api_v2.urls', namespace='api-v2')),
+    url(r'^api/v3/', include('backend.api_v3.urls', namespace='api-v3')),
 
     url(r'^$', RedirectView.as_view(url='/index.html', permanent=False)),
     url(r'^help/', RedirectView.as_view(url='https://astromatt.github.io/esa-subjective-time-perception/', permanent=False)),
