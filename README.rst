@@ -7,14 +7,18 @@ The software was written for the `Advanced Concepts Team` (`European Space Agenc
 .. tip:: This software is open source (released under MIT license) and you can use it for your experiments! I would appreciate Pull Requests and any other contribution.
 
 
-Running the experiment online via http://time.astrotech.io
-----------------------------------------------------------
+Running the experiment while connected to the internet
+------------------------------------------------------
+This is the typical use of the software.
+
 1. Run experiment at http://time.astrotech.io
 2. Results will be uploaded after each experiment.
 
 
-Running the experiment offline (device without access to the internet)
-----------------------------------------------------------------------
+Running the experiment without access to the internet
+-----------------------------------------------------
+Offline use is handy for example during analog simulations with time delay or at public events.
+
 1. Download https://raw.githubusercontent.com/AstroMatt/esa-time-perception/master/frontend/v3/index.html
 2. Open with your browser (double click) ``index.html`` file and run the experiment.
 3. When you connect machine to the internet, refresh page and your results will be uploaded.
@@ -32,6 +36,7 @@ How to see results?
 2. Superuser account is created during instlation of the software please refer to the ``docs/installation.rst``:
 
     - `Installation <docs/installation.rst>`_
+    - `Usage <docs/usage.rst>`_
     - `Architecture <docs/architecture.rst>`_
     - `Algorithm <docs/algorithm.rst>`_
     - `TODO <docs/todo.rst>`_
