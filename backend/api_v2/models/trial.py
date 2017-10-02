@@ -9,6 +9,7 @@ from django.db.models import EmailField
 from django.db.models import NullBooleanField
 from django.db.models import PositiveSmallIntegerField
 from django.db.models import TextField
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from backend.api_v2.models import Click
 from backend.api_v2.models import Event
@@ -61,6 +62,13 @@ class Trial(models.Model):
     interval_blue = FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
     interval_red = FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
     interval_white = FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('api-v2:report', args=[self.uid])
+
+    @property
+    def survey(self):
+        return Survey.objects.get(trial=self)
 
     @staticmethod
     def add(http_request_sha1, trial, surveys, clicks, events):

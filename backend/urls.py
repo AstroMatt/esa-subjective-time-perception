@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
 
     # url(r'^api/v1/', include('backend.api_v1.urls', namespace='api-v1')),
-    # url(r'^api/v2/', include('backend.api_v2.urls', namespace='api-v2')),
+    url(r'^api/v2/', include('backend.api_v2.urls', namespace='api-v2')),
     url(r'^api/v3/', include('backend.api_v3.urls', namespace='api-v3')),
 
     url(r'^$', RedirectView.as_view(url='/index.html', permanent=False)),

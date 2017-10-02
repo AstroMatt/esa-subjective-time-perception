@@ -52,7 +52,7 @@ class ValidateAction:
 
 @admin.register(Result)
 class ResultAdmin(ImportExportModelAdmin, ValidateAction):
-    change_list_template = 'admin/change_list_import_export.html'
+    change_list_template = 'api_v3/admin-links.html'
     change_list_filter_template = 'admin/filter_listing.html'
     list_display = ['is_valid', 'email', 'field_hash', 'survey_time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
     list_display_links = ['email']

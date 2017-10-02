@@ -60,9 +60,9 @@ class SurveyInline(admin.StackedInline):
 
 @admin.register(Trial)
 class TrialAdmin(ImportExportModelAdmin, ValidateAction):
-    change_list_template = 'admin/change_list_import_export.html'
+    change_list_template = 'api_v2/admin-links.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['is_valid', 'uid', 'http_request_sha1', 'time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
+    list_display = ['is_valid', 'uid', 'field_hash', 'time', 'end_datetime', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
     list_display_links = ['uid']
     list_editable = ['time']
     list_filter = [TempoListFilter, 'time', 'uid', 'end_datetime', 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
@@ -80,6 +80,12 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
         ('Interval', {'fields': ['interval_all', 'interval_blue', 'interval_red', 'interval_white']}),
         ('Details', {'fields': ['device', 'location', 'timeout', 'regularity', 'colors', 'time_between_clicks']})
     ]
+
+    def field_hash(self, obj):
+        return f'{obj.http_request_sha1:.7}'
+
+    field_hash.short_description = _('Hash')
+    field_hash.admin_order_field = 'http_request_sha1'
 
 
 @admin.register(Survey)

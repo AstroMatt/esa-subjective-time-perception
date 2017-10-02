@@ -1,6 +1,7 @@
 import json
 import statistics
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -85,6 +86,9 @@ class Result(models.Model):
     interval_blue = models.FloatField(verbose_name=_('Interval - blue'), null=True, blank=True)
     interval_red = models.FloatField(verbose_name=_('Interval - red'), null=True, blank=True)
     interval_white = models.FloatField(verbose_name=_('Interval - white'), null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('api-v3:report', args=[self.uid])
 
     @staticmethod
     def add(http_request_sha1, result, clicks):

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+{% load i18n %}
+
+<html>
+<body>
+
+<style>
+    th { padding: 2em; }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>{% trans "Date" %}</th>
+
+            <th>{% trans "Time [UTC]" %}</th>
+            <th>{% trans "Time of the day" %}</th>
+            <th>{% trans "Blood Pressure" %}</th>
+            <th>{% trans "Heart Rate" %}</th>
+            <th>{% trans "Tempo" %}</th>
+            <th>{% trans "Regularity" %}</th>
+            <th>{% trans "Interval" %}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for trial in trials %}
+        <tr>
+            <td>{{ trial.end_datetime|date:"Y-m-d" }}</td>
+
+            <td>{{ trial.end_datetime|date:"H:i" }}</td>
+            <td>{{ trial.time }}</td>
+            <td>{{ trial.survey.bp_systolic }}/{{ trial.survey.bp_diastolic }}</td>
+            <td>{{ trial.survey.heart_rate }}</td>
+            <td>{{ trial.tempo_all }}</td>
+            <td>{{ trial.regularity_all }}</td>
+            <td>{{ trial.interval_all }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+</body>
+</html>
