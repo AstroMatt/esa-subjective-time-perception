@@ -11,7 +11,7 @@ var Trial = {
     device: "lcd",
     location: "internet",
     regularity: 5,
-    timeout: 3.0,
+    timeout: 60.0,
     colors: shuffle(["red", "blue", "white"]),
     clicks: [],
     start_datetime: new Date().toJSON()
