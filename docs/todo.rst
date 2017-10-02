@@ -10,10 +10,33 @@ Refactorings
 ------------
 * While API adding:
 
-    - Calculate SHA1 of JSON request
-    - Add Result object with JSON request and SHA1
-    - Start job of parsing request and converting data to fields
-    - Start calculating
+    - Add field status instead of verified: None, Added, Parsed, Error, Valid, Invalid
+    - Calculate JSON's SHA1 from incoming HTTP request body
+    - Add Result object to Database with JSON request and SHA1 (no other fields), set status Added
+    - Start job of parsing request and converting data to fields, on finish change status (Parsed or Error)
+    - Start calculating data, on finish change status (Valid, Invalid)
+
+.. code-block:: python
+
+
+    STATUS_ADDED = 'added'
+    STATUS_PARSED = 'parsed'
+    STATUS_ERROR = 'error'
+    STATUS_VALID = 'valid'
+    STATUS_INVALID = 'invalid'
+    STATUS_RECALCULATE = 'recalculate'
+    STATUS_CHOICES = [
+        (STATUS_ADDED, _('Added')),
+        (STATUS_PARSED, _('Parsed')),
+        (STATUS_ERROR, _('Error')),
+        (STATUS_VALID, _('Valid')),
+        (STATUS_INVALID, _('Invalid')),
+        (STATUS_RECALCULATE, _('To Recalculate'))]
+        
+    request_data = models.TextField(verbose_name=_('HTTP Request JSON'), null=True, blank=True, default=None)
+    request_sha1 = models.CharField(verbose_name=_('HTTP Request SHA1'), max_length=40, db_index=True, unique=True)
+    status = models.CharField(verbose_name=_('Status'), max_length=30, choices=STATUS_CHOICES, default=STATUS_ADDED)
+
 
 
 * Introduce ``Experiment.clicks_expected`` parameter to make the calculations simpler

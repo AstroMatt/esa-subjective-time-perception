@@ -28,7 +28,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['all']:
-            requests_to_recalculate = HTTPRequest.objects.all()
+            requests_to_recalculate = HTTPRequest.objects.all(api_version=2)
             Survey.objects.all().delete()
             Click.objects.all().delete()
             Event.objects.all().delete()
