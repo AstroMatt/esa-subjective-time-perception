@@ -57,6 +57,10 @@ class Result(models.Model):
     regularity = models.PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     time_between_clicks = models.TextField(verbose_name=_('Time between clicks'), blank=True, null=True, default=None)
 
+    # TODO: clicks_expected
+    # TODO: clicks_minimum
+    # TODO: click_maximum
+
     survey_age = models.PositiveSmallIntegerField(verbose_name=_('Age'))
     survey_condition = models.CharField(verbose_name=_('Condition'), max_length=50, choices=CONDITION_CHOICES)
     survey_gender = models.CharField(verbose_name=_('Gender'), max_length=50, choices=GENDER_CHOICES)
