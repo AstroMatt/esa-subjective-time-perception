@@ -1,8 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
-
-from backend.api_v3.models import Click
 from backend.api_v3.models import Result
 
 
@@ -84,15 +82,3 @@ class ResultAdmin(ImportExportModelAdmin, ValidateAction):
 
     field_hash.short_description = _('Hash')
     field_hash.admin_order_field = 'http_request_sha1'
-
-
-# @admin.register(Click)
-class ClickAdmin(ImportExportModelAdmin, ValidateAction):
-    change_list_template = 'admin/change_list_import_export.html'
-    change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['datetime', 'is_valid', 'color']
-    list_display_links = ['datetime']
-    list_filter = ['is_valid', 'color']
-    search_fields = ['=result__id']
-    ordering = ['-datetime']
-    actions = ['make_invalid', 'make_valid']

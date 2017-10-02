@@ -38,7 +38,7 @@ class Command(BaseCommand):
             invalid = list(Trial.objects.filter(regularity_all__isnull=True).values_list('http_request_sha1', flat=True))
             valid = list(Trial.objects.all().values_list('http_request_sha1', flat=True))
 
-            for req in list(HTTPRequest.objects.all().values_list('sha1', flat=True)):
+            for req in list(HTTPRequest.objects.filter(api_version=2).values_list('sha1', flat=True)):
                 if req in invalid or req not in valid:
                     todo.append(req)
 
@@ -47,7 +47,12 @@ class Command(BaseCommand):
         self.stdout.write(f'Will recalculate: {requests_to_recalculate}')
 
         for request in requests_to_recalculate:
-            data = json_decode(request.data)
+            logging.info(f'{request}')
+
+            try:
+                data = json_decode(request.data)
+            except TypeError as e:
+                logging.error(f'JSON decode error {request}: {e}')
 
             try:
                 Trial.add(

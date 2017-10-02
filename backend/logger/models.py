@@ -43,9 +43,9 @@ class HTTPRequest(models.Model):
     data_status = models.CharField(verbose_name=_('Data status'), max_length=30, choices=DATA_STATUS_CHOICES, null=True, blank=True, default=DATA_STATUS_PRODUCTION)
     added = models.DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
     modified = models.DateTimeField(verbose_name=_('Datetime'), auto_now=True, db_index=True)
-    ip = models.GenericIPAddressField(verbose_name=_('IP'))
-    method = models.CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_GET)
-    api_version = models.PositiveSmallIntegerField(verbose_name=_('API version'))
+    ip = models.GenericIPAddressField(verbose_name=_('IP'), default='127.0.0.1')
+    method = models.CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_POST)
+    api_version = models.PositiveSmallIntegerField(verbose_name=_('API version'), default=3)
     data = models.TextField(verbose_name=_('Data'), null=True, blank=True)
     sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True, null=True, blank=True, default=None)
 

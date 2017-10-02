@@ -49,10 +49,15 @@ class Command(BaseCommand):
         self.recalculate(requests_to_recalculate)
 
     def recalculate(self, requests_to_recalculate):
-        self.stdout.write(f'Will recalculate: {requests_to_recalculate}')
+        logging.info(f'Will recalculate: {requests_to_recalculate}')
 
         for request in requests_to_recalculate:
-            data = json.loads(request.data, object_hook=json_datetime_decoder)
+            logging.info(f'{request}')
+
+            try:
+                data = json.loads(request.data, object_hook=json_datetime_decoder)
+            except TypeError as e:
+                logging.error(f'{request.sha1} JSON decode error: {e}')
 
             try:
                 Result.add(
