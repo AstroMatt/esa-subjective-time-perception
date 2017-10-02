@@ -1,6 +1,6 @@
 import datetime
 from django.views.generic import TemplateView
-from api_v2.models import Trial
+from backend.api_v2.models import Trial
 
 
 class ReportRangeView(TemplateView):
