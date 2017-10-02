@@ -82,7 +82,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     ]
 
     def field_date(self, obj):
-        return f'{obj.end_datetime:%Y-%m-d% %H:%M}'
+        return f'{obj.end_datetime:%Y-%m-%d %H:%M}'
 
     field_date.short_description = _('Datetime')
     field_date.admin_order_field = 'end_datetime'
