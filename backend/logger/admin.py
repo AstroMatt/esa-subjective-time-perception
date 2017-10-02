@@ -17,9 +17,9 @@ class HTTPRequestAdmin(admin.ModelAdmin):
 @admin.register(ErrorLogger)
 class ErrorLoggerAdmin(admin.ModelAdmin):
     change_list_template = 'admin/change_list_filter_sidebar.html'
-    list_display = ['modified', 'http_request_sha1']
+    list_display = ['added', 'http_request_sha1']
     list_display_links = ['http_request_sha1']
-    list_filter = ['modified']
-    search_fields = ['^http_request_sha1']
+    list_filter = ['added']
+    search_fields = ['^http_request_sha1', '^added']
     ordering = ['-modified']
     list_per_page = 10
