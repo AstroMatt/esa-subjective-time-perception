@@ -45,7 +45,7 @@ class Result(models.Model):
         (CONDITION_TIRED, _('Tired'))]
 
     http_request_sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True)
-    is_valid = models.NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
+    is_valid = models.NullBooleanField(verbose_name=_('Valid?'), default=None, db_index=True)
 
     start_datetime = models.DateTimeField(verbose_name=_('Start datetime'))
     end_datetime = models.DateTimeField(verbose_name=_('End datetime'), db_index=True)

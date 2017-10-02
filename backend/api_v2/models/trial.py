@@ -40,7 +40,7 @@ class Trial(models.Model):
     timeout = FloatField(verbose_name=_('Timeout'), help_text=_('Seconds per color'))
     regularity = PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     attempt = PositiveSmallIntegerField(verbose_name=_('Attempt'), null=True, blank=True, default=True)
-    is_valid = NullBooleanField(verbose_name=_('Is Valid?'), default=None, db_index=True)
+    is_valid = NullBooleanField(verbose_name=_('Valid?'), default=None, db_index=True)
     time_between_clicks = TextField(verbose_name=_('Time between clicks'), blank=True, null=True, default=None)
 
     count_all = PositiveSmallIntegerField(verbose_name=_('Count'), null=True, blank=True)

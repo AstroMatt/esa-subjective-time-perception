@@ -62,8 +62,8 @@ class SurveyInline(admin.StackedInline):
 class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'api_v2/admin-links.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['is_valid', 'end_datetime', 'uid', 'field_hash', 'time', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
-    list_display_links = ['end_datetime']
+    list_display = ['is_valid', 'field_date', 'time', 'uid', 'field_hash', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
+    list_display_links = ['field_date']
     list_editable = ['uid', 'time']
     list_filter = [TempoListFilter, 'time', 'uid', 'end_datetime', 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
     search_fields = ['=id', '^uid', '^http_request_sha1']
@@ -80,6 +80,12 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
         ('Interval', {'fields': ['interval_all', 'interval_blue', 'interval_red', 'interval_white']}),
         ('Details', {'fields': ['device', 'location', 'timeout', 'regularity', 'colors', 'time_between_clicks']})
     ]
+
+    def field_date(self, obj):
+        return f'{obj.end_datetime:%Y-%d-%m %H:%M}'
+
+    field_date.short_description = _('Hash')
+    field_date.admin_order_field = 'http_request_sha1'
 
     def field_hash(self, obj):
         if obj.http_request_sha1:

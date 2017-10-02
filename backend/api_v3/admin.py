@@ -54,8 +54,8 @@ class ValidateAction:
 class ResultAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'api_v3/admin-links.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['end_datetime', 'is_valid', 'email', 'field_hash', 'survey_time', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
-    list_display_links = ['end_datetime']
+    list_display = ['field_date', 'survey_time', 'is_valid', 'email', 'field_hash', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all']
+    list_display_links = ['field_date']
     list_filter = [TempoListFilter, 'survey_time', 'email', 'end_datetime', 'is_valid', 'timeout', 'regularity', 'colors', 'device', 'location']
     list_editable = ['email', 'survey_time']
     search_fields = ['=id', '^email', '^http_request_sha1']
@@ -72,6 +72,12 @@ class ResultAdmin(ImportExportModelAdmin, ValidateAction):
         ('Details', {'fields': ['device', 'location', 'timeout', 'regularity', 'colors', 'time_between_clicks']}),
         ('Survey', {'fields': ['survey_age', 'survey_condition', 'survey_gender', 'survey_time', 'survey_temperature', 'survey_bp_systolic', 'survey_bp_diastolic', 'survey_heart_rate', 'survey_sleep']})
     ]
+
+    def field_date(self, obj):
+        return f'{obj.end_datetime:%Y-%d-%m %H:%M}'
+
+    field_date.short_description = _('Hash')
+    field_date.admin_order_field = 'http_request_sha1'
 
     def field_hash(self, obj):
         return f'{obj.http_request_sha1:.7}'
