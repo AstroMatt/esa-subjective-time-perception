@@ -84,8 +84,8 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     def field_date(self, obj):
         return f'{obj.end_datetime:%Y-%m-d% %H:%M}'
 
-    field_date.short_description = _('Hash')
-    field_date.admin_order_field = 'http_request_sha1'
+    field_date.short_description = _('Datetime')
+    field_date.admin_order_field = 'end_datetime'
 
     def field_hash(self, obj):
         if obj.http_request_sha1:
