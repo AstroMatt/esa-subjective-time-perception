@@ -58,7 +58,7 @@ class ResultAdmin(ImportExportModelAdmin, ValidateAction):
     list_display_links = ['field_date']
     list_filter = [TempoListFilter, 'survey_time', 'email', 'end_datetime', 'is_valid', 'timeout', 'regularity', 'colors', 'device', 'location']
     list_editable = ['email', 'survey_time']
-    search_fields = ['=id', '^email', '^http_request_sha1']
+    search_fields = ['=id', '^email', '^http_request_sha1', '^end_datetime']
     ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
     list_per_page = 20

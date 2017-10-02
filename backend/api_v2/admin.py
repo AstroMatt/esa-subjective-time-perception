@@ -66,7 +66,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     list_display_links = ['field_date']
     list_editable = ['uid', 'time']
     list_filter = [TempoListFilter, 'time', 'uid', 'end_datetime', 'is_valid', 'polarization', 'timeout', 'regularity', 'colors', 'device', 'location']
-    search_fields = ['=id', '^uid', '^http_request_sha1']
+    search_fields = ['=id', '^uid', '^http_request_sha1', '^end_datetime']
     ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
     inlines = [SurveyInline]

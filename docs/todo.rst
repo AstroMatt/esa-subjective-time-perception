@@ -8,6 +8,14 @@ Architectural changes
 
 Refactorings
 ------------
+* While API adding:
+
+    - Calculate SHA1 of JSON request
+    - Add Result object with JSON request and SHA1
+    - Start job of parsing request and converting data to fields
+    - Start calculating
+
+
 * Introduce ``Experiment.clicks_expected`` parameter to make the calculations simpler
 * Introduce ``Experiment.clicks_minimum`` parameter to make the calculations simpler
 * Introduce ``Experiment.clicks_maximum`` parameter to make the calculations simpler
@@ -15,11 +23,9 @@ Refactorings
 
 Functional changes
 ------------------
-* Create experiment creation wizard
-* Serve experiment setup as ``json`` file to the browser
-* Implement frontend click count validation based on experiment settings values
-* Support running multiple different offline experiments
 * Kiosk mode for single experiments (for Open Day and Conference experiments)
-* Create reports page with graphical data analysis
 * Create module ``excercise.threadmill`` to store and analyze data from `TomTom Runner Cardio` devices (downloaded from `mysports.tomtom.com <http://mysports.tomtom.com>`_ as `CSV` files)
-* Write time guessing mini-game
+
+And much more
+-------------
+https://github.com/AstroMatt/esa-time-perception/issues
