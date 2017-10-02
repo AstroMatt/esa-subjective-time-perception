@@ -82,7 +82,10 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     ]
 
     def field_hash(self, obj):
-        return f'{obj.http_request_sha1:.7}'
+        if obj.http_request_sha1:
+            return f'{obj.http_request_sha1:.7}'
+        else:
+            return f'n/a'
 
     field_hash.short_description = _('Hash')
     field_hash.admin_order_field = 'http_request_sha1'
