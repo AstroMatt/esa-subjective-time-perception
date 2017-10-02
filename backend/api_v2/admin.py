@@ -104,7 +104,7 @@ class SurveyAdmin(ImportExportModelAdmin):
     list_display = ['datetime', 'email', 'age', 'condition', 'gender', 'rhythm', 'trial']
     list_display_links = ['datetime']
     list_filter = ['gender', 'condition', 'rhythm', 'age']
-    search_fields = ['^email']
+    search_fields = ['^email', '^datetime']
     ordering = ['-datetime']
 
 
