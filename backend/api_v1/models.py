@@ -99,7 +99,7 @@ class Experiment(models.Model):
         def get_time_deltas(series):
 
             for i in range(1, len(series)):
-                d1 = series[i-1].datetime
+                d1 = series[i - 1].datetime
                 d2 = series[i].datetime
                 yield (d2 - d1).total_seconds()
 

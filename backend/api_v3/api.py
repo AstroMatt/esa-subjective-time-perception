@@ -69,5 +69,5 @@ class APIv3(View):
         except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError) as e:
             response['status'] = 400
             response['data'] = {'message': 'Bad Request'}
-            ErrorLogger.objects.create(request_sha1=request_sha1.sha1, descrption=e)
+            ErrorLogger.objects.create(request_sha1=request_sha1.sha1, description=e)
             return response

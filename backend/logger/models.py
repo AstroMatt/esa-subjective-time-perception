@@ -75,7 +75,7 @@ class HTTPRequest(models.Model):
 class ErrorLogger(models.Model):
     added = models.DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
     modified = models.DateTimeField(verbose_name=_('Datetime'), auto_now=True, db_index=True)
-    http_request_sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True)
+    request_sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True)
     description = models.TextField(verbose_name=_('Description'), null=True, blank=True, default=None)
     traceback = models.TextField(verbose_name=_('Traceback'), null=True, blank=True, default=None)
 

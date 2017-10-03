@@ -52,7 +52,7 @@ class ValidateAction:
 class ResultAdmin(ImportExportModelAdmin, ValidateAction):
     change_list_template = 'api_v3/admin-links.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['field_date', 'survey_time', 'status', 'email', 'timeout',  'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all', 'field_hash']
+    list_display = ['field_date', 'survey_time', 'status', 'email', 'timeout', 'regularity', 'count_all', 'tempo_all', 'regularity_all', 'interval_all', 'field_hash']
     list_display_links = ['field_date']
     list_filter = [TempoListFilter, 'survey_time', 'email', 'end_datetime', 'status', 'timeout', 'regularity', 'colors', 'device', 'location']
     list_editable = ['email']

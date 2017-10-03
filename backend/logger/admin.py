@@ -26,9 +26,9 @@ class HTTPRequestAdmin(ImportExportModelAdmin):
 class ErrorLoggerAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/change_list_import_export.html'
     change_list_filter_template = 'admin/filter_listing.html'
-    list_display = ['added', 'http_request_sha1']
-    list_display_links = ['http_request_sha1']
+    list_display = ['added', 'request_sha1']
+    list_display_links = ['request_sha1']
     list_filter = ['added']
-    search_fields = ['^http_request_sha1', '^added']
+    search_fields = ['^request_sha1', '^added']
     ordering = ['-modified']
     list_per_page = 10
