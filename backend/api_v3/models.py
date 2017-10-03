@@ -176,7 +176,7 @@ class Result(models.Model):
         1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
         2. >>> {"czerwony": [1.025, 0.987, 1.000, 1.01...], "biały": [1.025, 0.987, 1.000, 1.01...], "niebieski": [1.025, 0.987, 1.000, 1.01...], "wszystkie": [1.025, 0.987, 1.000, 1.01...]}
         """
-        clicks = Click.objects.filter(result=self, status=self.STATUS_VALID).order_by('datetime')
+        clicks = Click.objects.filter(result=self, is_valid=True).order_by('datetime')
 
         def get_time_deltas(series):
             for i in range(1, len(series)):
