@@ -24,15 +24,19 @@ class APIv3(View):
         return response
 
     def get(self, request, *args, **kwargs):
+        response = JsonResponse(data={})
+        response['Access-Control-Allow-Origin'] = '*'
+
         try:
             start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
             result = Result.objects.get(start_datetime=start_datetime)
-            response = JsonResponse(status=200, data={'code': 200, 'status': 'OK', 'data': result.get_data()})
+            response['status'] = 200
+            response['data'] = {'code': 200, 'status': 'OK', 'data': result.get_data()}
 
         except (Result.DoesNotExist, IndexError):
-            response = JsonResponse(status=400, data={'code': 404, 'status': 'Not Found', 'message': 'Result Does Not Exists'})
+            response['status'] = 400
+            response['data'] = {'code': 404, 'status': 'Not Found', 'message': 'Result Does Not Exists'}
 
-        response['Access-Control-Allow-Origin'] = '*'
         return response
 
     def post(self, request, *args, **kwargs):

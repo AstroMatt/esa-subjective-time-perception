@@ -27,7 +27,11 @@
     </style>
 
     <script>
-        URL = 'http://time.astrotech.io/api/v3/'
+        if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+            URL = 'http://localhost:8000/api/v3/'
+        } else {
+            URL = 'http://time.astrotech.io/api/v3/'
+        }
 
         var Trial = {
             device: "lcd",
@@ -67,7 +71,6 @@
             Trial.survey_time = document.querySelector('input[name="time"]:checked').value;
 
             if (Trial.email.includes('test')) {
-                URL = 'http://localhost:8000/api/v3/'
                 Trial.timeout = 1.0
             }
         }
