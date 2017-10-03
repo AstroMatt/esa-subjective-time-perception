@@ -3,13 +3,15 @@ from devutils.tests import Test
 
 class LoggerTest(Test):
     fixtures = [
-        'fixtures/logger.json',
+        'logger.json',
     ]
 
-    assert_http_200 = [
-        '/admin/logger/httprequest/',
-        '/admin/logger/httprequest/add/',
+    assert_http_status = [
+        {'status': 200, 'url': '/admin/logger/httprequest/'},
+        {'status': 200, 'url': '/admin/logger/httprequest/add/'},
+        {'status': 200, 'url': '/admin/logger/httprequest/1/change/', 'skip': True},
 
-        '/admin/logger/errorlogger/',
-        '/admin/logger/errorlogger/add/'
+        {'status': 200, 'url': '/admin/logger/errorlogger/'},
+        {'status': 200, 'url': '/admin/logger/errorlogger/add/'},
+        {'status': 200, 'url': '/admin/logger/errorlogger/1/change/', 'skip': True},
     ]

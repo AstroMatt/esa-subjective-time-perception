@@ -3,7 +3,6 @@ Plans for further development
 
 Architectural changes
 ---------------------
-* Implement frontend in `AngularJS 2.0`
 * Implement `Django REST framework`
 
 Refactorings

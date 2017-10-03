@@ -44,8 +44,23 @@ class Result(models.Model):
         (CONDITION_NORMAL, _('Normal')),
         (CONDITION_TIRED, _('Tired'))]
 
-    http_request_sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True)
-    is_valid = models.NullBooleanField(verbose_name=_('Valid?'), default=None, db_index=True)
+    STATUS_ADDED = 'added'
+    STATUS_PARSED = 'parsed'
+    STATUS_ERROR = 'error'
+    STATUS_VALID = 'valid'
+    STATUS_INVALID = 'invalid'
+    STATUS_RECALCULATE = 'recalculate'
+    STATUS_CHOICES = [
+        (STATUS_ADDED, _('Added')),
+        (STATUS_PARSED, _('Parsed')),
+        (STATUS_ERROR, _('Error')),
+        (STATUS_VALID, _('Valid')),
+        (STATUS_INVALID, _('Invalid')),
+        (STATUS_RECALCULATE, _('To Recalculate'))]
+
+    # request_data = models.TextField(verbose_name=_('HTTP Request JSON'), null=True, blank=True, default=None)
+    request_sha1 = models.CharField(verbose_name=_('HTTP Request SHA1'), max_length=40, db_index=True, unique=True)
+    status = models.CharField(verbose_name=_('Status'), max_length=30, choices=STATUS_CHOICES, default=STATUS_ADDED)
 
     start_datetime = models.DateTimeField(verbose_name=_('Start datetime'))
     end_datetime = models.DateTimeField(verbose_name=_('End datetime'), db_index=True)
@@ -69,7 +84,6 @@ class Result(models.Model):
     survey_bp_systolic = models.PositiveSmallIntegerField(verbose_name=_('Blood Pressure SYS'), null=True, blank=True, default=None)
     survey_bp_diastolic = models.PositiveSmallIntegerField(verbose_name=_('Blood Pressure DIA'), null=True, blank=True, default=None)
     survey_heart_rate = models.PositiveSmallIntegerField(verbose_name=_('Heart Rate'), help_text=_('bpm'), null=True, blank=True, default=None)
-    survey_sleep = models.TimeField(verbose_name=_('Sleep Hours'))
 
     count_all = models.PositiveSmallIntegerField(verbose_name=_('Count'), null=True, blank=True)
     count_blue = models.PositiveSmallIntegerField(verbose_name=_('Count - blue'), null=True, blank=True)
@@ -108,7 +122,7 @@ class Result(models.Model):
         return result
 
     def __str__(self):
-        return f'[{self.start_datetime:%Y-%m-%d %H:%M}] ({self.location}, {self.device}) {self.email}'
+        return f'({self.request_sha1:.7}) [{self.start_datetime:%Y-%m-%d %H:%M}] {self.email}'
 
     class Meta:
         verbose_name = _('Result')
@@ -151,9 +165,9 @@ class Result(models.Model):
             self.calculate()
 
         if min <= self.tempo_all <= max:
-            self.is_valid = True
+            self.status = self.STATUS_VALID
         else:
-            self.is_valid = False
+            self.status = self.STATUS_INVALID
         self.save()
 
     def get_time_between_clicks(self):
@@ -162,7 +176,7 @@ class Result(models.Model):
         1. Dla każdego kliknięcia w kolorze od czasu następnego (n+1) kliknięcia odejmuj czas poprzedniego (n) - interwały czasu pomiędzy kliknięciami
         2. >>> {"czerwony": [1.025, 0.987, 1.000, 1.01...], "biały": [1.025, 0.987, 1.000, 1.01...], "niebieski": [1.025, 0.987, 1.000, 1.01...], "wszystkie": [1.025, 0.987, 1.000, 1.01...]}
         """
-        clicks = Click.objects.filter(result=self, is_valid=True).order_by('datetime')
+        clicks = Click.objects.filter(result=self, status=self.STATUS_VALID).order_by('datetime')
 
         def get_time_deltas(series):
             for i in range(1, len(series)):

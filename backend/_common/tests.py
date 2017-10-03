@@ -3,14 +3,15 @@ from devutils.tests import Test
 
 class CommonTest(Test):
     fixtures = [
-        'fixtures/common.json',
+        'auth.json',
     ]
 
-    assert_http_200 = [
-        '/index.html',
-        '/cache.html',
-        '/howto.html',
-        '/_debug/index.html',
-        '/_debug/main.js',
-        '/admin/',
+    assert_http_status = [
+        {'status': 302, 'url': '/'},
+        {'status': 200, 'url': '/admin/'},
+        {'status': 200, 'url': '/index.html', 'skip': True},
+        {'status': 200, 'url': '/cache.html', 'skip': True},
+        {'status': 200, 'url': '/howto.html', 'skip': True},
+        {'status': 200, 'url': '/_debug/index.html', 'skip': True},
+        {'status': 200, 'url': '/_debug/main.js', 'skip': True},
     ]

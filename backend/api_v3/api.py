@@ -39,31 +39,31 @@ class APIv3(View):
         response = JsonResponse(data={})
         response['Access-Control-Allow-Origin'] = '*'
 
-        http_request_sha1, created = HTTPRequest.add(request, api_version=3)
+        request_sha1, created = HTTPRequest.add(request, api_version=3)
 
         if not created:
             response['status'] = 200
-            response['data'] = {'message': 'Response already uploaded', 'sha1': http_request_sha1.sha1}
+            response['data'] = {'message': 'Response already uploaded', 'sha1': request_sha1.sha1}
             return response
 
         try:
             data = json.loads(str(request.body, encoding='utf-8'), object_hook=json_datetime_decoder)
             Result.add(
-                http_request_sha1=http_request_sha1.sha1,
+                request_sha1=request_sha1.sha1,
                 clicks=data.pop('clicks'),
                 result=data,
             )
             response['status'] = 201
-            response['data'] = {'message': 'Result added to the database.', 'sha1': http_request_sha1.sha1}
+            response['data'] = {'message': 'Result added to the database.', 'sha1': request_sha1.sha1}
             return response
 
         except IntegrityError:
             response['status'] = 200
-            response['data'] = {'message': 'Response already uploaded', 'sha1': http_request_sha1.sha1}
+            response['data'] = {'message': 'Response already uploaded', 'sha1': request_sha1.sha1}
             return response
 
         except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError) as e:
             response['status'] = 400
             response['data'] = {'message': 'Bad Request'}
-            ErrorLogger.objects.create(http_request_sha1=http_request_sha1.sha1, descrption=e)
+            ErrorLogger.objects.create(request_sha1=request_sha1.sha1, descrption=e)
             return response
