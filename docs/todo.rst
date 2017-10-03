@@ -32,7 +32,7 @@ Refactorings
         (STATUS_VALID, _('Valid')),
         (STATUS_INVALID, _('Invalid')),
         (STATUS_RECALCULATE, _('To Recalculate'))]
-        
+
     request_data = models.TextField(verbose_name=_('HTTP Request JSON'), null=True, blank=True, default=None)
     request_sha1 = models.CharField(verbose_name=_('HTTP Request SHA1'), max_length=40, db_index=True, unique=True)
     status = models.CharField(verbose_name=_('Status'), max_length=30, choices=STATUS_CHOICES, default=STATUS_ADDED)

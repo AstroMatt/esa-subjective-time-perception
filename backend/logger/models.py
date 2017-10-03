@@ -46,8 +46,8 @@ class HTTPRequest(models.Model):
     ip = models.GenericIPAddressField(verbose_name=_('IP'), default='127.0.0.1')
     method = models.CharField(verbose_name=_('Method'), max_length=10, choices=METHOD_CHOICES, default=METHOD_POST)
     api_version = models.PositiveSmallIntegerField(verbose_name=_('API version'), default=3)
-    data = models.TextField(verbose_name=_('Data'), null=True, blank=True)
     sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True, null=True, blank=True, default=None)
+    data = models.TextField(verbose_name=_('Data'), null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.sha1 = get_sha1(self.data)

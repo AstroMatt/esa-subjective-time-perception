@@ -14,6 +14,12 @@ class HTTPRequestAdmin(ImportExportModelAdmin):
     search_fields = ['ip', 'sha1']
     ordering = ['-modified']
     list_per_page = 10
+    readonly_fields = ['sha1', 'ip', 'method', 'api_version']
+
+    class Media:
+        css = {'all': [
+            'logger/css/httprequest-resize-body.css',
+        ]}
 
 
 @admin.register(ErrorLogger)
