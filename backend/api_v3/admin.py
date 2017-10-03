@@ -56,7 +56,7 @@ class ResultAdmin(ImportExportModelAdmin, ValidateAction):
     list_display_links = ['field_date']
     list_filter = [TempoListFilter, 'survey_time', 'email', 'end_datetime', 'status', 'timeout', 'regularity', 'colors', 'device', 'location']
     list_editable = ['email']
-    search_fields = ['=id', '^email', '^http_request_sha1', '^end_datetime']
+    search_fields = ['=id', '^email', '^request_sha1', '^end_datetime']
     ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
     list_per_page = 20
@@ -81,4 +81,4 @@ class ResultAdmin(ImportExportModelAdmin, ValidateAction):
         return f'{obj.request_sha1:.7}'
 
     field_hash.short_description = _('Hash')
-    field_hash.admin_order_field = 'http_request_sha1'
+    field_hash.admin_order_field = 'request_sha1'

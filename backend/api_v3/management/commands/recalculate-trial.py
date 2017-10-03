@@ -37,8 +37,8 @@ class Command(BaseCommand):
             Result.objects.all().delete()
         else:
             todo = []
-            invalid = list(Result.objects.filter(regularity_all__isnull=True).values_list('http_request_sha1', flat=True))
-            valid = list(Result.objects.all().values_list('http_request_sha1', flat=True))
+            invalid = list(Result.objects.filter(regularity_all__isnull=True).values_list('request_sha1', flat=True))
+            valid = list(Result.objects.all().values_list('request_sha1', flat=True))
 
             for req in list(HTTPRequest.objects.all().values_list('sha1', flat=True)):
                 if req in invalid or req not in valid:
@@ -61,7 +61,7 @@ class Command(BaseCommand):
 
             try:
                 Result.add(
-                    http_request_sha1=request.sha1,
+                    request_sha1=request.sha1,
                     clicks=data.pop('clicks'),
                     result=data,
                 )

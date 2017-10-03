@@ -109,8 +109,8 @@ class Result(models.Model):
         return reverse('api-v3:report', args=[self.uid])
 
     @staticmethod
-    def add(http_request_sha1, result, clicks):
-        result, _ = Result.objects.get_or_create(http_request_sha1=http_request_sha1, defaults=result)
+    def add(request_sha1, result, clicks):
+        result, _ = Result.objects.get_or_create(request_sha1=request_sha1, defaults=result)
 
         for click in clicks:
             Click.objects.get_or_create(result=result, **click)
