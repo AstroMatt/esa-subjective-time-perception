@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import View
 
 from backend._common.utils import json_datetime_decoder
@@ -29,13 +30,15 @@ class APIv3(View):
 
         try:
             start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
-            result = Result.objects.get(start_datetime=start_datetime)
-            response['status'] = 200
-            response['data'] = {'code': 200, 'status': 'OK', 'data': result.get_data()}
+            result = Result.objects.filter(start_datetime=start_datetime)[0]
+            return JsonResponse(status=200, data=result.get_data())
 
         except (Result.DoesNotExist, IndexError):
-            response['status'] = 400
+            response['status'] = 404
             response['data'] = {'code': 404, 'status': 'Not Found', 'message': 'Result Does Not Exists'}
+        except MultiValueDictKeyError:
+            response['status'] = 400
+            response['data'] = {'code': 400, 'status': 'Bad Request', 'message': 'Bad Request'}
 
         return response
 

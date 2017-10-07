@@ -23,6 +23,8 @@
         //#background {background-image: url('http://time.astrotech.io/background.jpg'); background-repeat: no-repeat;  background-attachment: fixed; background-position: center; background-size: cover}
 
         section {display: none}
+
+        #results-status, #results {display: none}
         #instructions {display: block}
     </style>
 
@@ -35,7 +37,7 @@
 
         var Trial = {
             device: "lcd",
-            location: "internet",
+            location: "esa-open-day",
             regularity: 5,
             timeout: 60.0,
             colors: shuffle(["yellow", "green", "red", "blue", "white"]),
@@ -121,7 +123,7 @@
             let oldContent = content.innerHTML;
 
             if (current == 'test')
-                content.innerHTML = '<h1>Click now!</h1>';
+                content.innerHTML = '<h1>This is the test screen. Click now!</h1>';
             else
                 content.innerHTML = ''
 
@@ -135,7 +137,7 @@
                 hide(current);
                 show(next);
 
-                if (next == 'results')
+                if (next == 'end')
                     finish();
             });
         }
@@ -160,10 +162,35 @@
             if ([blue, red, white].every(count => count > 5)) {
                 Trial.end_datetime = new Date().toJSON();
                 localStorage.setItem(Trial.end_datetime, JSON.stringify(Trial));
-                trySyncDB();
+
+                trySyncDB(function() {
+
+                    show('results-status');
+                    document.getElementById('results-status').innerHTML = 'Contacting server for results...';
+
+                    request({
+                        method: "GET",
+                        url: `${URL}?start_datetime=${Trial.start_datetime}`,
+                        onSuccess: function(status, response) {
+                            hide('results-status');
+                            show('results');
+                            var data = JSON.parse(response.responseText)
+                            console.log(data);
+                            return generateResultsTable(data);
+                        },
+                        onError: function() {
+                            document.getElementById('results-status').innerHTML = 'Results from now will be hidden and presented after the experiment.';
+                        }
+                    });
+
+                    sleep(30).then(() => {
+                        window.location.reload(true);
+                    });
+                });
+
             } else {
                alert('Not enough clicks, for the experiment to be valid! Please re-run the experiment.');
-               hide('results');
+               hide('end');
                show('survey');
             }
         }
@@ -173,9 +200,9 @@
             server.onreadystatechange = function() {
                 if (this.readyState == XMLHttpRequest.DONE)
                     switch(this.status) {
-                        case 200: arg.onSuccess(this.status, arg); break;
-                        case 201: arg.onSuccess(this.status, arg); break;
-                        default: arg.onError(this.status, arg); break;
+                        case 200: arg.onSuccess(this.status, this, arg); break;
+                        case 201: arg.onSuccess(this.status, this, arg); break;
+                        default: arg.onError(this.status, this.responseText, arg); break;
                     }
             };
             server.open(arg.method, arg.url, true);
@@ -183,7 +210,7 @@
             server.send(arg.data);
         }
 
-        function trySyncDB() {
+        function trySyncDB(onSuccess, onError) {
             if (! navigator.onLine) {
                 console.log('Browser is not online.');
                 return;
@@ -193,15 +220,16 @@
                 method: "OPTIONS",
                 url: URL,
                 onSuccess: function(status) {
-                    uploadResults();
+                    uploadResults(onSuccess);
                 },
                 onError: function() {
                     console.log('Server cannot be contacted');
+                    onError();
                 }
             });
         }
 
-        function uploadResults() {
+        function uploadResults(onSuccess, onError) {
             for (let key of Object.keys(localStorage)) {
 
                 if (key == ".remember")
@@ -215,13 +243,51 @@
                         console.log('Result uploaded to the server');
                         document.getElementById('upload-status').innerHTML = 'SUCCESS';
                         localStorage.removeItem(key);
+                        onSuccess();
                     },
                     onError: function(status) {
                         console.log('There is a problem with uploading data. We will try later. Received status:', status);
                         document.getElementById('upload-status').innerHTML = 'ERROR. We will try later.';
+                        onError();
                     }
                 });
             }
+        }
+
+        function generateListFromArray(array) {
+            result = ['<ol>'];
+            for (let element of array)
+                result.push(`<li>${element}</li>`);
+            result.push('</ol>');
+            return result.join('');
+        }
+
+        function generateResultsTable(data) {
+            time_between_clicks = JSON.parse(data.time_between_clicks);
+
+            document.querySelector('#results #count .all').innerHTML = data.count_all;
+            document.querySelector('#results #count .red').innerHTML = data.count_red;
+            document.querySelector('#results #count .white').innerHTML = data.count_white;
+            document.querySelector('#results #count .blue').innerHTML = data.count_blue;
+
+            document.querySelector('#results #tempo .all').innerHTML = data.tempo_all;
+            document.querySelector('#results #tempo .red').innerHTML = data.tempo_red;
+            document.querySelector('#results #tempo .white').innerHTML = data.tempo_white;
+            document.querySelector('#results #tempo .blue').innerHTML = data.tempo_blue;
+
+            document.querySelector('#results #regularity .all').innerHTML = data.regularity_all;
+            document.querySelector('#results #regularity .red').innerHTML = data.regularity_red;
+            document.querySelector('#results #regularity .white').innerHTML = data.regularity_white;
+            document.querySelector('#results #regularity .blue').innerHTML = data.regularity_blue;
+
+            document.querySelector('#results #interval .all').innerHTML = data.interval_all;
+            document.querySelector('#results #interval .red').innerHTML = data.interval_red;
+            document.querySelector('#results #interval .white').innerHTML = data.interval_white;
+            document.querySelector('#results #interval .blue').innerHTML = data.interval_blue;
+
+            document.querySelector('#results #time_between_clicks .red').innerHTML = generateListFromArray(time_between_clicks.red);
+            document.querySelector('#results #time_between_clicks .white').innerHTML = generateListFromArray(time_between_clicks.white);
+            document.querySelector('#results #time_between_clicks .blue').innerHTML = generateListFromArray(time_between_clicks.blue);
         }
 
         if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
@@ -297,7 +363,7 @@
     </section>
 
     <section id="color0">
-        <h1>You will see the 1st of 5 color now</h1>
+        <h1>Color 1 of 5</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
@@ -306,7 +372,7 @@
     </section>
 
     <section id="color1">
-        <h1>You will see the 2nd of 5 color now</h1>
+        <h1>Color 2 of 5</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
@@ -315,7 +381,7 @@
     </section>
 
     <section id="color2">
-        <h1>You will see the 3rd of 5 color now</h1>
+        <h1>Color 3 of 5</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
@@ -324,7 +390,7 @@
     </section>
 
     <section id="color3">
-        <h1>You will see the 4th of 5 color now</h1>
+        <h1>Color 4 of 5</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
@@ -333,19 +399,74 @@
     </section>
 
     <section id="color4">
-        <h1>You will see the 5th of 5 color now</h1>
+        <h1>Color 5 of 5</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
         </ol>
-        <button onclick="runAndProceed('color4', 'results')">Ok, go!</button>
+        <button onclick="runAndProceed('color4', 'end')">Ok, go!</button>
     </section>
 
-    <section id="results">
+    <section id="end">
         <h1>Thank you for participating in the experiment!</h1>
         <p>Result upload status: <span id="upload-status">Waiting for confirmation...</span></p>
-        <p>Results from now will be hidden and presented after the experiment.</p>
+
+        <p id="results-status"></p>
+        <table id="results">
+            <thead>
+                <tr class="header">
+                    <th>Parameter</th>
+                    <td class="all">All</td>
+                    <td class="red">Red</td>
+                    <td class="white">White</td>
+                    <td class="blue">Blue</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr id="count">
+                    <th>Count</th>
+                    <td class="all"></td>
+                    <td class="red"></td>
+                    <td class="white"></td>
+                    <td class="blue"></td>
+                </tr>
+
+                <tr id="tempo">
+                    <th>Tempo</th>
+                    <td class="all"></td>
+                    <td class="red"></td>
+                    <td class="white"></td>
+                    <td class="blue"></td>
+                </tr>
+
+                <tr id="regularity">
+                    <th>Regularity</th>
+                    <td class="all"></td>
+                    <td class="red"></td>
+                    <td class="white"></td>
+                    <td class="blue"></td>
+                </tr>
+
+                <tr id="interval">
+                    <th>Interval</th>
+                    <td class="all"></td>
+                    <td class="red"></td>
+                    <td class="white"></td>
+                    <td class="blue"></td>
+                </tr>
+
+                <tr id="time_between_clicks">
+                    <th>Time Between Clicks</th>
+                    <td class="all"></td>
+                    <td class="red"></td>
+                    <td class="white"></td>
+                    <td class="blue"></td>
+                </tr>
+            </tbody>
+        </table>
         <p><button onclick="window.location.reload(true);">Start experiment once again</button></p>
+
     </section>
 </form>
 </body>
