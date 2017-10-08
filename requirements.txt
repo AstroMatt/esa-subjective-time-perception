@@ -1,5 +1,5 @@
 pep8
-Django==1.11.5
+Django==1.11.6
 django-grappelli==2.10.1
 django-devutils
 gunicorn

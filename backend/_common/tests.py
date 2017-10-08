@@ -3,7 +3,7 @@ from devutils.tests import Test
 
 class CommonTest(Test):
     fixtures = [
-        'auth.json',
+        'auth.user.json',
     ]
 
     assert_http_status = [
