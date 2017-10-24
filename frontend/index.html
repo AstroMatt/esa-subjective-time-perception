@@ -173,10 +173,10 @@
                         url: `${URL}?start_datetime=${Trial.start_datetime}`,
                         onSuccess: function(status, response) {
                             hide('results-status');
-                            show('results');
-                            var data = JSON.parse(response.responseText)
-                            console.log(data);
-                            return generateResultsTable(data);
+                            //show('results');
+                            //var data = JSON.parse(response.responseText)
+                            //console.log(data);
+                            //return generateResultsTable(data);
                         },
                         onError: function() {
                             document.getElementById('results-status').innerHTML = 'Results from now will be hidden and presented after the experiment.';
