@@ -9,3 +9,4 @@ django-import-export
 sphinx
 sphinx_rtd_theme
 django-extensions
+pylibmc

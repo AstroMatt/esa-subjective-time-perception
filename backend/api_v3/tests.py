@@ -4,7 +4,7 @@ from devutils.tests import Test
 
 class APIv3Test(Test):
     fixtures = [
-        'api-v3.result.json',
+        'fixtures/api-v3.result.json',
     ]
 
     assert_http_status = [

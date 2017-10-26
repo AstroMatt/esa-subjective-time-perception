@@ -3,7 +3,7 @@ from devutils.tests import Test
 
 class LoggerTest(Test):
     fixtures = [
-        'logger.json',
+        'fixtures/logger.json',
     ]
 
     assert_http_status = [
