@@ -36,6 +36,7 @@
         }
 
         var Trial = {
+            results: false,
             device: "lcd",
             location: "internet",
             regularity: 5,
@@ -164,25 +165,28 @@
                 localStorage.setItem(Trial.end_datetime, JSON.stringify(Trial));
 
                 trySyncDB(function() {
-
                     show('results-status');
                     document.getElementById('results-status').innerHTML = 'Contacting server for results...';
+                    
+                    if (Trial.results) {
+                        request({
+                            method: "GET",
+                            url: `${URL}?start_datetime=${Trial.start_datetime}`,
+                            onSuccess: function (status, response) {
+                                hide('results-status');
 
-                    request({
-                        method: "GET",
-                        url: `${URL}?start_datetime=${Trial.start_datetime}`,
-                        onSuccess: function(status, response) {
-                            hide('results-status');
-
-                            show('results');
-                            var data = JSON.parse(response.responseText);
-                            console.log(data);
-                            return generateResultsTable(data);
-                        },
-                        onError: function() {
-                            document.getElementById('results-status').innerHTML = 'Results from now will be hidden and presented after the experiment.';
-                        }
-                    });
+                                show('results');
+                                var data = JSON.parse(response.responseText);
+                                console.log(data);
+                                generateResultsTable(data);
+                            },
+                            onError: function () {
+                                document.getElementById('results-status').innerHTML = 'Results from now will be hidden and presented after the experiment.';
+                            }
+                        });
+                    } else {
+                        document.getElementById('results-status').innerHTML = 'Results from now will be hidden and presented after the experiment.';
+                    }
 
                     sleep(30).then(() => {
                         window.location.reload(true);
@@ -211,7 +215,7 @@
             server.send(arg.data);
         }
 
-        function trySyncDB(onSuccess, onError) {
+        function trySyncDB(onSuccessCallback, onErrorCallback) {
             if (! navigator.onLine) {
                 console.log('Browser is not online.');
                 return;
@@ -221,16 +225,16 @@
                 method: "OPTIONS",
                 url: URL,
                 onSuccess: function(status) {
-                    uploadResults(onSuccess);
+                    uploadResults(onSuccessCallback);
                 },
                 onError: function() {
                     console.log('Server cannot be contacted');
-                    onError();
+                    onErrorCallback();
                 }
             });
         }
 
-        function uploadResults(onSuccess, onError) {
+        function uploadResults(onSuccessCallback, onErrorCallback) {
             for (let key of Object.keys(localStorage)) {
 
                 if (key === ".remember")
@@ -244,12 +248,12 @@
                         console.log('Result uploaded to the server');
                         document.getElementById('upload-status').innerHTML = 'SUCCESS';
                         localStorage.removeItem(key);
-                        onSuccess();
+                        onSuccessCallback();
                     },
                     onError: function(status) {
                         console.log('There is a problem with uploading data. We will try later. Received status:', status);
                         document.getElementById('upload-status').innerHTML = 'ERROR. We will try later.';
-                        onError();
+                        onErrorCallback();
                     }
                 });
             }
@@ -480,6 +484,15 @@
             document.querySelector('input[name="email"]').value = data.email;
             document.querySelector('input[name="age"]').value = data.survey_age;
             document.querySelector(`input[name="gender"][value="${data.survey_gender}"]`).checked = true;
+        }
+
+        if (data.email.includes('test')) {
+            document.querySelector(`input[name="time"][value="${data.survey_time}"]`).checked = true;
+            document.querySelector(`input[name="condition"][value="${data.survey_condition}"]`).checked = true;
+            document.querySelector('input[name="heart_rate"]').value = data.survey_heart_rate;
+            document.querySelector('input[name="bp_diastolic"]').value = data.survey_bp_diastolic;
+            document.querySelector('input[name="bp_systolic"]').value = data.survey_bp_systolic;
+            document.querySelector('input[name="temperature"]').value = data.survey_temperature;
         }
     }
 </script>

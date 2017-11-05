@@ -71,6 +71,7 @@ class Result(models.Model):
     timeout = models.FloatField(verbose_name=_('Timeout'), help_text=_('Seconds per color'))
     regularity = models.PositiveSmallIntegerField(verbose_name=_('Regularity'), help_text=_('Click every X seconds'))
     time_between_clicks = models.TextField(verbose_name=_('Time between clicks'), blank=True, null=True, default=None)
+    results = models.NullBooleanField(verbose_name=_('Results was shown?'), blank=True, null=True, default=None)
 
     # TODO: clicks_expected
     # TODO: clicks_minimum
