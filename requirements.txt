@@ -1,12 +1,22 @@
-pep8
-Django==1.11.6
+## Core functionality
+django==1.11.6
 django-grappelli==2.10.1
-django-devutils
-gunicorn
-psycopg2
-dj-database-url
+
+
+## Extra
 django-import-export
 sphinx
 sphinx_rtd_theme
 django-extensions
-pylibmc
+
+
+## Heroku
+gunicorn
+psycopg2
+dj-database-url
+# pylibmc
+
+
+## Continuous Integration
+pycodestyle
+

@@ -1,4 +1,4 @@
-from devutils.tests import Test
+from backend.tests import Test
 
 
 class CommonTest(Test):
