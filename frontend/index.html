@@ -36,7 +36,7 @@
         }
 
         var Trial = {
-            results: false,
+            results: true,
             device: "lcd",
             location: "internet",
             regularity: 5,
@@ -73,7 +73,7 @@
             Trial.survey_temperature = document.querySelector('input[name="temperature"]').value;
             Trial.survey_time = document.querySelector('input[name="time"]:checked').value;
 
-            if (Trial.email.includes('test')) {
+            if (Trial.email.includes('test@')) {
                 Trial.timeout = 2.0;
             }
         }
@@ -167,7 +167,7 @@
                 trySyncDB(function() {
                     show('results-status');
                     document.getElementById('results-status').innerHTML = 'Contacting server for results...';
-                    
+
                     if (Trial.results) {
                         request({
                             method: "GET",
@@ -486,7 +486,7 @@
             document.querySelector(`input[name="gender"][value="${data.survey_gender}"]`).checked = true;
         }
 
-        if (data.email.includes('test')) {
+        if (data.email.includes('test@')) {
             document.querySelector(`input[name="time"][value="${data.survey_time}"]`).checked = true;
             document.querySelector(`input[name="condition"][value="${data.survey_condition}"]`).checked = true;
             document.querySelector('input[name="heart_rate"]').value = data.survey_heart_rate;
