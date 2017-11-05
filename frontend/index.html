@@ -20,7 +20,7 @@
         a:hover {text-decoration: underline}
 
         #background {width:100vw;height:100vh;background-color: black}
-        //#background {background-image: url('http://time.astrotech.io/background.jpg'); background-repeat: no-repeat;  background-attachment: fixed; background-position: center; background-size: cover}
+        /* #background {background-image: url('http://time.astrotech.io/background.jpg'); background-repeat: no-repeat;  background-attachment: fixed; background-position: center; background-size: cover} */
 
         section {display: none}
 
@@ -29,7 +29,7 @@
     </style>
 
     <script>
-        if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
             URL = 'http://localhost:8000/api/v3/'
         } else {
             URL = 'http://time.astrotech.io/api/v3/'
@@ -51,7 +51,7 @@
         }
 
         function show(id) {
-            if (id == 'test' && localStorage.getItem('.remember')) {
+            if (id === 'test' && localStorage.getItem('.remember')) {
                 hide('test');
                 show('color0');
                 return;
@@ -73,7 +73,7 @@
             Trial.survey_time = document.querySelector('input[name="time"]:checked').value;
 
             if (Trial.email.includes('test')) {
-                Trial.timeout = 2.0
+                Trial.timeout = 2.0;
             }
         }
 
@@ -109,7 +109,7 @@
         }
 
         function runAndProceed(current, next) {
-            if (current == 'test') {
+            if (current === 'test') {
                 var color = 'gray';
             } else {
                 var number = parseInt(current.replace("color", ""));
@@ -122,10 +122,10 @@
             let content = document.getElementById(current);
             let oldContent = content.innerHTML;
 
-            if (current == 'test')
+            if (current === 'test')
                 content.innerHTML = '<h1>This is the test screen. Click now!</h1>';
             else
-                content.innerHTML = ''
+                content.innerHTML = '';
 
             background.style.background = color;
             background.addEventListener('click', click);
@@ -137,7 +137,7 @@
                 hide(current);
                 show(next);
 
-                if (next == 'end')
+                if (next === 'end')
                     finish();
             });
         }
@@ -152,11 +152,11 @@
         }
 
         function finish() {
-            let blue = Trial.clicks.filter(click => click.color=='blue').length
-            let red = Trial.clicks.filter(click => click.color=='red').length
-            let white = Trial.clicks.filter(click => click.color=='white').length
+            let blue = Trial.clicks.filter(click => click.color === 'blue').length;
+            let red = Trial.clicks.filter(click => click.color === 'red').length;
+            let white = Trial.clicks.filter(click => click.color === 'white').length;
 
-            if (Trial.location == "internet")
+            if (Trial.location === "internet")
                 localStorage.setItem('.remember', JSON.stringify(Trial));
 
             if ([blue, red, white].every(count => count > 5)) {
@@ -173,10 +173,11 @@
                         url: `${URL}?start_datetime=${Trial.start_datetime}`,
                         onSuccess: function(status, response) {
                             hide('results-status');
-                            //show('results');
-                            //var data = JSON.parse(response.responseText)
-                            //console.log(data);
-                            //return generateResultsTable(data);
+
+                            show('results');
+                            var data = JSON.parse(response.responseText);
+                            console.log(data);
+                            return generateResultsTable(data);
                         },
                         onError: function() {
                             document.getElementById('results-status').innerHTML = 'Results from now will be hidden and presented after the experiment.';
@@ -198,7 +199,7 @@
         function request(arg) {
             var server = new XMLHttpRequest();
             server.onreadystatechange = function() {
-                if (this.readyState == XMLHttpRequest.DONE)
+                if (this.readyState === XMLHttpRequest.DONE)
                     switch(this.status) {
                         case 200: arg.onSuccess(this.status, this, arg); break;
                         case 201: arg.onSuccess(this.status, this, arg); break;
@@ -232,7 +233,7 @@
         function uploadResults(onSuccess, onError) {
             for (let key of Object.keys(localStorage)) {
 
-                if (key == ".remember")
+                if (key === ".remember")
                     continue;
 
                 request({
@@ -255,7 +256,7 @@
         }
 
         function generateListFromArray(array) {
-            result = ['<ol>'];
+            var result = ['<ol>'];
             for (let element of array)
                 result.push(`<li>${element}</li>`);
             result.push('</ol>');
@@ -263,7 +264,7 @@
         }
 
         function generateResultsTable(data) {
-            time_between_clicks = JSON.parse(data.time_between_clicks);
+            var time_between_clicks = JSON.parse(data.time_between_clicks);
 
             document.querySelector('#results #count .all').innerHTML = data.count_all;
             document.querySelector('#results #count .red').innerHTML = data.count_red;
@@ -473,7 +474,7 @@
 <script>
     trySyncDB();
 
-    if (Trial.location == "internet") {
+    if (Trial.location === "internet") {
         let data = JSON.parse(localStorage.getItem('.remember'));
         if (data) {
             document.querySelector('input[name="email"]').value = data.email;

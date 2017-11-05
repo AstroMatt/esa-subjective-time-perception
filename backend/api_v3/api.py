@@ -29,7 +29,7 @@ class APIv3(View):
         response['Access-Control-Allow-Origin'] = '*'
 
         try:
-            start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=datetime.timezone.utc)
             result = Result.objects.filter(start_datetime=start_datetime)[0]
             return JsonResponse(status=200, data=result.get_data())
 
