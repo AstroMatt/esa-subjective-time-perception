@@ -27,6 +27,7 @@ class APIv3(View):
     def get(self, request, *args, **kwargs):
         response = JsonResponse(data={})
         response['Access-Control-Allow-Origin'] = '*'
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 
         try:
             start_datetime = datetime.datetime.strptime(request.GET['start_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ').replace(tzinfo=datetime.timezone.utc)
@@ -45,6 +46,7 @@ class APIv3(View):
     def post(self, request, *args, **kwargs):
         response = JsonResponse(data={})
         response['Access-Control-Allow-Origin'] = '*'
+        response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 
         request_sha1, created = HTTPRequest.add(request, api_version=3)
 
