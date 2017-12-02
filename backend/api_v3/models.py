@@ -81,7 +81,7 @@ class Result(models.Model):
     survey_condition = models.CharField(verbose_name=_('Condition'), max_length=50, choices=CONDITION_CHOICES)
     survey_gender = models.CharField(verbose_name=_('Gender'), max_length=50, choices=GENDER_CHOICES)
     survey_time = models.CharField(verbose_name=_('Time'), max_length=50, choices=TIME_CHOICES)
-    survey_temperature = models.DecimalField(verbose_name=_('Temperature'), help_text=_('Celsius'), max_digits=3, decimal_places=1)
+    survey_temperature = models.DecimalField(verbose_name=_('Temperature'), help_text=_('Celsius'), max_digits=3, decimal_places=1, null=True, blank=True, default=None)
     survey_bp_systolic = models.PositiveSmallIntegerField(verbose_name=_('Blood Pressure SYS'), null=True, blank=True, default=None)
     survey_bp_diastolic = models.PositiveSmallIntegerField(verbose_name=_('Blood Pressure DIA'), null=True, blank=True, default=None)
     survey_heart_rate = models.PositiveSmallIntegerField(verbose_name=_('Heart Rate'), help_text=_('bpm'), null=True, blank=True, default=None)
