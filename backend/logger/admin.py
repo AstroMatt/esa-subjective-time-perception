@@ -31,6 +31,7 @@ class HTTPRequestAdmin(ImportExportModelAdmin):
     list_display_links = ['field_datetime']
     list_filter = ['integrity', RequestsWithoutResultsFilter, 'method', 'api_version', 'modified']
     search_fields = ['ip', 'sha1']
+    date_hierarchy = 'added'
     ordering = ['-modified']
     list_per_page = 100
     readonly_fields = ['sha1', 'ip', 'method', 'api_version']

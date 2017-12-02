@@ -59,6 +59,7 @@ class ResultAdmin(ImportExportModelAdmin, ValidateAction):
     search_fields = ['=id', '^email', '^request_sha1', '^end_datetime']
     ordering = ['-end_datetime']
     actions = ['make_invalid', 'make_valid']
+    date_hierarchy = 'end_datetime'
     list_per_page = 20
     fieldsets = [
         ('', {'fields': ['email', 'status', 'start_datetime', 'end_datetime', 'results']}),
