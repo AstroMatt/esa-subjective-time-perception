@@ -38,8 +38,18 @@ class HTTPRequest(models.Model):
         (DATA_STATUS_TEST, _('Test')),
     ]
 
+    INTEGRITY_UNKNOWN = 'unknown'
+    INTEGRITY_ERROR = 'error'
+    INTEGRITY_OK = 'ok'
+    INTEGRITY_CHOICES = [
+        (INTEGRITY_UNKNOWN, _('Unknown')),
+        (INTEGRITY_ERROR, _('Error')),
+        (INTEGRITY_OK, _('OK')),
+    ]
+
     # TODO: merge logger with APIvX...
 
+    integrity = models.CharField(verbose_name=_('Data integrity'), max_length=30, choices=INTEGRITY_CHOICES, default=INTEGRITY_UNKNOWN)
     data_status = models.CharField(verbose_name=_('Data status'), max_length=30, choices=DATA_STATUS_CHOICES, null=True, blank=True, default=DATA_STATUS_PRODUCTION)
     added = models.DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
     modified = models.DateTimeField(verbose_name=_('Datetime'), auto_now=True, db_index=True)
@@ -48,10 +58,21 @@ class HTTPRequest(models.Model):
     api_version = models.PositiveSmallIntegerField(verbose_name=_('API version'), default=3)
     sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True, null=True, blank=True, default=None)
     data = models.TextField(verbose_name=_('Data'), null=True, blank=True)
+    error_log = models.TextField(verbose_name=_('Error Log'), null=True, blank=True, default=None)
 
     def save(self, *args, **kwargs):
         self.sha1 = get_sha1(self.data)
         super().save(*args, **kwargs)
+
+    def valid(self):
+        self.integrity = self.INTEGRITY_OK
+        self.error_log = None
+        self.save()
+
+    def error(self, error):
+        self.integrity = self.INTEGRITY_ERROR
+        self.error_log = error
+        self.save()
 
     @staticmethod
     def add(request, api_version):
@@ -70,18 +91,3 @@ class HTTPRequest(models.Model):
     class Meta:
         verbose_name = _('HTTP Request')
         verbose_name_plural = _('HTTP Requests')
-
-
-class ErrorLogger(models.Model):
-    added = models.DateTimeField(verbose_name=_('Datetime'), auto_now_add=True)
-    modified = models.DateTimeField(verbose_name=_('Datetime'), auto_now=True, db_index=True)
-    request_sha1 = models.CharField(verbose_name=_('SHA1'), max_length=40, db_index=True, unique=True)
-    description = models.TextField(verbose_name=_('Description'), null=True, blank=True, default=None)
-    traceback = models.TextField(verbose_name=_('Traceback'), null=True, blank=True, default=None)
-
-    class Meta:
-        verbose_name = _('Error')
-        verbose_name_plural = _('Errors')
-
-    def __str__(self):
-        return f'[{self.modified:%Y-%m-%d %H:%M:%S}] {self.http_request_sha1}'

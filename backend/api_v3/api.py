@@ -10,7 +10,6 @@ from django.views.generic import View
 
 from backend._common.utils import json_datetime_decoder
 from backend.logger.models import HTTPRequest
-from backend.logger.models import ErrorLogger
 from backend.api_v3.models import Result
 
 
@@ -48,31 +47,33 @@ class APIv3(View):
         response['Access-Control-Allow-Origin'] = '*'
         response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
 
-        request_sha1, created = HTTPRequest.add(request, api_version=3)
+        http_request, created = HTTPRequest.add(request, api_version=3)
 
         if not created:
             response['status'] = 200
-            response['data'] = {'message': 'Response already uploaded', 'sha1': request_sha1.sha1}
+            response['data'] = {'message': 'Response already uploaded', 'sha1': http_request.sha1}
             return response
 
         try:
             data = json.loads(str(request.body, encoding='utf-8'), object_hook=json_datetime_decoder)
             Result.add(
-                request_sha1=request_sha1.sha1,
+                request_sha1=http_request.sha1,
                 clicks=data.pop('clicks'),
                 result=data,
             )
+
             response['status'] = 201
-            response['data'] = {'message': 'Result added to the database.', 'sha1': request_sha1.sha1}
+            response['data'] = {'message': 'Result added to the database.', 'sha1': http_request.sha1}
             return response
 
         except IntegrityError:
+            http_request.valid()
             response['status'] = 200
-            response['data'] = {'message': 'Response already uploaded', 'sha1': request_sha1.sha1}
+            response['data'] = {'message': 'Response already uploaded', 'sha1': http_request.sha1}
             return response
 
-        except (json.decoder.JSONDecodeError, ValidationError, ValueError, TypeError) as e:
+        except Exception as message:
             response['status'] = 400
             response['data'] = {'message': 'Bad Request'}
-            ErrorLogger.objects.create(request_sha1=request_sha1.sha1, description=e)
+            http_request.error(message)
             return response
