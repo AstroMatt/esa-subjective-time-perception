@@ -1,12 +1,13 @@
 ## Core functionality
-django==2.1.2
-django-grappelli==2.11.2
+django==2.1.4
+django-grappelli==2.12.2
 
 
 ## Extra
 django-import-export
-sphinx
+sphinx==1.8.3
 sphinx_rtd_theme
+sphinxcontrib-bibtex
 django-extensions
 
 
