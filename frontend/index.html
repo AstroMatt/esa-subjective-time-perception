@@ -205,6 +205,11 @@
 
         function request(arg) {
             var server = new XMLHttpRequest();
+            server.timeout = 5 * 1000;  // 1000 (milliseconds)
+            server.ontimeout = function (e) {
+                console.log('There is a problem with uploading data. We will try later.');
+                onErrorCallback();
+            };
             server.onreadystatechange = function() {
                 if (this.readyState === XMLHttpRequest.DONE)
                     switch(this.status) {
@@ -371,7 +376,7 @@
     </section>
 
     <section id="color0">
-        <h1>Color 1 of 5</h1>
+        <h1>Color 1 of 3</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
@@ -380,7 +385,7 @@
     </section>
 
     <section id="color1">
-        <h1>Color 2 of 5</h1>
+        <h1>Color 2 of 3</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
@@ -389,14 +394,15 @@
     </section>
 
     <section id="color2">
-        <h1>Color 3 of 5</h1>
+        <h1>Color 3 of 3</h1>
         <ol>
             <li>When you see blank screen with color</li>
             <li>Click as you were asked</li>
         </ol>
-        <button onclick="runAndProceed('color2', 'color3')">Ok, go!</button>
+        <button onclick="runAndProceed('color2', 'end')">Ok, go!</button>
     </section>
 
+<!-- Only if there are more than 3 colors
     <section id="color3">
         <h1>Color 4 of 5</h1>
         <ol>
@@ -414,6 +420,7 @@
         </ol>
         <button onclick="runAndProceed('color4', 'end')">Ok, go!</button>
     </section>
+-->
 
     <section id="end">
         <h1>Thank you for participating in the experiment!</h1>
