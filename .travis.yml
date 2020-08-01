@@ -1,8 +1,7 @@
-dist: trusty
-sudo: required
+dist: bionic
 language: python
 python:
-  - 3.6.2
+  - 3.8.5
 
 
 addons:
