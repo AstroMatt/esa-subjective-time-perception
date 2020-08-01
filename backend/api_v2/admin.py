@@ -73,7 +73,7 @@ class TrialAdmin(ImportExportModelAdmin, ValidateAction):
     list_per_page = 20
     fieldsets = [
         ('', {'fields': ['uid', 'is_valid', 'start_datetime', 'end_datetime', 'time']}),
-        ('Summary', {'fields': ['count_all', 'tempo_all', 'regularity_all', 'interval_all']}),
+        # ('Summary', {'fields': ['count_all', 'tempo_all', 'regularity_all', 'interval_all']}),
         ('Count', {'fields': ['count_all', 'count_blue', 'count_red', 'count_white']}),
         ('Tempo', {'fields': ['tempo_all', 'tempo_blue', 'tempo_red', 'tempo_white']}),
         ('Regularity', {'fields': ['regularity_all', 'regularity_blue', 'regularity_red', 'regularity_white']}),

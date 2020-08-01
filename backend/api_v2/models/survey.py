@@ -34,7 +34,7 @@ class Survey(models.Model):
         (TIME_OTHER, _('Other')),
     ]
 
-    trial = ForeignKey(verbose_name=_('Trial'), to='api_v2.Trial', db_index=True)
+    trial = ForeignKey(verbose_name=_('Trial'), to='api_v2.Trial', db_index=True, on_delete=models.CASCADE)
     datetime = DateTimeField(verbose_name=_('Datetime'), db_index=True)
     email = EmailField(verbose_name=_('Email'), db_index=True)
     age = PositiveSmallIntegerField(verbose_name=_('Age'))

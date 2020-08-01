@@ -161,7 +161,7 @@ class Trial(models.Model):
         ('cross', _('Cross')),
         ('mixed', _('Mixed'))]
 
-    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment')
+    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment', on_delete=models.CASCADE)
     polarization = models.CharField(verbose_name=_('Polarization'), max_length=15, choices=POLARIZATIONS)
     device = models.CharField(verbose_name=_('Device'), max_length=50, choices=DEVICES)
     order = models.CharField(verbose_name=_('Order'), max_length=70, null=True)
@@ -194,7 +194,7 @@ class Click(models.Model):
         ('white', _('White')),
         ('blue', _('Blue')),
         ('red', _('Red'))]
-    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment')
+    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment', on_delete=models.CASCADE)
     datetime = models.DateTimeField(verbose_name=_('Datetime'), )
     background = models.CharField(verbose_name=_('Background'), max_length=15, choices=BACKGROUNDS)
 
@@ -210,7 +210,7 @@ class Event(models.Model):
     ACTIONS = [
         ('start', _('Start')),
         ('end', _('End'))]
-    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment')
+    experiment = models.ForeignKey(verbose_name=_('Experiment'), to='api_v1.Experiment', on_delete=models.CASCADE)
     datetime = models.DateTimeField(verbose_name=_('Datetime'))
     action = models.CharField(verbose_name=_('Action'), max_length=15, choices=ACTIONS)
     message = models.CharField(verbose_name=_('Message'), max_length=30)

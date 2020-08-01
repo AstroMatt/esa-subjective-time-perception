@@ -3,6 +3,8 @@ from backend.api_v2 import api
 from backend.api_v2 import views
 
 
+app_name = 'api_v2'
+
 urlpatterns = [
     url(r'report/(?P<uid>.+)/(?P<start>.+)/(?P<end>.+)/$', views.ReportRangeView.as_view(), name='report-range'),
     url(r'report/(?P<uid>.+)/$', views.ReportView.as_view(), name='report'),

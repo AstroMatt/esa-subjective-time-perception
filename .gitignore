@@ -19,6 +19,8 @@ lib64/
 sdist/
 *.egg-info/
 *.egg
+.venv-*
+
 
 ## Django
 *.log

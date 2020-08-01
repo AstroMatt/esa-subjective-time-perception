@@ -60,10 +60,17 @@ Development - CI/CD
 
 Contact
 -------
+.. figure:: /_static/AstroMatt.jpg
+    :align: left
+    :scale: 39%
 
-:name: `Matt Harasymczuk <http://astromatt.space>`_
-:email: `time-perception@astrotech.io <mailto:time-perception@astrotech.io>`_
-:www: `http://www.astromatt.space <http://astromatt.space>`_
-:facebook: `https://facebook.com/astromatt.space <https://facebook.com/astromatt.space>`_
-:linkedin: `https://linkedin.com/in/mattharasymczuk <https://linkedin.com/in/mattharasymczuk>`_
-:slideshare: `https://www.slideshare.net/astromatt/presentations <https://www.slideshare.net/astromatt/presentations>`_
+.. csv-table::
+    :widths: 15, 65
+
+    "author", "`Matt Harasymczuk <https://www.astronaut.center>`_"
+    "email", "time-perception@astrotech.io"
+    "www", "https://www.astronaut.center"
+    "github", "https://github.com/astromatt"
+    "linkedin", "https://linkedin.com/in/mattharasymczuk"
+    "facebook", "https://facebook.com/matt.harasymczuk"
+    "slideshare", "https://www.slideshare.net/astrotech/presentations"

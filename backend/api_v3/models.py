@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Click(models.Model):
-    result = models.ForeignKey(verbose_name=_('Result'), to='api_v3.Result')
+    result = models.ForeignKey(verbose_name=_('Result'), to='api_v3.Result', on_delete=models.CASCADE)
     datetime = models.DateTimeField(verbose_name=_('Datetime'))
     color = models.CharField(verbose_name=_('Target'), max_length=50)
     is_valid = models.NullBooleanField(verbose_name=_('Is Valid?'), default=None)

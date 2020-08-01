@@ -112,9 +112,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 en_formats.DATETIME_FORMAT = 'Y-m-d H:i:s.u'
 en_formats.DATETIME_INPUT_FORMATS = ['%Y-%m-%d %H:%M:%S.%f']
 
-admin.site.site_header = _('Subjective Time Perception')
-admin.site.index_title = _('Control Panel')
-admin.site.site_title = _('Subjective Time Perception Control Panel')
+#admin.site.site_header = _('Subjective Time Perception')
+#admin.site.index_title = _('Control Panel')
+#admin.site.site_title = _('Subjective Time Perception Control Panel')
 
 GRAPPELLI_ADMIN_TITLE = _('Subjective Time Perception')
 GRAPPELLI_INDEX_DASHBOARD = 'backend._common.dashboard.IndexDashboard'
